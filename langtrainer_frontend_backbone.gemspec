@@ -23,4 +23,6 @@ Gem::Specification.new do |s|
   s.add_dependency 'coffee-rails'
   s.add_dependency 'font-awesome-rails'
   s.add_dependency 'styx'
+  s.add_dependency 'bootstrap-sass'
+  s.add_dependency 'bootstrap-select-rails'
 end
