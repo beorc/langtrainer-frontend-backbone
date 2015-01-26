@@ -17,6 +17,7 @@ Gem::Specification.new do |s|
   s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.rdoc"]
 
   s.add_dependency 'railties'
+  s.add_dependency 'jquery-rails'
   s.add_dependency 'rails-backbone'
   s.add_dependency 'tilt-jade'
   s.add_dependency 'bootstrap-sass'

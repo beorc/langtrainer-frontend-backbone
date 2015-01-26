@@ -5,6 +5,7 @@ PATH
       bootstrap-sass
       coffee-rails
       font-awesome-rails
+      jquery-rails
       rails-backbone
       railties
       styx
