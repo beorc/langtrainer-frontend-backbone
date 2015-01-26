@@ -1,11 +1,10 @@
 //= require_self
-//= require backbone
 //= require underscore
-//= require bootstrap-modal
-//= require bootstrap-tooltip
-//= require bootstrap-popover
+//= require underscore.string
+//= require backbone
 //= require styx
-//= require ./langtrainer_frontend_backbone/index
+//= require sticky.full.js
+//= require ./langtrainer_frontend_backbone/application
 
 if (!window.Langtrainer) {
     window.Langtrainer = {};

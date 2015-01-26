@@ -16,13 +16,11 @@ Gem::Specification.new do |s|
 
   s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.rdoc"]
 
-  gem.add_dependency "railties"
-  gem.add_dependency "rails-backbone"
-  gem.add_dependency 'bootstrap-sass', '~> 3.3.3'
-  gem.add_dependency 'coffee-rails', '~> 4.1.0'
-  gem.add_dependency 'font-awesome-rails'
-  gem.add_dependency 'styx'
-
-  gem.add_development_dependency "jasmine-rails"
-  gem.add_development_dependency "jasmine-jquery-rails"
+  s.add_dependency 'railties'
+  s.add_dependency 'rails-backbone'
+  s.add_dependency 'tilt-jade'
+  s.add_dependency 'bootstrap-sass'
+  s.add_dependency 'coffee-rails'
+  s.add_dependency 'font-awesome-rails'
+  s.add_dependency 'styx'
 end
