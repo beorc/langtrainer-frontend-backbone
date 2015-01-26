@@ -22,6 +22,9 @@ window.Langtrainer.LangtrainerApp =
   currentUser: null
   globalBus: _.extend({}, Backbone.Events)
 
+  apiEndpoint: 'https://langtrainer-api-rails.herokuapp.com'
+  backendEndpoint: 'https://langtrainer-backend.herokuapp.com'
+
   run: (initialData)->
     # Инициализация состояния приложения
     if initialData.current_user

@@ -4,7 +4,7 @@
 //= require backbone
 //= require sticky.full
 //= require jquery.cookie
-//= require jquery.insert_at_caret
+//= require jquery.machine
 //= require xregexp
 //= require unicode-base
 //= require unicode-categories
