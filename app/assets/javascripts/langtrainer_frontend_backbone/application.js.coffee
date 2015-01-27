@@ -16,6 +16,9 @@ window.Langtrainer.LangtrainerApp =
 
   commonRouter: null
   currentUser: null
+  currentCourse: null
+  currentUnit: null
+  currentStep: null
   world: null
   globalBus: _.extend({}, Backbone.Events)
 
@@ -24,7 +27,10 @@ window.Langtrainer.LangtrainerApp =
 
   run: (initialData)->
     @currentUser = new Langtrainer.LangtrainerApp.Models.User(initialData.current_user)
+
     @world = new Langtrainer.LangtrainerApp.Models.World(token: @currentUser.get('token'))
+    @world.fetch()
+
     @commonRouter = new Langtrainer.LangtrainerApp.Routers.CommonRouter
 
     Backbone.history.start()
