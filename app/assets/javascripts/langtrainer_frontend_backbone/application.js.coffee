@@ -9,28 +9,22 @@
 window.Langtrainer.LangtrainerApp =
   Models:
     Extensions: {}
-    User: {}
-  Collections:
-    User: {}
+  Collections: {}
   Views:
     Extensions: {}
-    Comments: {}
-    User: {}
   Routers: {}
 
   commonRouter: null
   currentUser: null
+  world: null
   globalBus: _.extend({}, Backbone.Events)
 
   apiEndpoint: 'https://langtrainer-api-rails.herokuapp.com'
   backendEndpoint: 'https://langtrainer-backend.herokuapp.com'
 
   run: (initialData)->
-    # Инициализация состояния приложения
-    if initialData.current_user
-      @setupCurrentUser(initialData.current_user)
-
-    # Роутинг
+    @currentUser = new Langtrainer.LangtrainerApp.Models.User(initialData.current_user)
+    @world = new Langtrainer.LangtrainerApp.Models.World(token: @currentUser.get('token'))
     @commonRouter = new Langtrainer.LangtrainerApp.Routers.CommonRouter
 
     Backbone.history.start()
@@ -45,8 +39,5 @@ window.Langtrainer.LangtrainerApp =
   navigateRoot: ->
     @navigate('/')
 
-  setupCurrentUser: (attrs)->
-    @currentUser = new Langtrainer.LangtrainerApp.Models.User(attrs)
-
   isUserLoggedIn: ->
-    !!@currentUser
+    !!@currentUser.get('token')

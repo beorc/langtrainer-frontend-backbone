@@ -12,4 +12,5 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require jasmine-jquery
 //= require langtrainer_frontend_backbone
