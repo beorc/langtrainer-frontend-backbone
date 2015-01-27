@@ -15,10 +15,6 @@ window.Langtrainer.LangtrainerApp =
   Routers: {}
 
   commonRouter: null
-  currentUser: null
-  currentCourse: null
-  currentUnit: null
-  currentStep: null
   world: null
   globalBus: _.extend({}, Backbone.Events)
 

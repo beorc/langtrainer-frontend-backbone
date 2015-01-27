@@ -11,6 +11,7 @@
 //= require bootstrap-select
 //= require bootstrap/alert
 //= require bootstrap/dropdown
+//= require tilt-jade/runtime
 //= require ./langtrainer_frontend_backbone/application
 
 if (!window.Langtrainer) {
