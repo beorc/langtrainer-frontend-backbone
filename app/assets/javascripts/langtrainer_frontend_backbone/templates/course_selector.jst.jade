@@ -1,3 +1,3 @@
-select(value=selected)
+select(value=model.title())
   each course in courses
-    option(value=course, selected=course==selected)= course
+    option(value=course.slug, selected=course.slug==model.slug)= course.title

@@ -11,6 +11,12 @@ class Langtrainer.LangtrainerApp.Models.World extends Backbone.Model
     @listenTo @, 'sync change', @reset
 
   reset: ->
+    courses = _.map @get('courses'), (course) ->
+      course.title = _.string.capitalize(course.slug)
+      course
+
+    @set('courses', courses)
+
     course = @get('course')
     unit = @get('unit')
     step = @get('step')
@@ -21,3 +27,4 @@ class Langtrainer.LangtrainerApp.Models.World extends Backbone.Model
 
     @get('language').set @get('languages')[0]
     @get('nativeLanguage').set @get('languages')[1]
+

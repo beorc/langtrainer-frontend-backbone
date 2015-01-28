@@ -9,7 +9,7 @@ class Langtrainer.LangtrainerApp.Views.CourseSelector extends Backbone.View
     if @model.get('courses').length > 0
       @$el.hide().html(@template(
         courses: @model.get('courses')
-        selected: @model.get('course')
+        model: @model.get('course')
       ))
       @$input = @.$('select')
       @$input.selectpicker(noneSelectedText: '')
