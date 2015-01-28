@@ -1,4 +1,5 @@
 #= require_self
+#= require ./backbone_cors_patch
 #= require_tree ./models/extensions
 #= require_tree ./models
 #= require_tree ./collections
@@ -18,11 +19,11 @@ window.Langtrainer.LangtrainerApp =
   world: null
   globalBus: _.extend({}, Backbone.Events)
 
-  apiEndpoint: 'https://langtrainer-api-rails.herokuapp.com'
-  backendEndpoint: 'https://langtrainer-backend.herokuapp.com'
+  apiEndpoint: ''
 
   run: (initialData)->
-    @currentUser = new Langtrainer.LangtrainerApp.Models.User(initialData.current_user)
+    @apiEndpoint = initialData.apiEndpoint
+    @currentUser = new Langtrainer.LangtrainerApp.Models.User(initialData.currentUser)
 
     @world = new Langtrainer.LangtrainerApp.Models.World(token: @currentUser.get('token'))
     @world.fetch()

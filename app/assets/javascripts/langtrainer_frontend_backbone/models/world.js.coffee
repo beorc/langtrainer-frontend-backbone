@@ -1,6 +1,5 @@
 class Langtrainer.LangtrainerApp.Models.World extends Backbone.Model
-  urlRoot: "#{Langtrainer.LangtrainerApp.apiEndpoint}/world"
-  url: -> @urlRoot + '?token=' + @token
+  url: -> Langtrainer.LangtrainerApp.apiEndpoint + '/world?token=' + @token
 
   initialize: ->
     @set('course', new Langtrainer.LangtrainerApp.Models.Course)
