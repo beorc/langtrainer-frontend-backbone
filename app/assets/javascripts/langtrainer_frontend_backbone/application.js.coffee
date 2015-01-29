@@ -17,16 +17,26 @@ window.Langtrainer.LangtrainerApp =
 
   commonRouter: null
   world: null
+  currentUser: null
   globalBus: _.extend({}, Backbone.Events)
 
   apiEndpoint: ''
 
   run: (initialData, successCallback, errorCallback)->
+    that = @
     @apiEndpoint = initialData.apiEndpoint
     @currentUser = new Langtrainer.LangtrainerApp.Models.User(initialData.currentUser)
 
+    success = (model, response, options) ->
+      that.currentUser.set('token', model.get('token'))
+
+      successCallback()
+
+    error = (model, response, options) ->
+      errorCallback()
+
     @world = new Langtrainer.LangtrainerApp.Models.World(token: @currentUser.get('token'))
-    @world.fetch(success: successCallback, error: errorCallback)
+    @world.fetch(success: success, error: error)
 
     @commonRouter = new Langtrainer.LangtrainerApp.Routers.CommonRouter
 
@@ -41,6 +51,3 @@ window.Langtrainer.LangtrainerApp =
 
   navigateRoot: ->
     @navigate('/')
-
-  isUserLoggedIn: ->
-    !!@currentUser.get('token')
