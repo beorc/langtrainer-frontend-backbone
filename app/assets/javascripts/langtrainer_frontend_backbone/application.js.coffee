@@ -23,20 +23,12 @@ window.Langtrainer.LangtrainerApp =
   apiEndpoint: ''
 
   run: (initialData, successCallback, errorCallback)->
-    that = @
     @apiEndpoint = initialData.apiEndpoint
-    @currentUser = new Langtrainer.LangtrainerApp.Models.User(initialData.currentUser)
+    @world = new Langtrainer.LangtrainerApp.Models.World
+    @currentUser = new Langtrainer.LangtrainerApp.Models.User(model: initialData.currentUser)
+    @world.attributes.token = @currentUser.readAttribute('token')
 
-    success = (model, response, options) ->
-      that.currentUser.set('token', model.get('token'))
-
-      successCallback()
-
-    error = (model, response, options) ->
-      errorCallback()
-
-    @world = new Langtrainer.LangtrainerApp.Models.World(token: @currentUser.get('token'))
-    @world.fetch(success: success, error: error)
+    @world.fetch(success: successCallback, error: errorCallback)
 
     @commonRouter = new Langtrainer.LangtrainerApp.Routers.CommonRouter
 
