@@ -1,2 +1,136 @@
-{"token":"123456-test","languages":[{"slug":"en"},{"slug":"ru"}],"courses":[{"slug":"0","units":[{"slug":"0","current_step":{"id":0,"en_answers":"step 0","ru_answers":"шаг 0","ru_question":null,"ru_help":null,"en_question":null,"en_help":null}},{"slug":"1","current_step":{"id":3,"en_answers":"step 3","ru_answers":"шаг 3","ru_question":null,"ru_help":null,"en_question":null,"en_help":null}},{"slug":"2","current_step":{"id":6,"en_answers":"step 6","ru_answers":"шаг 6","ru_question":null,"ru_help":null,"en_question":null,"en_help":null}}]},{"slug":"1","units":[{"slug":"3","current_step":{"id":3,"en_answers":"step 3","ru_answers":"шаг 3","ru_question":null,"ru_help":null,"en_question":null,"en_help":null}},{"slug":"4","current_step":{"id":6,"en_answers":"step 6","ru_answers":"шаг 6","ru_question":null,"ru_help":null,"en_question":null,"en_help":null}},{"slug":"5","current_step":{"id":9,"en_answers":"step 9","ru_answers":"шаг 9","ru_question":null,"ru_help":null,"en_question":null,"en_help":null}}]},{"slug":"2","units":[{"slug":"6","current_step":{"id":6,"en_answers":"step 6","ru_answers":"шаг 6","ru_question":null,"ru_help":null,"en_question":null,"en_help":null}},{"slug":"7","current_step":{"id":9,"en_answers":"step 9","ru_answers":"шаг 9","ru_question":null,"ru_help":null,"en_question":null,"en_help":null}},{"slug":"8","current_step":{"id":12,"en_answers":"step 12","ru_answers":"шаг 12","ru_question":null,"ru_help":null,"en_question":null,"en_help":null}}]}]}
-
+{
+  "token": "123456-test",
+  "languages": [
+    {
+      "slug": "en"
+    },
+    {
+      "slug": "ru"
+    }
+  ],
+  "courses": [
+    {
+      "slug": "0",
+      "units": [
+        {
+          "slug": "0",
+          "current_step": {
+            "id": 0,
+            "en_answers": "step 0",
+            "ru_answers": "шаг 0",
+            "ru_question": null,
+            "ru_help": null,
+            "en_question": null,
+            "en_help": null
+          }
+        },
+        {
+          "slug": "1",
+          "current_step": {
+            "id": 3,
+            "en_answers": "step 3",
+            "ru_answers": "шаг 3",
+            "ru_question": null,
+            "ru_help": null,
+            "en_question": null,
+            "en_help": null
+          }
+        },
+        {
+          "slug": "2",
+          "current_step": {
+            "id": 6,
+            "en_answers": "step 6",
+            "ru_answers": "шаг 6",
+            "ru_question": null,
+            "ru_help": null,
+            "en_question": null,
+            "en_help": null
+          }
+        }
+      ]
+    },
+    {
+      "slug": "1",
+      "units": [
+        {
+          "slug": "3",
+          "current_step": {
+            "id": 3,
+            "en_answers": "step 3",
+            "ru_answers": "шаг 3",
+            "ru_question": null,
+            "ru_help": null,
+            "en_question": null,
+            "en_help": null
+          }
+        },
+        {
+          "slug": "4",
+          "current_step": {
+            "id": 6,
+            "en_answers": "step 6",
+            "ru_answers": "шаг 6",
+            "ru_question": null,
+            "ru_help": null,
+            "en_question": null,
+            "en_help": null
+          }
+        },
+        {
+          "slug": "5",
+          "current_step": {
+            "id": 9,
+            "en_answers": "step 9",
+            "ru_answers": "шаг 9",
+            "ru_question": null,
+            "ru_help": null,
+            "en_question": null,
+            "en_help": null
+          }
+        }
+      ]
+    },
+    {
+      "slug": "2",
+      "units": [
+        {
+          "slug": "6",
+          "current_step": {
+            "id": 6,
+            "en_answers": "step 6",
+            "ru_answers": "шаг 6",
+            "ru_question": null,
+            "ru_help": null,
+            "en_question": null,
+            "en_help": null
+          }
+        },
+        {
+          "slug": "7",
+          "current_step": {
+            "id": 9,
+            "en_answers": "step 9",
+            "ru_answers": "шаг 9",
+            "ru_question": null,
+            "ru_help": null,
+            "en_question": null,
+            "en_help": null
+          }
+        },
+        {
+          "slug": "8",
+          "current_step": {
+            "id": 12,
+            "en_answers": "step 12",
+            "ru_answers": "шаг 12",
+            "ru_question": null,
+            "ru_help": null,
+            "en_question": null,
+            "en_help": null
+          }
+        }
+      ]
+    }
+  ]
+}

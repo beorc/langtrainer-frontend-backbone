@@ -1,12 +1,12 @@
-describe "Langtrainer.LangtrainerApp.Views.CourseSelector", ->
+describe "Langtrainer.LangtrainerApp.Views.UnitSelector", ->
   beforeEach ->
     worldData = getJSONFixture('world.json')
     world = new Langtrainer.LangtrainerApp.Models.World
     world.set(worldData)
 
-    @view = new Langtrainer.LangtrainerApp.Views.CourseSelector(
-      collection: world.get('coursesCollection')
-      model: world.get('course')
+    @view = new Langtrainer.LangtrainerApp.Views.UnitSelector(
+      collection: world.get('course').get('unitsCollection')
+      model: world.get('unit')
     )
     @view.render()
 
@@ -16,7 +16,7 @@ describe "Langtrainer.LangtrainerApp.Views.CourseSelector", ->
   it "should render the selector markup", ->
     expect(@view.$('select')).toExist()
 
-  describe 'when user selects another course', ->
+  describe 'when user selects another unit', ->
     context = @
     context.onChange = ->
     beforeEach ->
@@ -29,8 +29,8 @@ describe "Langtrainer.LangtrainerApp.Views.CourseSelector", ->
         .change()
       select
 
-    it 'should change current course slug', ->
+    it 'should change current unit slug', ->
       expect(@view.model.get('slug')).toEqual('1')
 
-    it 'should trigger event change:slug for current course model', ->
+    it 'should trigger event change:slug for current unit model', ->
       expect(context.onChange).toHaveBeenCalled()

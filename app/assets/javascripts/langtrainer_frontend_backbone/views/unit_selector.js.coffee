@@ -1,6 +1,6 @@
-class Langtrainer.LangtrainerApp.Views.CourseSelector extends Backbone.View
-  template: JST['langtrainer_frontend_backbone/templates/course_selector']
-  id: 'course-selector'
+class Langtrainer.LangtrainerApp.Views.UnitSelector extends Backbone.View
+  template: JST['langtrainer_frontend_backbone/templates/unit_selector']
+  id: 'unit-selector'
 
   initialize: ->
     @listenTo @collection, 'change', @render
@@ -9,7 +9,7 @@ class Langtrainer.LangtrainerApp.Views.CourseSelector extends Backbone.View
     that = @
     if @collection.length > 0
       @$el.hide().html(@template(
-        courses: @collection.models
+        units: @collection.models
         model: @model
       ))
       @$input = @.$('select')

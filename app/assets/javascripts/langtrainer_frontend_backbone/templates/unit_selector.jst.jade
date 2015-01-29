@@ -1,0 +1,3 @@
+select(value=model.title())
+  each unit in units
+    option(value=unit.get('slug'), selected=unit.get('slug')==model.get('slug'))= unit.title()

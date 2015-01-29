@@ -4,6 +4,10 @@ describe "Langtrainer.LangtrainerApp.Models.World", ->
     @model = new Langtrainer.LangtrainerApp.Models.World
     @model.set(worldData)
 
+  describe 'coursesCollection attribute', ->
+    it "should be a Backbone.Collection", ->
+      expect(@model.get('coursesCollection')).toEqual(jasmine.any(Backbone.Collection))
+
   it "should be a Backbone.Model", ->
     expect(@model).toEqual(jasmine.any(Backbone.Model))
 
