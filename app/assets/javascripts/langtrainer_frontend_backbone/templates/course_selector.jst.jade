@@ -1,3 +1,3 @@
 select(value=model.title())
   each course in courses
-    option(value=course.get('slug'), selected=course.get('slug')==model.get('slug'), data-content="<span class='label label-success'>#{label}</span>&nbsp;#{course.title()}")
+    option(value=course.get('slug'), selected=course.get('slug')==model.get('slug'), data-content="<span class='label label-success'>#{label}</span>#{course.title()}")
