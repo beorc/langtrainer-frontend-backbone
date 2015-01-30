@@ -3,7 +3,7 @@ class Langtrainer.LangtrainerApp.Views.UnitSelector extends Backbone.View
   id: 'unit-selector'
 
   initialize: ->
-    @listenTo @collection, 'change', @render
+    @listenTo @collection, 'reset', @render
 
   render: ->
     that = @
