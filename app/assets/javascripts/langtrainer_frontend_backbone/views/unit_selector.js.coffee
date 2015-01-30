@@ -11,6 +11,7 @@ class Langtrainer.LangtrainerApp.Views.UnitSelector extends Backbone.View
       @$el.hide().html(@template(
         units: @collection.models
         model: @model
+        label: 'Unit'
       ))
       @$input = @.$('select')
       @$input.selectpicker(noneSelectedText: '')

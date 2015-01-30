@@ -11,6 +11,7 @@ class Langtrainer.LangtrainerApp.Views.CourseSelector extends Backbone.View
       @$el.hide().html(@template(
         courses: @collection.models
         model: @model
+        label: 'Course'
       ))
       @$input = @.$('select')
       @$input.selectpicker(noneSelectedText: '')
