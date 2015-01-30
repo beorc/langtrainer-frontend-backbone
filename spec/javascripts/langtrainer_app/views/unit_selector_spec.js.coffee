@@ -1,9 +1,13 @@
 describe "Langtrainer.LangtrainerApp.Views.UnitSelector", ->
   beforeEach ->
+    Langtrainer.LangtrainerApp.clearCookies()
+
     worldData = getJSONFixture('world.json')
     world = new Langtrainer.LangtrainerApp.Models.World
+    Langtrainer.LangtrainerApp.currentUser = new Langtrainer.LangtrainerApp.Models.User
     world.set(worldData)
 
+    @course = world.get('course')
     @view = new Langtrainer.LangtrainerApp.Views.UnitSelector(
       collection: world.get('course').get('unitsCollection')
       model: world.get('unit')
@@ -34,3 +38,6 @@ describe "Langtrainer.LangtrainerApp.Views.UnitSelector", ->
 
     it 'should trigger event change:slug for current unit model', ->
       expect(context.onChange).toHaveBeenCalled()
+
+    it 'should change current_unit_slug attribute in course', ->
+      expect(@course.get('current_unit_slug')).toEqual(@view.model.get('slug'))

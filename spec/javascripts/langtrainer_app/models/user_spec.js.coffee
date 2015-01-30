@@ -1,5 +1,6 @@
 describe "Langtrainer.LangtrainerApp.Models.User", ->
   beforeEach ->
+    Langtrainer.LangtrainerApp.clearCookies()
     worldData = getJSONFixture('world.json')
     Langtrainer.LangtrainerApp.world = new Langtrainer.LangtrainerApp.Models.World(model: worldData)
     @model = new Langtrainer.LangtrainerApp.Models.User

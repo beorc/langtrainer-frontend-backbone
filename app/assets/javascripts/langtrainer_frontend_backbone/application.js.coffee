@@ -42,3 +42,8 @@ window.Langtrainer.LangtrainerApp =
 
   navigateRoot: ->
     @navigate('/')
+
+  clearCookies: ->
+    _.each $.cookie(), (value, key) ->
+      $.removeCookie(key)
+

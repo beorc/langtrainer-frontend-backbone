@@ -1,7 +1,10 @@
 describe "Langtrainer.LangtrainerApp.Views.CourseSelector", ->
   beforeEach ->
+    Langtrainer.LangtrainerApp.clearCookies()
+
     worldData = getJSONFixture('world.json')
     world = new Langtrainer.LangtrainerApp.Models.World
+    Langtrainer.LangtrainerApp.currentUser = new Langtrainer.LangtrainerApp.Models.User
     world.set(worldData)
 
     @view = new Langtrainer.LangtrainerApp.Views.CourseSelector(
@@ -34,3 +37,6 @@ describe "Langtrainer.LangtrainerApp.Views.CourseSelector", ->
 
     it 'should trigger event change:slug for current course model', ->
       expect(context.onChange).toHaveBeenCalled()
+
+    it 'should change current_course_slug attribute in user', ->
+      expect(Langtrainer.LangtrainerApp.currentUser.get('current_course_slug')).toEqual(@view.model.get('slug'))

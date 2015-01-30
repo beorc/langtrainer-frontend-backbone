@@ -1,5 +1,6 @@
 describe "Langtrainer.LangtrainerApp.Models.Course", ->
   beforeEach ->
+    Langtrainer.LangtrainerApp.clearCookies()
     worldData = getJSONFixture('world.json')
     Langtrainer.LangtrainerApp.world = new Langtrainer.LangtrainerApp.Models.World(model: worldData)
     units = worldData.courses[0].units

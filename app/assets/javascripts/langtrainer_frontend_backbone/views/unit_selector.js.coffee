@@ -17,7 +17,7 @@ class Langtrainer.LangtrainerApp.Views.UnitSelector extends Backbone.View
 
       @$input.change (ev) -> that.onChange(ev)
 
-      @$el.slideToggle()
+      @$el.show()
     @
 
   onChange: (ev) ->

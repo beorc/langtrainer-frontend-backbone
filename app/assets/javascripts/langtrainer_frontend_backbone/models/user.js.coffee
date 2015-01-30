@@ -1,7 +1,7 @@
 class Langtrainer.LangtrainerApp.Models.User extends Backbone.Model
   initialize: ->
-    @listenTo @, 'change:token change:course_slug change:language_slug change:native_language_slug', @onChanged
-    @listenTo Langtrainer.LangtrainerApp.world, 'change', @onWorldChanged
+    @listenTo @, 'change:token change:current_course_slug change:language_slug change:native_language_slug', @onChanged
+    @listenTo Langtrainer.LangtrainerApp.world, 'change:token', @onWorldChanged
 
   readAttribute: (attrName) ->
     @get(attrName) || $.cookie(attrName)
@@ -28,7 +28,7 @@ class Langtrainer.LangtrainerApp.Models.User extends Backbone.Model
     !!@get('email')
 
   getCurrentCourse: ->
-    slug = @readAttribute('course_slug')
+    slug = @readAttribute('current_course_slug')
     collection = Langtrainer.LangtrainerApp.world.get('coursesCollection')
 
     result = null
@@ -50,7 +50,7 @@ class Langtrainer.LangtrainerApp.Models.User extends Backbone.Model
     Langtrainer.LangtrainerApp.world.get('nativeLanguagesCollection').findWhere(slug: slug)
 
   onCourseChanged: (course) ->
-    @set course_slug: course.get('slug')
+    @set current_course_slug: course.get('slug')
 
   onNativeLanguageChanged: (nativeLanguage) ->
     @set('native_language_slug', nativeLanguage.get('slug'))

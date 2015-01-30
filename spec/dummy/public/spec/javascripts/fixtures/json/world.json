@@ -13,6 +13,7 @@
       "slug": "0",
       "units": [
         {
+          "course_slug": "0",
           "slug": "0",
           "current_step": {
             "id": 0,
@@ -25,6 +26,7 @@
           }
         },
         {
+          "course_slug": "0",
           "slug": "1",
           "current_step": {
             "id": 3,
@@ -37,6 +39,7 @@
           }
         },
         {
+          "course_slug": "0",
           "slug": "2",
           "current_step": {
             "id": 6,
@@ -54,6 +57,7 @@
       "slug": "1",
       "units": [
         {
+          "course_slug": "1",
           "slug": "3",
           "current_step": {
             "id": 3,
@@ -66,6 +70,7 @@
           }
         },
         {
+          "course_slug": "1",
           "slug": "4",
           "current_step": {
             "id": 6,
@@ -78,6 +83,7 @@
           }
         },
         {
+          "course_slug": "1",
           "slug": "5",
           "current_step": {
             "id": 9,
@@ -95,6 +101,7 @@
       "slug": "2",
       "units": [
         {
+          "course_slug": "2",
           "slug": "6",
           "current_step": {
             "id": 6,
@@ -107,6 +114,7 @@
           }
         },
         {
+          "course_slug": "2",
           "slug": "7",
           "current_step": {
             "id": 9,
@@ -119,6 +127,7 @@
           }
         },
         {
+          "course_slug": "2",
           "slug": "8",
           "current_step": {
             "id": 12,
