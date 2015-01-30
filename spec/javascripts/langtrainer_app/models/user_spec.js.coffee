@@ -1,5 +1,7 @@
 describe "Langtrainer.LangtrainerApp.Models.User", ->
   beforeEach ->
+    worldData = getJSONFixture('world.json')
+    Langtrainer.LangtrainerApp.world = new Langtrainer.LangtrainerApp.Models.World(model: worldData)
     @model = new Langtrainer.LangtrainerApp.Models.User
 
   it "should be a Backbone.Model", ->
@@ -20,9 +22,9 @@ describe "Langtrainer.LangtrainerApp.Models.User", ->
       it 'should not save model', ->
         expect(@model.save).not.toHaveBeenCalled()
 
-    describe '#getToken', ->
+    describe "#readAttribute('token')", ->
       it 'should return token from cookie', ->
-        expect(@model.getToken()).toEqual('cookie-token')
+        expect(@model.readAttribute('token')).toEqual('cookie-token')
 
   describe 'given signed in user', ->
     beforeEach ->
@@ -36,6 +38,6 @@ describe "Langtrainer.LangtrainerApp.Models.User", ->
       it 'should save model', ->
         expect(@model.save).toHaveBeenCalled()
 
-      describe '#getToken', ->
+      describe "#readAttribute('token')", ->
         it 'should return token from model', ->
-          expect(@model.getToken()).toEqual('model-token')
+          expect(@model.readAttribute('token')).toEqual('model-token')

@@ -1,7 +1,13 @@
+clearCookies = ->
+  _.each $.cookie(), (value, key) ->
+    $.removeCookie(key)
+
 describe "Langtrainer.LangtrainerApp.Models.World", ->
   beforeEach ->
+    clearCookies()
     worldData = getJSONFixture('world.json')
     @model = new Langtrainer.LangtrainerApp.Models.World
+    Langtrainer.LangtrainerApp.currentUser = new Langtrainer.LangtrainerApp.Models.User
     @model.set(worldData)
 
   describe 'coursesCollection attribute', ->

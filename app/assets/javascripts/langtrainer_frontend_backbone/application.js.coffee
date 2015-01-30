@@ -26,7 +26,6 @@ window.Langtrainer.LangtrainerApp =
     @apiEndpoint = initialData.apiEndpoint
     @world = new Langtrainer.LangtrainerApp.Models.World
     @currentUser = new Langtrainer.LangtrainerApp.Models.User(model: initialData.currentUser)
-    @world.attributes.token = @currentUser.readAttribute('token')
 
     @world.fetch(success: successCallback, error: errorCallback)
 

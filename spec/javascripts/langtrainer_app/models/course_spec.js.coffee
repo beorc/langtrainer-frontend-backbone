@@ -1,6 +1,7 @@
 describe "Langtrainer.LangtrainerApp.Models.Course", ->
   beforeEach ->
     worldData = getJSONFixture('world.json')
+    Langtrainer.LangtrainerApp.world = new Langtrainer.LangtrainerApp.Models.World(model: worldData)
     units = worldData.courses[0].units
     @model = new Langtrainer.LangtrainerApp.Models.Course(slug: 'test')
     @model.set('units', units)
