@@ -5,5 +5,6 @@ class Langtrainer.LangtrainerApp.Views.StepView extends Backbone.View
 
   render: ->
     @$el.hide().html(@template())
+    @$('.lt-question').text(@model.question(Langtrainer.LangtrainerApp.currentUser.getCurrentLanguage()))
     @$el.slideToggle()
     @
