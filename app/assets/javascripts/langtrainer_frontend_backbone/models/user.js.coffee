@@ -9,6 +9,16 @@ class Langtrainer.LangtrainerApp.Models.User extends Backbone.Model
   onWorldChanged: (world) ->
     @set('token', world.get('token'))
 
+    @listenTo world.get('course'), 'change:slug', @onCourseChanged
+    @listenTo world.get('unit'), 'change:slug', @onUnitChanged
+    @listenTo world.get('nativeLanguage'), 'change:slug', @onNativeLanguageChanged
+    @listenTo world.get('language'), 'change:slug', @onLanguageChanged
+
+    @onCourseChanged(world.get('course'))
+    @onUnitChanged(world.get('unit'))
+    @onNativeLanguageChanged(world.get('nativeLanguage'))
+    @onLanguageChanged(world.get('language'))
+
   onChanged: ->
     if @signedIn()
       @save()
@@ -47,3 +57,17 @@ class Langtrainer.LangtrainerApp.Models.User extends Backbone.Model
     slug = @readAttribute('native_language_slug') || 'ru'
 
     Langtrainer.LangtrainerApp.world.get('nativeLanguagesCollection').findWhere(slug: slug)
+
+  onCourseChanged: (course) ->
+    @set
+      course_slug: course.get('slug')
+      unit_slug: course.get('unitsCollection').at(0).get('slug')
+
+  onUnitChanged: (unit) ->
+    @set('unit_slug', unit.get('slug'))
+
+  onNativeLanguageChanged: (nativeLanguage) ->
+    @set('native_language_slug', nativeLanguage.get('slug'))
+
+  onLanguageChanged: (language) ->
+    @set('language_slug', language.get('slug'))
