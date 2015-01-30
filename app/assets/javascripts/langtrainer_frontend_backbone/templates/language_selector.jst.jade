@@ -1,0 +1,3 @@
+select(value=model.title())
+  each language in languages
+    option(value=language.get('slug'), selected=language.get('slug')==model.get('slug'))= language.title()
