@@ -10,7 +10,7 @@ class Langtrainer.LangtrainerApp.Models.Step extends Backbone.Model
       answer = @answers(language)[0]
       result = _.string.trim(answer)
 
-    result
+    _.string.capitalize result
 
   answers: (language) ->
     @get("#{language.get('slug')}_answers").split('|')
@@ -22,17 +22,20 @@ class Langtrainer.LangtrainerApp.Models.Step extends Backbone.Model
     answerRegexp = XRegExp("^#{@prepareAnswer(answer)}", 'i')
     answerRegexp.exec rightAnswer
 
-  verifyAnswer: (answer, language) ->
+  verifyAnswer: (answer, language, context) ->
     that = @
     rightAnswer = null
 
     if answer.length is 0
-      @trigger('answer:empty')
+      @triggerEvent(context, 'empty')
     else
       rightAnswer = _.find(@answers(language), (rightAnswer) -> !!that.matches(answer, rightAnswer))
       if rightAnswer?
-        @trigger('answer:right')
+        @triggerEvent(context, 'right')
       else
-        @trigger('answer:wrong')
+        @triggerEvent(context, 'wrong')
 
     rightAnswer
+
+  triggerEvent: (context, eventName) ->
+    @trigger(context + ':' + eventName)

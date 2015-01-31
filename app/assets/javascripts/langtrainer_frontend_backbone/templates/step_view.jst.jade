@@ -13,16 +13,21 @@
     .panel-heading
       ul.list-inline
         li
-          a(href='javascript:void(0)')
+          a(href='javascript:void(0)', title='Check answer', data-toggle='tooltip', data-placement='bottom')
             i.fa.fa-check
         li
-          a(href='javascript:void(0)')
+          a(href='javascript:void(0)', title='Next step', data-toggle='tooltip', data-placement='bottom')
             i.fa.fa-forward
         li
-          a(href='javascript:void(0)')
-            i.fa.fa-question
+          a(href='javascript:void(0)', title='Show next word', data-toggle='tooltip', data-placement='bottom')
+            i.fa.fa-magic
         li
-          a(href='javascript:void(0)')
+          a(href='javascript:void(0)', title='Show right answer', data-toggle='tooltip', data-placement='bottom')
             i.fa.fa-eye
+
+      ul.list-inline.lt-indicators
+        li.lt-wrong-answer
+          a(href='javascript:void(0)', title='It seems there is an error in your answer', data-toggle='tooltip', data-placement='bottom')
+            i.fa.fa-exclamation-circle
     .panel-body.lt-area
       textarea.lt-answer
