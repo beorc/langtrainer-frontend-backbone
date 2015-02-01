@@ -2,6 +2,9 @@ class Langtrainer.LangtrainerApp.Views.CourseSelector extends Backbone.View
   template: JST['langtrainer_frontend_backbone/templates/course_selector']
   id: 'course-selector'
 
+  events:
+    'change select': 'onChange'
+
   initialize: ->
     @listenTo @collection, 'change', @render
 
@@ -15,8 +18,6 @@ class Langtrainer.LangtrainerApp.Views.CourseSelector extends Backbone.View
       ))
       @$input = @.$('select')
       @$input.selectpicker(noneSelectedText: '')
-
-      @$input.change (ev) -> that.onChange(ev)
 
       @$el.slideToggle()
     @

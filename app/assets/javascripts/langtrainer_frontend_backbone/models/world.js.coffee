@@ -3,9 +3,9 @@ class Langtrainer.LangtrainerApp.Models.World extends Backbone.Model
 
   initialize: ->
     Langtrainer.LangtrainerApp.world = @
+    @set('step', new Langtrainer.LangtrainerApp.Models.Step)
     @set('unit', new Langtrainer.LangtrainerApp.Models.Unit)
     @set('course', new Langtrainer.LangtrainerApp.Models.Course)
-    @set('step', new Langtrainer.LangtrainerApp.Models.Step)
     @set('language', new Langtrainer.LangtrainerApp.Models.Language)
     @set('nativeLanguage', new Langtrainer.LangtrainerApp.Models.Language)
 
@@ -17,6 +17,7 @@ class Langtrainer.LangtrainerApp.Models.World extends Backbone.Model
     @listenTo @, 'change:token', @reset
 
     @listenTo @get('course'), 'change:slug', @onCourseChanged
+    @listenTo @get('unit'), 'change:slug', @onUnitChanged
     @listenTo @get('nativeLanguage'), 'change:slug', @onNativeLanguageChanged
 
 
@@ -32,6 +33,10 @@ class Langtrainer.LangtrainerApp.Models.World extends Backbone.Model
 
   onCourseChanged: (course) ->
     @get('unitsCollection').reset course.get('units')
+    @get('unit').set course.getCurrentUnit().attributes
+
+  onUnitChanged: (unit) ->
+    @get('step').set unit.getCurrentStep().attributes
 
   onNativeLanguageChanged: (nativeLanguage) ->
     nativeSlug = nativeLanguage.get('slug')

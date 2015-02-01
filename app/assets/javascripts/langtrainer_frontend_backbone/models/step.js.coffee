@@ -1,4 +1,19 @@
 class Langtrainer.LangtrainerApp.Models.Step extends Backbone.Model
+  baseParams: ->
+    result = '?token=' + Langtrainer.LangtrainerApp.currentUser.readAttribute('token')
+    result += '&unit=' + Langtrainer.LangtrainerApp.world.get('unit').get('id')
+    result += '&native_language=' + Langtrainer.LangtrainerApp.world.get('nativeLanguage').get('slug')
+    result += '&language=' + Langtrainer.LangtrainerApp.world.get('language').get('slug')
+
+  nextWordUrl: ->
+    result = Langtrainer.LangtrainerApp.apiEndpoint + '/help_next_word'
+    result += @baseParams()
+
+  verifyAnswerUrl: (answer) ->
+    result = Langtrainer.LangtrainerApp.apiEndpoint + '/verify_answer'
+    result += @baseParams()
+    result += '&answer=' + answer
+
   question: (language) ->
     result = ''
 
@@ -22,6 +37,10 @@ class Langtrainer.LangtrainerApp.Models.Step extends Backbone.Model
     answerRegexp = XRegExp("^#{@prepareAnswer(answer)}", 'i')
     answerRegexp.exec rightAnswer
 
+  nextWordMatches: (answer, rightAnswer) ->
+    answerRegexp = XRegExp("^#{@prepareAnswer(answer)}([\\p{L}\\p{P}]*)\\s*([\\p{L}\\p{P}]*)")
+    answerRegexp.exec rightAnswer
+
   verifyAnswer: (answer, language, context) ->
     that = @
     rightAnswer = null
@@ -29,7 +48,9 @@ class Langtrainer.LangtrainerApp.Models.Step extends Backbone.Model
     if answer.length is 0
       @triggerEvent(context, 'empty')
     else
-      rightAnswer = _.find(@answers(language), (rightAnswer) -> !!that.matches(answer, rightAnswer))
+      rightAnswer = _.find @answers(language), (rightAnswer) ->
+        !!that.matches(answer, rightAnswer)
+
       if rightAnswer?
         @triggerEvent(context, 'right')
       else
@@ -39,3 +60,31 @@ class Langtrainer.LangtrainerApp.Models.Step extends Backbone.Model
 
   triggerEvent: (context, eventName) ->
     @trigger(context + ':' + eventName)
+
+  nextWord: (answer, language) ->
+    $.ajax
+      url: @nextWordUrl()
+      dataType: 'json'
+
+    that = @
+    result = null
+
+    _.find @answers(language), (rightAnswer) ->
+      result = that.nextWordMatches(answer, rightAnswer)
+      !!result
+
+    result
+
+  verifyAnswerOnServer: (answer, language) ->
+    that = @
+    $.ajax
+      url: @verifyAnswerUrl(answer)
+      dataType: 'json'
+      success: (response) ->
+        if response
+          Langtrainer.LangtrainerApp.world.get('step').set response
+          that.trigger('verify:right')
+        else
+          that.trigger('verify:wrong')
+      error: ->
+        that.trigger('verify:error')

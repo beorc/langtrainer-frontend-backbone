@@ -5,16 +5,19 @@ class Langtrainer.LangtrainerApp.Views.StepView extends Backbone.View
 
   events:
     'keyup .lt-answer': 'onKeyup'
+    'click .lt-show-next-word': 'onShowNextWord'
+    'click .lt-check-answer': 'onCheckAnswer'
 
   initialize: ->
+    @listenTo Langtrainer.LangtrainerApp.world.get('step'), 'change', @render
+
     @listenTo @model, 'keyup:wrong', @onWrongKeyUp
     @listenTo @model, 'keyup:right', @onRightKeyUp
     @listenTo @model, 'keyup:empty', @onEmptyKeyUp
 
   render: ->
-    @$el.hide().html(@template())
+    @$el.html(@template())
     @$('.lt-question').text(@model.question(@currentNativeLanguage()))
-    @$el.slideToggle()
     @$input = @$('.lt-answer')
     @
 
@@ -24,8 +27,9 @@ class Langtrainer.LangtrainerApp.Views.StepView extends Backbone.View
   currentNativeLanguage: ->
     Langtrainer.LangtrainerApp.currentUser.getCurrentNativeLanguage()
 
-  onKeyup: ->
-    @model.verifyAnswer(@$input.val(), @currentLanguage(), 'keyup')
+  onKeyup: (event) ->
+    if event.which != 13
+      @model.verifyAnswer(@$input.val(), @currentLanguage(), 'keyup')
     true
 
   onWrongKeyUp: ->
@@ -36,3 +40,23 @@ class Langtrainer.LangtrainerApp.Views.StepView extends Backbone.View
 
   onEmptyKeyUp: ->
     @$('.lt-wrong-answer').hide()
+
+  onShowNextWord: ->
+    answer = @$input.val()
+    matches = @model.nextWord(answer, @currentLanguage())
+
+    if matches?
+      ending = matches[1]
+
+      if ending.length > 0
+        @$input.val("#{answer}#{ending}")
+      else
+        nextWord = matches[2]
+
+        if nextWord.length > 0
+          @$input.val("#{answer} #{nextWord}")
+
+      @model.verifyAnswer(@$input.val(), @currentLanguage(), 'keyup')
+
+  onCheckAnswer: ->
+    @model.verifyAnswerOnServer(@$input.val(), @currentLanguage())

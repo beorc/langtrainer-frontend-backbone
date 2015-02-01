@@ -2,6 +2,9 @@ class Langtrainer.LangtrainerApp.Views.LanguageSelector extends Backbone.View
   template: JST['langtrainer_frontend_backbone/templates/language_selector']
   class: 'language-selector'
 
+  events:
+    'change select': 'onChange'
+
   initialize: (options) ->
     @options = options
     @listenTo @collection, 'reset', @render
@@ -16,8 +19,6 @@ class Langtrainer.LangtrainerApp.Views.LanguageSelector extends Backbone.View
       ))
       @$input = @.$('select')
       @$input.selectpicker(noneSelectedText: '')
-
-      @$input.change (ev) -> that.onChange(ev)
 
       @$el.show()
     @

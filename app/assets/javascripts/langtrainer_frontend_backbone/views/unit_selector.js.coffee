@@ -2,6 +2,9 @@ class Langtrainer.LangtrainerApp.Views.UnitSelector extends Backbone.View
   template: JST['langtrainer_frontend_backbone/templates/unit_selector']
   id: 'unit-selector'
 
+  events:
+    'change select': 'onChange'
+
   initialize: ->
     @listenTo @collection, 'reset', @render
 
@@ -15,8 +18,6 @@ class Langtrainer.LangtrainerApp.Views.UnitSelector extends Backbone.View
       ))
       @$input = @.$('select')
       @$input.selectpicker(noneSelectedText: '')
-
-      @$input.change (ev) -> that.onChange(ev)
 
       @$el.show()
     @

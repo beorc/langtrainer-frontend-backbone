@@ -3,7 +3,7 @@ class Langtrainer.LangtrainerApp.Models.Course extends Backbone.Model
     @set('unitsCollection', new Langtrainer.LangtrainerApp.Collections.Units(@get('units')))
     @listenTo @, 'change:current_unit_slug', @onCurrentUnitSlugChanged
     @listenTo @, 'change:units', @onUnitsChanged
-    @listenTo Langtrainer.LangtrainerApp.world, 'change:token', @onWorldChanged
+    @listenTo Langtrainer.LangtrainerApp.world, 'change:unit', @onWorldChanged
 
   onWorldChanged: (world) ->
     @listenTo world.get('unit'), 'change:slug', @onUnitChanged
@@ -14,7 +14,7 @@ class Langtrainer.LangtrainerApp.Models.Course extends Backbone.Model
     $.cookie('current_unit_slug', @get('current_unit_slug'))
 
   onUnitsChanged: ->
-    @get('unitsCollection').reset(@get('units'))
+    @get('unitsCollection').set(@get('units'))
 
   title: ->
     _.string.capitalize @get('slug')
