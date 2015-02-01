@@ -10,10 +10,16 @@ class Langtrainer.LangtrainerApp.Views.StepView extends Backbone.View
 
   initialize: ->
     @listenTo Langtrainer.LangtrainerApp.world.get('step'), 'change', @render
+    @listenTo Langtrainer.LangtrainerApp.world.get('language'), 'change', @render
+    @listenTo Langtrainer.LangtrainerApp.world.get('nativeLanguage'), 'change', @render
 
     @listenTo @model, 'keyup:wrong', @onWrongKeyUp
     @listenTo @model, 'keyup:right', @onRightKeyUp
     @listenTo @model, 'keyup:empty', @onEmptyKeyUp
+
+    @listenTo @model, 'verify:right', @onVerifyRight
+    @listenTo @model, 'verify:wrong', @onVerifyWrong
+    @listenTo @model, 'verify:error', @onVerifyError
 
   render: ->
     @$el.html(@template())
@@ -60,3 +66,12 @@ class Langtrainer.LangtrainerApp.Views.StepView extends Backbone.View
 
   onCheckAnswer: ->
     @model.verifyAnswerOnServer(@$input.val(), @currentLanguage())
+
+  onVerifyRight: ->
+    @$('.lt-answer-notification').sticky('Right answer')
+
+  onVerifyWrong: ->
+    @$('.lt-answer-notification').sticky('Wrong answer')
+
+  onVerifyError: ->
+    @$('.lt-answer-notification').sticky('Oops... Something went wrong!')

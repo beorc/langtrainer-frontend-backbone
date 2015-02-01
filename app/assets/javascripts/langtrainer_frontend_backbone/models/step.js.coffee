@@ -82,7 +82,7 @@ class Langtrainer.LangtrainerApp.Models.Step extends Backbone.Model
       dataType: 'json'
       success: (response) ->
         if response
-          Langtrainer.LangtrainerApp.world.get('step').set response
+          @set response
           that.trigger('verify:right')
         else
           that.trigger('verify:wrong')
