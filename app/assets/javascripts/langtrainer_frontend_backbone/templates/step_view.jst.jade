@@ -3,11 +3,17 @@
     .panel-heading
       ul.list-inline
         li
-          a(href='javascript:void(0)')
-            i.fa.fa-question
+          a.lt-question-help-toggle(href='javascript:void(0)', title='Toggle help', data-toggle='tooltip', data-placement='bottom')
+            span.fa-stack.fa-lg.lt-question-help-enabled
+              i.fa.fa-question.fa-stack-1x
+              i.fa.fa-circle-thin.fa-stack-2x
+            span.fa-stack.fa-lg.lt-question-help-disabled.hide
+              i.fa.fa-question.fa-stack-1x
+              i.fa.fa-ban.fa-stack-2x.text-danger
 
     .panel-body.lt-area
       .lt-question
+    .lt-question-notification
 .col-xs-6
   .panel.panel-default
     .panel-heading
@@ -17,7 +23,7 @@
             i.fa.fa-check
         li
           a.lt-next-step(href='javascript:void(0)', title='Next step', data-toggle='tooltip', data-placement='bottom')
-            i.fa.fa-forward
+            i.fa.fa-refresh
         li
           a.lt-show-next-word(href='javascript:void(0)', title='Show next word', data-toggle='tooltip', data-placement='bottom')
             i.fa.fa-magic

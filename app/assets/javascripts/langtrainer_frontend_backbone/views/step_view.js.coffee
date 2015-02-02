@@ -9,11 +9,14 @@ class Langtrainer.LangtrainerApp.Views.StepView extends Backbone.View
     'click .lt-check-answer': 'onCheckAnswer'
     'click .lt-show-right-answer': 'onShowRightAnswer'
     'click .lt-next-step': 'onNextStep'
+    'click .lt-question-help-toggle': 'onQuestionHelpToggle'
 
   initialize: ->
     @listenTo Langtrainer.LangtrainerApp.world.get('step'), 'change', @render
     @listenTo Langtrainer.LangtrainerApp.world.get('language'), 'change', @render
     @listenTo Langtrainer.LangtrainerApp.world.get('nativeLanguage'), 'change', @render
+
+    @listenTo Langtrainer.LangtrainerApp.currentUser, 'change:question_help_enabled', @onQuestionHelpChanged
 
     @listenTo @model, 'keyup:wrong', @onWrongKeyUp
     @listenTo @model, 'keyup:right', @onRightKeyUp
@@ -25,9 +28,22 @@ class Langtrainer.LangtrainerApp.Views.StepView extends Backbone.View
 
   render: ->
     @$el.html(@template())
-    @$('.lt-question').text(@model.question(@currentNativeLanguage()))
     @$input = @$('.lt-answer')
+    @$('.lt-question').text(@model.question(@currentNativeLanguage()))
+
+
+    @onQuestionHelpChanged()
+
+    questionHelp = @model.questionHelp(@currentLanguage())
+    if questionHelp.length > 0
+      @$('.lt-question-notification').sticky(questionHelp, autoclose: false)
+    else
+      @$('.lt-question-help-toggle').addClass('disabled')
+
     @
+
+  toggleQuestionHelp: ->
+    Langtrainer.LangtrainerApp.currentUser.toggleQuestionHelp()
 
   currentLanguage: ->
     Langtrainer.LangtrainerApp.currentUser.getCurrentLanguage()
@@ -68,7 +84,7 @@ class Langtrainer.LangtrainerApp.Views.StepView extends Backbone.View
 
   onShowRightAnswer: ->
     _.each @model.answers(@currentLanguage()), (rightAnswer, index) ->
-      @$('.lt-answer-notification').sticky("Answer ##{index + 1}: #{rightAnswer}")
+      @$('.lt-answer-notification').sticky("Answer ##{index + 1}: #{rightAnswer}", autoclose: false)
 
     @model.showRightAnswer()
 
@@ -79,10 +95,23 @@ class Langtrainer.LangtrainerApp.Views.StepView extends Backbone.View
     @model.verifyAnswerOnServer(@$input.val(), @currentLanguage())
 
   onVerifyRight: ->
-    @$('.lt-answer-notification').sticky('Right answer')
+    @$('.lt-answer-notification').sticky('Right answer!')
 
   onVerifyWrong: ->
-    @$('.lt-answer-notification').sticky('Wrong answer')
+    @$('.lt-answer-notification').sticky('Wrong answer. Lets try again!')
 
   onVerifyError: ->
     @$('.lt-answer-notification').sticky('Oops... Something went wrong!')
+
+  onQuestionHelpToggle: ->
+    Langtrainer.LangtrainerApp.currentUser.toggleQuestionHelp()
+
+  onQuestionHelpChanged: ->
+    if Langtrainer.LangtrainerApp.currentUser.questionHelpEnabled()
+      @$('.lt-question-help-disabled').addClass('hide')
+      @$('.lt-question-help-enabled').removeClass('hide')
+      @$('.lt-question-notification').slideDown()
+    else
+      @$('.lt-question-help-disabled').removeClass('hide')
+      @$('.lt-question-help-enabled').addClass('hide')
+      @$('.lt-question-notification').slideUp()

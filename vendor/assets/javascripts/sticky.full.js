@@ -56,27 +56,27 @@
 		if(display)
 			{
 			// Building and inserting sticky note
-			$('.sticky-queue').prepend('<div class="sticky border-' + position + '" id="' + uniqID + '"></div>');
-			$('#' + uniqID).append('<img src="/assets/close.png" class="sticky-close" rel="' + uniqID + '" title="Close" />');
-			$('#' + uniqID).append('<div class="sticky-note" rel="' + uniqID + '">' + note + '</div>');
+			$(this).find('.sticky-queue').prepend('<div class="sticky border-' + position + '" id="' + uniqID + '"></div>');
+			$(this).find('#' + uniqID).append('<img src="/assets/close.png" class="sticky-close" rel="' + uniqID + '" title="Close" />');
+			$(this).find('#' + uniqID).append('<div class="sticky-note" rel="' + uniqID + '">' + note + '</div>');
 
 			// Smoother animation
-			var height = $('#' + uniqID).outerHeight();
-			$('#' + uniqID).css('height', height);
+			var height = $(this).find('#' + uniqID).outerHeight();
+			$(this).find('#' + uniqID).css('height', height);
 
-			$('#' + uniqID).slideDown(settings['speed']);
+			$(this).find('#' + uniqID).slideDown(settings['speed']);
 			display = true;
 			}
 
 		// Listeners
-		$('.sticky').ready(function()
+		$(this).find('.sticky').ready(function()
 			{
 			// If 'autoclose' is enabled, set a timer to close the sticky
 			if(settings['autoclose'])
 				{ $('#' + uniqID).delay(settings['autoclose']).fadeOut(settings['speed']); }
 			});
 		// Closing a sticky
-		$('.sticky-close').click(function()
+		$(this).find('.sticky-close').click(function()
 			{ $('#' + $(this).attr('rel')).dequeue().fadeOut(settings['speed']); });
 
 

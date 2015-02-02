@@ -42,6 +42,9 @@ class Langtrainer.LangtrainerApp.Models.Step extends Backbone.Model
   prepareAnswer: (answer) ->
     answer.replace(/\s{2,}/g, ' ')
 
+  questionHelp: (language) ->
+    @get("#{language.get('slug')}_help")
+
   matches: (answer, rightAnswer) ->
     answerRegexp = XRegExp("^#{@prepareAnswer(answer)}", 'i')
     answerRegexp.exec rightAnswer
