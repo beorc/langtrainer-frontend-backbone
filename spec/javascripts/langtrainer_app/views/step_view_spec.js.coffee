@@ -1,9 +1,11 @@
 describe "Langtrainer.LangtrainerApp.Views.StepView", ->
   beforeEach ->
     worldData = getJSONFixture('world.json')
-    world = new Langtrainer.LangtrainerApp.Models.World(worldData)
+    world = new Langtrainer.LangtrainerApp.Models.World
+    Langtrainer.LangtrainerApp.currentUser = new Langtrainer.LangtrainerApp.Models.User
+    world.set(worldData)
 
-    @view = new Langtrainer.LangtrainerApp.Views.StepView(world.get('courses')[0].units[0].current_step)
+    @view = new Langtrainer.LangtrainerApp.Views.StepView(model: world.get('step'))
     @view.render()
 
   it "should be a Backbone.View", ->

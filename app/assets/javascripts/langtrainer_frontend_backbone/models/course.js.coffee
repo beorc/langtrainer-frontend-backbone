@@ -3,7 +3,11 @@ class Langtrainer.LangtrainerApp.Models.Course extends Backbone.Model
     @set('unitsCollection', new Langtrainer.LangtrainerApp.Collections.Units(@get('units')))
     @listenTo @, 'change:current_unit_slug', @onCurrentUnitSlugChanged
     @listenTo @, 'change:units', @onUnitsChanged
-    @listenTo Langtrainer.LangtrainerApp.world, 'change:unit', @onWorldChanged
+
+    if Langtrainer.LangtrainerApp.world.get('unit').get('slug')?
+      @onUnitChanged(Langtrainer.LangtrainerApp.world.get('unit'))
+    else
+      @listenTo Langtrainer.LangtrainerApp.world.get('unit'), 'change:slug', @onUnitChanged
 
   onWorldChanged: (world) ->
     @listenTo world.get('unit'), 'change:slug', @onUnitChanged

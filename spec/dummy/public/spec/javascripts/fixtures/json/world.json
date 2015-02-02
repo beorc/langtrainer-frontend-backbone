@@ -16,9 +16,11 @@
       "slug": "0",
       "units": [
         {
+          "id": 0,
           "course_slug": "0",
           "slug": "0",
           "current_step": {
+            "unit_id": 0,
             "id": 0,
             "en_answers": "step 0",
             "ru_answers": "шаг 0",
@@ -29,9 +31,11 @@
           }
         },
         {
+          "id": 1,
           "course_slug": "0",
           "slug": "1",
           "current_step": {
+            "unit_id": 1,
             "id": 3,
             "en_answers": "step 3",
             "ru_answers": "шаг 3",
@@ -42,9 +46,11 @@
           }
         },
         {
+          "id": 2,
           "course_slug": "0",
           "slug": "2",
           "current_step": {
+            "unit_id": 2,
             "id": 6,
             "en_answers": "step 6",
             "ru_answers": "шаг 6",
@@ -60,9 +66,11 @@
       "slug": "1",
       "units": [
         {
+          "id": 3,
           "course_slug": "1",
           "slug": "3",
           "current_step": {
+            "unit_id": 3,
             "id": 3,
             "en_answers": "step 3",
             "ru_answers": "шаг 3",
@@ -73,9 +81,11 @@
           }
         },
         {
+          "id": 4,
           "course_slug": "1",
           "slug": "4",
           "current_step": {
+            "unit_id": 4,
             "id": 6,
             "en_answers": "step 6",
             "ru_answers": "шаг 6",
@@ -86,9 +96,11 @@
           }
         },
         {
+          "id": 5,
           "course_slug": "1",
           "slug": "5",
           "current_step": {
+            "unit_id": 5,
             "id": 9,
             "en_answers": "step 9",
             "ru_answers": "шаг 9",
@@ -104,9 +116,11 @@
       "slug": "2",
       "units": [
         {
+          "id": 6,
           "course_slug": "2",
           "slug": "6",
           "current_step": {
+            "unit_id": 6,
             "id": 6,
             "en_answers": "step 6",
             "ru_answers": "шаг 6",
@@ -117,9 +131,11 @@
           }
         },
         {
+          "id": 7,
           "course_slug": "2",
           "slug": "7",
           "current_step": {
+            "unit_id": 7,
             "id": 9,
             "en_answers": "step 9",
             "ru_answers": "шаг 9",
@@ -130,9 +146,11 @@
           }
         },
         {
+          "id": 8,
           "course_slug": "2",
           "slug": "8",
           "current_step": {
+            "unit_id": 8,
             "id": 12,
             "en_answers": "step 12",
             "ru_answers": "шаг 12",

@@ -40,4 +40,4 @@ describe "Langtrainer.LangtrainerApp.Views.UnitSelector", ->
       expect(context.onChange).toHaveBeenCalled()
 
     it 'should change current_unit_slug attribute in course', ->
-      expect(@course.get('current_unit_slug')).toEqual(@view.model.get('slug'))
+      expect(Langtrainer.LangtrainerApp.world.get('course').get('current_unit_slug')).toEqual(@view.model.get('slug'))
