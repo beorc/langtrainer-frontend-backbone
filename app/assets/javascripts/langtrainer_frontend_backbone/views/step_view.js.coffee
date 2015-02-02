@@ -7,6 +7,8 @@ class Langtrainer.LangtrainerApp.Views.StepView extends Backbone.View
     'keyup .lt-answer': 'onKeyup'
     'click .lt-show-next-word': 'onShowNextWord'
     'click .lt-check-answer': 'onCheckAnswer'
+    'click .lt-show-right-answer': 'onShowRightAnswer'
+    'click .lt-next-step': 'onNextStep'
 
   initialize: ->
     @listenTo Langtrainer.LangtrainerApp.world.get('step'), 'change', @render
@@ -63,6 +65,15 @@ class Langtrainer.LangtrainerApp.Views.StepView extends Backbone.View
           @$input.val("#{answer} #{nextWord}")
 
       @model.verifyAnswer(@$input.val(), @currentLanguage(), 'keyup')
+
+  onShowRightAnswer: ->
+    _.each @model.answers(@currentLanguage()), (rightAnswer, index) ->
+      @$('.lt-answer-notification').sticky("Answer ##{index + 1}: #{rightAnswer}")
+
+    @model.showRightAnswer()
+
+  onNextStep: ->
+    @model.nextStep()
 
   onCheckAnswer: ->
     @model.verifyAnswerOnServer(@$input.val(), @currentLanguage())

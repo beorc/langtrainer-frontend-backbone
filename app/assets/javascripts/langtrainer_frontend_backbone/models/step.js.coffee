@@ -15,6 +15,14 @@ class Langtrainer.LangtrainerApp.Models.Step extends Backbone.Model
     result += @baseParams()
     result += '&answer=' + answer
 
+  nextStepUrl: ->
+    result = Langtrainer.LangtrainerApp.apiEndpoint + '/next_step'
+    result += @baseParams()
+
+  showRightAnswerUrl: ->
+    result = Langtrainer.LangtrainerApp.apiEndpoint + '/show_right_answer'
+    result += @baseParams()
+
   question: (language) ->
     result = ''
 
@@ -90,3 +98,19 @@ class Langtrainer.LangtrainerApp.Models.Step extends Backbone.Model
           that.trigger('verify:wrong')
       error: ->
         that.trigger('verify:error')
+
+  nextStep: ->
+    that = @
+    $.ajax
+      url: @nextStepUrl()
+      dataType: 'json'
+      success: (response) ->
+        that.set response
+        that.trigger('change', that)
+      error: ->
+        that.trigger('verify:error')
+
+  showRightAnswer: ->
+    $.ajax
+      url: @showRightAnswerUrl()
+      dataType: 'json'
