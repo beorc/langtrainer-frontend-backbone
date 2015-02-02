@@ -84,6 +84,7 @@ class Langtrainer.LangtrainerApp.Models.Step extends Backbone.Model
       success: (response) ->
         if response
           that.set response
+          that.trigger('change', that)
           that.trigger('verify:right')
         else
           that.trigger('verify:wrong')
