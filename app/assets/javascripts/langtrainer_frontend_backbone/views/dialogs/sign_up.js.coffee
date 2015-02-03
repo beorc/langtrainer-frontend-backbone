@@ -13,7 +13,6 @@ class Langtrainer.LangtrainerApp.Views.Dialogs.SignUp extends Backbone.View
     @model = new Langtrainer.LangtrainerApp.Models.User.Registration
     @listenTo @model, 'error:unprocessable', @reRender, @
     @listenTo @model, 'invalid', @reRender, @
-    @listenTo @$el, 'hidden.bs.modal', => @onHiddenModal()
 
     Langtrainer.LangtrainerApp.globalBus.once 'user:signedUp', @onUserSignedUp, @
 
@@ -29,6 +28,9 @@ class Langtrainer.LangtrainerApp.Views.Dialogs.SignUp extends Backbone.View
 
     @model.save()
     false
+
+  onUserSignedUp: ->
+    @$el.modal('hide')
 
   onHiddenModal: ->
     Langtrainer.LangtrainerApp.globalBus.trigger('signUpDialog:hidden')

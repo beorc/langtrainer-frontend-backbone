@@ -5,25 +5,24 @@
         span(aria-hidden='true') &times;
       h4.modal-title Sign in
     .modal-body
-      if message
-        .alert.alert-danger= message
-      if session.validationErrorFor('user')
-        .alert.alert-danger= session.validationErrorFor('user')
-      if session.validationErrorFor('serverError')
-        .alert.alert-danger= session.validationErrorFor('serverError')
+      if model.validationErrorFor('user')
+        .alert.alert-danger= model.validationErrorFor('user')
+      if model.validationErrorFor('serverError')
+        .alert.alert-danger= model.validationErrorFor('serverError')
       form(role='form')
-        .form-group(class=session.validationErrorFor('email') ? 'has-error' : null)
+        .form-group(class=model.validationErrorFor('email') ? 'has-error' : null)
           label.control-label(for='email') E-mail
-          input#email.form-control(type='email', value=session.get('email'))
-          if session.validationErrorFor('email')
-            p.help-block= session.validationErrorFor('email')
-        .form-group(class=session.validationErrorFor('password') ? 'has-error' : null)
+          input#email.form-control(type='email', value=model.get('email'))
+          if model.validationErrorFor('email')
+            p.help-block= model.validationErrorFor('email')
+        .form-group(class=model.validationErrorFor('password') ? 'has-error' : null)
           label.control-label(for='password') Password
           input#password.form-control(type='password')
-          if session.validationErrorFor('password')
-            p.help-block= session.validationErrorFor('password')
+          if model.validationErrorFor('password')
+            p.help-block= model.validationErrorFor('password')
         .actions
           button.btn.btn-primary.js-submit(type='submit') Sign in
-    .modal-outlet
-      Not registered?
-      a.btn.btn-primary.sign-up-btn(href='#', rel='nofollow') Sign up
+    .modal-footer
+      |Not registered?
+      &nbsp;
+      a.sign-up-btn(href='#', rel='nofollow') Sign up

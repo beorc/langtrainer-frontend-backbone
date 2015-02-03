@@ -19,4 +19,4 @@ class Langtrainer.LangtrainerApp.Models.User.Session extends Backbone.Model
       return errors
 
   onSignedIn: ->
-    Langtrainer.LangtrainerApp.globalBus.trigger('user:signedIn', @get('user'))
+    Langtrainer.LangtrainerApp.globalBus.trigger('user:signedIn', @)

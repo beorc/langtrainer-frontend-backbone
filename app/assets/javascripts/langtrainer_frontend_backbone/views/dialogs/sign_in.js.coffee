@@ -19,18 +19,18 @@ class Langtrainer.LangtrainerApp.Views.Dialogs.SignIn extends Backbone.View
   renderForm: ->
     @$el.html(@template(model: @model))
 
-  onLoginBtnClick: ->
+  onSubmitBtnClick: ->
     @model.set('email', @$el.find('#email').val())
     @model.set('password', @$el.find('#password').val())
     @model.save()
     false
 
-  onRegisterBtnClick: ->
+  onSignUpBtnClick: ->
     @$el.modal('hide')
-    Langtrainer.LangtrainerApp.navigate('register', trigger: true)
+    Langtrainer.LangtrainerApp.navigateToSignUp()
     false
 
-  onUserSignedIn: (user)->
+  onUserSignedIn: ->
     @$el.modal('hide')
 
   onHiddenModal: ->

@@ -13,17 +13,10 @@ class Langtrainer.LangtrainerApp.Views.NavbarControl extends Backbone.View
     @$el.html(@template())
     @
 
-  onLoginBtnClick: ->
+  onSignInBtnClick: ->
     Langtrainer.LangtrainerApp.navigateToSignIn()
     false
 
-  onRegisterBtnClick: ->
+  onSignUpBtnClick: ->
     Langtrainer.LangtrainerApp.navigateToSignUp()
     false
-
-  onSearchClick: ->
-    term = $.trim(@$('input[name=q]').val())
-    if term.length > 0
-      @$('.search-form').submit()
-
-

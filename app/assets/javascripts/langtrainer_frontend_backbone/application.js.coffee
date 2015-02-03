@@ -4,6 +4,7 @@
 #= require_tree ./models
 #= require_tree ./collections
 #= require_tree ./templates
+#= require_tree ./views/extensions
 #= require_tree ./views
 #= require_tree ./routers
 
@@ -53,10 +54,10 @@ window.Langtrainer.LangtrainerApp =
     @navigate('/')
 
   navigateToSignIn: ->
-    @navigate('/sign_in', trigger: true)
+    @navigate('sign_in', trigger: true)
 
   navigateToSignUp: ->
-    @navigate('/sign_up', trigger: true)
+    @navigate('sign_up', trigger: true)
 
   clearCookies: ->
     _.each $.cookie(), (value, key) ->

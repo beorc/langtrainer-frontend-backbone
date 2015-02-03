@@ -10,6 +10,7 @@
 //= require bootstrap-select
 //= require bootstrap/alert
 //= require bootstrap/dropdown
+//= require bootstrap/modal
 //= require tilt-jade/runtime
 //= require ./langtrainer_frontend_backbone/application
 

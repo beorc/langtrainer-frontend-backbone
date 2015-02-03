@@ -22,4 +22,4 @@ class Langtrainer.LangtrainerApp.Models.User.Registration extends Backbone.Model
       return errors
 
   onSignedUp: ->
-    Langtrainer.LangtrainerApp.globalBus.trigger('user:signedUp', @get('email'))
+    Langtrainer.LangtrainerApp.globalBus.trigger('user:signedUp', @)
