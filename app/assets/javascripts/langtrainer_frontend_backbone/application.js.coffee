@@ -55,7 +55,9 @@ window.Langtrainer.LangtrainerApp =
   navigateToSignIn: ->
     @navigate('/sign_in', trigger: true)
 
+  navigateToSignUp: ->
+    @navigate('/sign_up', trigger: true)
+
   clearCookies: ->
     _.each $.cookie(), (value, key) ->
       $.removeCookie(key)
-
