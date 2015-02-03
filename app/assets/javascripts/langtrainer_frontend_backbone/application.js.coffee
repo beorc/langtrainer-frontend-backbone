@@ -29,8 +29,7 @@ window.Langtrainer.LangtrainerApp =
 
     @apiEndpoint = initialData.apiEndpoint
     @world = new Langtrainer.LangtrainerApp.Models.World
-    @setUpCurrentUser(model: initialData.currentUser)
-    @currentUser = new Langtrainer.LangtrainerApp.Models.User(model: initialData.currentUser)
+    @setUpCurrentUser(initialData.currentUser)
 
     @world.fetch(success: successCallback, error: errorCallback)
 
@@ -43,7 +42,7 @@ window.Langtrainer.LangtrainerApp =
     Backbone.history.start()
 
   setUpCurrentUser: (attrs)->
-    @currentUser = new Langtrainer.LangtrainerApp.Models.User(attrs)
+    @currentUser = new Langtrainer.LangtrainerApp.Models.User(model: attrs)
 
   navigate: (fragment, options)->
     scroll = $(window).scrollTop()

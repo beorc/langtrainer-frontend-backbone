@@ -5,6 +5,8 @@
         span(aria-hidden='true') &times;
       h4.modal-title Sign up
     .modal-body
+      if model.validationErrorFor('serverError')
+        .alert.alert-danger= model.validationErrorFor('serverError')
       form(role='form')
         .form-group(class=model.validationErrorFor('email') ? 'has-error' : null)
           label.control-label(for='email') E-mail
@@ -17,8 +19,8 @@
           if model.validationErrorFor('password')
             p.help-block= model.validationErrorFor('password')
         .form-group(class=model.validationErrorFor('password_confirmation') ? 'has-error' : null)
-          label.control-label(for='password_confirmation') Password
-          input#password-confirmation.form-control(type='password', autocomplete='off', name='password_confirmation', value=model.get('password_confirmation'))
+          label.control-label(for='password_confirmation') Password confirmation
+          input#password_confirmation.form-control(type='password', autocomplete='off', name='password_confirmation', value=model.get('password_confirmation'))
           if model.validationErrorFor('password_confirmation')
             p.help-block= model.validationErrorFor('password_confirmation')
 

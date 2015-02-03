@@ -13,7 +13,7 @@ class Langtrainer.LangtrainerApp.Views.Dialogs.SignIn extends Backbone.View
     @model = new Langtrainer.LangtrainerApp.Models.User.Session
     @model.set('authenticity_token', Langtrainer.LangtrainerApp.csrfToken)
 
-    @listenTo @model, 'error:unprocessable', @reRender, @
+    @listenTo @model, 'error:unprocessable error:internal_server_error', @reRender, @
     @listenTo @model, 'invalid', @reRender, @
 
     Langtrainer.LangtrainerApp.globalBus.once 'user:signedIn', @onUserSignedIn, @
