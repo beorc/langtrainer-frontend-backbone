@@ -1,5 +1,5 @@
 #= require_self
-#= require ./backbone_cors_patch
+#= require ./backbone_patch
 #= require_tree ./models/extensions
 #= require_tree ./models
 #= require_tree ./collections
@@ -25,6 +25,8 @@ window.Langtrainer.LangtrainerApp =
   apiEndpoint: ''
 
   run: (initialData, successCallback, errorCallback)->
+    @csrfToken = $("meta[name='csrf-token']").attr('content')
+
     @apiEndpoint = initialData.apiEndpoint
     @world = new Langtrainer.LangtrainerApp.Models.World
     @setUpCurrentUser(model: initialData.currentUser)

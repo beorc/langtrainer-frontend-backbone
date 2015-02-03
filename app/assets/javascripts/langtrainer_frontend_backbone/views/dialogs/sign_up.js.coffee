@@ -11,6 +11,8 @@ class Langtrainer.LangtrainerApp.Views.Dialogs.SignUp extends Backbone.View
 
   initialize: (options) ->
     @model = new Langtrainer.LangtrainerApp.Models.User.Registration
+    @model.set('authenticity_token', Langtrainer.LangtrainerApp.csrfToken)
+
     @listenTo @model, 'error:unprocessable', @reRender, @
     @listenTo @model, 'invalid', @reRender, @
 
