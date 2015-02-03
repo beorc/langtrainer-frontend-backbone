@@ -1,0 +1,29 @@
+.modal-dialog
+  .modal-content
+    .modal-header
+      button.close(type='button', data-dismiss='modal')
+        span(aria-hidden='true') &times;
+      h4.modal-title Sign up
+    .modal-body
+      form(role='form')
+        .form-group(class=model.validationErrorFor('email') ? 'has-error' : null)
+          label.control-label(for='email') E-mail
+          input#email.form-control(type='email', name='email', value=model.get('email'))
+          if model.validationErrorFor('email')
+            p.help-block= model.validationErrorFor('email')
+        .form-group(class=model.validationErrorFor('password') ? 'has-error' : null)
+          label.control-label(for='password') Password
+          input#password.form-control(type='password', autocomplete='off', name='password', value=model.get('password'))
+          if model.validationErrorFor('password')
+            p.help-block= model.validationErrorFor('password')
+        .form-group(class=model.validationErrorFor('password_confirmation') ? 'has-error' : null)
+          label.control-label(for='password_confirmation') Password
+          input#password-confirmation.form-control(type='password', autocomplete='off', name='password_confirmation', value=model.get('password_confirmation'))
+          if model.validationErrorFor('password_confirmation')
+            p.help-block= model.validationErrorFor('password_confirmation')
+
+        .actions
+          button.btn.btn-primary.js-submit(type='submit') Sign up
+    .modal-outlet
+      Already registered?
+      a.btn.btn-primary.sign-in-btn(href='#', rel='nofollow') Sign in
