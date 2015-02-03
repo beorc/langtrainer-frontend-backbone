@@ -1,7 +1,11 @@
 class Langtrainer.LangtrainerApp.Models.User extends Backbone.Model
   initialize: ->
     @listenTo @, 'change:token change:current_course_slug change:language_slug change:native_language_slug change:question_help_enabled', @onChanged
-    @listenTo Langtrainer.LangtrainerApp.world, 'change:token', @onWorldChanged
+
+    if Langtrainer.LangtrainerApp.world.has('token')
+      @onWorldChanged(Langtrainer.LangtrainerApp.world)
+    else
+      @listenTo Langtrainer.LangtrainerApp.world, 'change:token', @onWorldChanged
 
   readAttribute: (attrName) ->
     @get(attrName) || $.cookie(attrName)

@@ -13,6 +13,7 @@ window.Langtrainer.LangtrainerApp =
   Collections: {}
   Views:
     Extensions: {}
+    Dialogs: {}
   Routers: {}
 
   commonRouter: null
@@ -25,13 +26,21 @@ window.Langtrainer.LangtrainerApp =
   run: (initialData, successCallback, errorCallback)->
     @apiEndpoint = initialData.apiEndpoint
     @world = new Langtrainer.LangtrainerApp.Models.World
+    @setUpCurrentUser(model: initialData.currentUser)
     @currentUser = new Langtrainer.LangtrainerApp.Models.User(model: initialData.currentUser)
 
     @world.fetch(success: successCallback, error: errorCallback)
 
     @commonRouter = new Langtrainer.LangtrainerApp.Routers.CommonRouter
 
+    @globalBus.on 'user:signedIn', @setUpCurrentUser, @
+    @globalBus.on 'signInDialog:hidden', @navigateRoot, @
+    @globalBus.on 'signUpDialog:hidden', @navigateRoot, @
+
     Backbone.history.start()
+
+  setUpCurrentUser: (attrs)->
+    @currentUser = new Langtrainer.LangtrainerApp.Models.User(attrs)
 
   navigate: (fragment, options)->
     scroll = $(window).scrollTop()
@@ -42,6 +51,9 @@ window.Langtrainer.LangtrainerApp =
 
   navigateRoot: ->
     @navigate('/')
+
+  navigateToSignIn: ->
+    @navigate('/sign_in', trigger: true)
 
   clearCookies: ->
     _.each $.cookie(), (value, key) ->
