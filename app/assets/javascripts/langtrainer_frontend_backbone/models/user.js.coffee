@@ -1,5 +1,8 @@
 class Langtrainer.LangtrainerApp.Models.User extends Backbone.Model
+  url: '/api/users/user'
+
   initialize: ->
+    @set('authenticity_token', Langtrainer.LangtrainerApp.csrfToken)
     @listenTo @, 'change:token change:current_course_slug change:language_slug change:native_language_slug change:question_help_enabled', @onChanged
 
     if Langtrainer.LangtrainerApp.world.has('token')

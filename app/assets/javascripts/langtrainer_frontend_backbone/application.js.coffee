@@ -29,20 +29,21 @@ window.Langtrainer.LangtrainerApp =
 
     @apiEndpoint = initialData.apiEndpoint
     @world = new Langtrainer.LangtrainerApp.Models.World
-    @setUpCurrentUser(initialData.currentUser)
+    @setUpCurrentUser(JSON.parse(initialData.currentUser || '{}'))
 
     @world.fetch(success: successCallback, error: errorCallback)
 
     @commonRouter = new Langtrainer.LangtrainerApp.Routers.CommonRouter
 
     @globalBus.on 'user:signedIn', @setUpCurrentUser, @
+    @globalBus.on 'user:signedOut', => @setUpCurrentUser({}), @
     @globalBus.on 'signInDialog:hidden', @navigateRoot, @
     @globalBus.on 'signUpDialog:hidden', @navigateRoot, @
 
     Backbone.history.start()
 
   setUpCurrentUser: (attrs)->
-    @currentUser = new Langtrainer.LangtrainerApp.Models.User(model: attrs)
+    @currentUser = new Langtrainer.LangtrainerApp.Models.User(attrs)
 
   navigate: (fragment, options)->
     scroll = $(window).scrollTop()
