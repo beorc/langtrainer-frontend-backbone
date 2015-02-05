@@ -105,6 +105,7 @@ class Langtrainer.LangtrainerApp.Views.StepView extends Backbone.View
 
   onQuestionHelpToggle: ->
     Langtrainer.LangtrainerApp.currentUser.toggleQuestionHelp()
+    false
 
   onQuestionHelpChanged: ->
     if Langtrainer.LangtrainerApp.currentUser.questionHelpEnabled()

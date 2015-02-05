@@ -15,7 +15,15 @@ class Langtrainer.LangtrainerApp.Models.User extends Backbone.Model
       @listenTo Langtrainer.LangtrainerApp.world, 'change:token', @onWorldChanged
 
   readAttribute: (attrName) ->
-    @get(attrName) || $.cookie(attrName)
+    attrValue = @get(attrName)
+    result = null
+
+    if attrValue?
+      result = attrValue
+    else
+      result = $.cookie(attrName)
+
+    result
 
   onWorldChanged: (world) ->
     @set('token', world.get('token'))
@@ -71,11 +79,16 @@ class Langtrainer.LangtrainerApp.Models.User extends Backbone.Model
 
   toggleQuestionHelp: ->
     enabled = @questionHelpEnabled()
-    @set('question_help_enabled', String(!enabled))
+    @set('question_help_enabled', !enabled)
 
   questionHelpEnabled: ->
-    enabled = @readAttribute('question_help_enabled') || 'true'
-    enabled == 'true'
+    attrValue = @readAttribute('question_help_enabled')
+    if attrValue?
+      enabled = attrValue
+    else
+      enabled = true
+
+    enabled == true || enabled == 'true'
 
   signOut: ->
     options =
