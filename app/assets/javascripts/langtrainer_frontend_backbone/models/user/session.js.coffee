@@ -1,10 +1,11 @@
 class Langtrainer.LangtrainerApp.Models.User.Session extends Backbone.Model
   _.extend(@prototype, Langtrainer.LangtrainerApp.Models.Extensions.Validation)
+  _.extend(@prototype, Langtrainer.LangtrainerApp.Models.Extensions.Csrf)
 
   url: '/api/users/session'
 
   initialize: ->
-    @set('authenticity_token', Langtrainer.LangtrainerApp.csrfToken)
+    @initCsrf()
     @on 'error', @handleServerSideValidation, @
     @on 'sync', @onSignedIn, @
 
@@ -20,4 +21,4 @@ class Langtrainer.LangtrainerApp.Models.User.Session extends Backbone.Model
       return errors
 
   onSignedIn: ->
-    Langtrainer.LangtrainerApp.globalBus.trigger('user:signedIn', @)
+    Langtrainer.LangtrainerApp.globalBus.trigger('user:signedIn', @get('user'))

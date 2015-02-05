@@ -25,25 +25,39 @@ window.Langtrainer.LangtrainerApp =
   apiEndpoint: ''
 
   run: (initialData, successCallback, errorCallback)->
-    @csrfToken = $("meta[name='csrf-token']").attr('content')
-
     @apiEndpoint = initialData.apiEndpoint
-    @world = new Langtrainer.LangtrainerApp.Models.World
-    @setUpCurrentUser(JSON.parse(initialData.currentUser || '{}'))
-
-    @world.fetch(success: successCallback, error: errorCallback)
 
     @commonRouter = new Langtrainer.LangtrainerApp.Routers.CommonRouter
 
-    @globalBus.on 'user:signedIn', @setUpCurrentUser, @
-    @globalBus.on 'user:signedOut', => @setUpCurrentUser({}), @
+    onSignedIn = (userAttributes) =>
+      @reset(userAttributes, successCallback, errorCallback)
+
+    onSignedOut = (userAttributes) =>
+      @reset(userAttributes, successCallback, errorCallback)
+
+    @globalBus.on 'user:signedUp', @onSignedUp, @
+    @globalBus.on 'user:signedIn', onSignedIn, @
+    @globalBus.on 'user:signedOut', onSignedOut, @
     @globalBus.on 'signInDialog:hidden', @navigateRoot, @
     @globalBus.on 'signUpDialog:hidden', @navigateRoot, @
 
+    @reset(initialData.currentUser, successCallback, errorCallback)
+
     Backbone.history.start()
 
-  setUpCurrentUser: (attrs)->
-    @currentUser = new Langtrainer.LangtrainerApp.Models.User(attrs)
+  reset: (userAttributes, successCallback, errorCallback) ->
+    @world = new Langtrainer.LangtrainerApp.Models.World
+    @currentUser = new Langtrainer.LangtrainerApp.Models.User(userAttributes)
+
+    @world.fetch(success: successCallback, error: errorCallback)
+
+    Langtrainer.LangtrainerApp.globalBus.trigger('app:reset')
+
+  onSignedUp: (userAttributes)->
+    @currentUser.set('email', userAttributes.email)
+    @currentUser.set('csrf_param', userAttributes.csrf_param)
+    @currentUser.set('csrf_token', userAttributes.csrf_token)
+    @currentUser.save()
 
   navigate: (fragment, options)->
     scroll = $(window).scrollTop()

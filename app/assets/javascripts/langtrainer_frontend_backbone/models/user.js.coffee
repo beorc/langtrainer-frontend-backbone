@@ -1,8 +1,12 @@
 class Langtrainer.LangtrainerApp.Models.User extends Backbone.Model
+  _.extend(@prototype, Langtrainer.LangtrainerApp.Models.Extensions.Csrf)
+
   url: '/api/users/user'
 
   initialize: ->
-    @set('authenticity_token', Langtrainer.LangtrainerApp.csrfToken)
+    Langtrainer.LangtrainerApp.globalBus.once 'app:reset', @initCsrf, @
+    @listenTo @, 'change:csrf_token', @initCsrf
+
     @listenTo @, 'change:token change:current_course_slug change:language_slug change:native_language_slug change:question_help_enabled', @onChanged
 
     if Langtrainer.LangtrainerApp.world.has('token')
@@ -72,3 +76,18 @@ class Langtrainer.LangtrainerApp.Models.User extends Backbone.Model
   questionHelpEnabled: ->
     enabled = @readAttribute('question_help_enabled') || 'true'
     enabled == 'true'
+
+  signOut: ->
+    options =
+      url: '/api/users/sign_out'
+      method: 'delete'
+      dataType: 'json'
+      success: (response) ->
+        Langtrainer.LangtrainerApp.globalBus.trigger('user:signedOut', response.user)
+      error: ->
+        alert('Oops... Something went wrong!')
+
+    options.headers = {}
+    options.headers['X-CSRF-Token'] = @get('csrf_token')
+
+    $.ajax options

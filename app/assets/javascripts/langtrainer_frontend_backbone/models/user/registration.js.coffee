@@ -1,10 +1,11 @@
 class Langtrainer.LangtrainerApp.Models.User.Registration extends Backbone.Model
-  _.extend(this.prototype, Langtrainer.LangtrainerApp.Models.Extensions.Validation)
+  _.extend(@prototype, Langtrainer.LangtrainerApp.Models.Extensions.Validation)
+  _.extend(@prototype, Langtrainer.LangtrainerApp.Models.Extensions.Csrf)
 
   url: '/api/users/registration'
 
   initialize: ->
-    @set('authenticity_token', Langtrainer.LangtrainerApp.csrfToken)
+    @initCsrf()
     @on 'error', @handleServerSideValidation, @
     @on 'sync', @onSignedUp, @
 
@@ -23,5 +24,4 @@ class Langtrainer.LangtrainerApp.Models.User.Registration extends Backbone.Model
       return errors
 
   onSignedUp: ->
-    Langtrainer.LangtrainerApp.globalBus.trigger('user:signedUp', @)
-    Langtrainer.LangtrainerApp.globalBus.trigger('user:signedIn', @)
+    Langtrainer.LangtrainerApp.globalBus.trigger('user:signedUp', @get('user'))

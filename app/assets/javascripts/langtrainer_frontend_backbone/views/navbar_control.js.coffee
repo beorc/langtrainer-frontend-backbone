@@ -8,7 +8,7 @@ class Langtrainer.LangtrainerApp.Views.NavbarControl extends Backbone.View
     'click .sign-out-btn': 'onSignOutBtnClick'
 
   initialize: ->
-    Langtrainer.LangtrainerApp.globalBus.once 'user:signedIn user:signdeOut', @render, @
+    Langtrainer.LangtrainerApp.globalBus.once 'user:signedIn user:signedOut', @render, @
 
   render: ->
     @$el.html(@template())
@@ -23,12 +23,5 @@ class Langtrainer.LangtrainerApp.Views.NavbarControl extends Backbone.View
     false
 
   onSignOutBtnClick: ->
-    $.ajax
-      url: '/api/users/sign_out'
-      method: 'delete'
-      dataType: 'json'
-      success: ->
-        Langtrainer.LangtrainerApp.globalBus.trigger('user:signedOut')
-      error: ->
-        alert('Oops... Something went wrong!')
+    Langtrainer.LangtrainerApp.currentUser.signOut()
     false
