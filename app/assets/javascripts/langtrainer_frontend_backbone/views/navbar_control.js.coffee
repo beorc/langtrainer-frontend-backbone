@@ -8,7 +8,7 @@ class Langtrainer.LangtrainerApp.Views.NavbarControl extends Backbone.View
     'click .sign-out-btn': 'onSignOutBtnClick'
 
   initialize: ->
-    Langtrainer.LangtrainerApp.globalBus.once 'user:signedIn user:signedOut', @render, @
+    Langtrainer.LangtrainerApp.globalBus.once 'user:signedUp user:signedIn user:signedOut', @render, @
 
   render: ->
     @$el.html(@template())

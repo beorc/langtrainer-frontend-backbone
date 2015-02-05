@@ -54,6 +54,7 @@ window.Langtrainer.LangtrainerApp =
     Langtrainer.LangtrainerApp.globalBus.trigger('app:reset')
 
   onSignedUp: (userAttributes)->
+    @currentUser.set('id', userAttributes.id)
     @currentUser.set('email', userAttributes.email)
     @currentUser.set('csrf_param', userAttributes.csrf_param)
     @currentUser.set('csrf_token', userAttributes.csrf_token)
