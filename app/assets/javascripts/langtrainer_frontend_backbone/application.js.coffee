@@ -26,6 +26,7 @@ window.Langtrainer.LangtrainerApp =
 
   run: (initialData, successCallback, errorCallback)->
     @apiEndpoint = initialData.apiEndpoint
+    @authApiEndpoint = initialData.authApiEndpoint
 
     @commonRouter = new Langtrainer.LangtrainerApp.Routers.CommonRouter
 

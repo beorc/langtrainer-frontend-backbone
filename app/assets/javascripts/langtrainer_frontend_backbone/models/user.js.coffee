@@ -1,7 +1,7 @@
 class Langtrainer.LangtrainerApp.Models.User extends Backbone.Model
   _.extend(@prototype, Langtrainer.LangtrainerApp.Models.Extensions.Csrf)
 
-  url: '/api/users/user'
+  url: -> Langtrainer.LangtrainerApp.authApiEndpoint + '/api/users/user'
 
   initialize: ->
     Langtrainer.LangtrainerApp.globalBus.once 'app:reset', @initCsrf, @

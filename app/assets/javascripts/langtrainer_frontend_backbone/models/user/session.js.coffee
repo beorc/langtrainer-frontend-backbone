@@ -2,7 +2,7 @@ class Langtrainer.LangtrainerApp.Models.User.Session extends Backbone.Model
   _.extend(@prototype, Langtrainer.LangtrainerApp.Models.Extensions.Validation)
   _.extend(@prototype, Langtrainer.LangtrainerApp.Models.Extensions.Csrf)
 
-  url: '/api/users/session'
+  url: -> Langtrainer.LangtrainerApp.authApiEndpoint + '/api/users/session'
 
   initialize: ->
     @initCsrf()

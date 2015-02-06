@@ -2,7 +2,7 @@ class Langtrainer.LangtrainerApp.Models.User.Registration extends Backbone.Model
   _.extend(@prototype, Langtrainer.LangtrainerApp.Models.Extensions.Validation)
   _.extend(@prototype, Langtrainer.LangtrainerApp.Models.Extensions.Csrf)
 
-  url: '/api/users/registration'
+  url: -> Langtrainer.LangtrainerApp.authApiEndpoint + '/api/users/registration'
 
   initialize: ->
     @initCsrf()

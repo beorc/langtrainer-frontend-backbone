@@ -39,19 +39,20 @@ class Langtrainer.LangtrainerApp.Models.Step extends Backbone.Model
   answers: (language) ->
     @get("#{language.get('slug')}_answers").split('|')
 
-  prepareAnswer: (answer) ->
-    answer.replace(/\s{2,}/g, ' ')
+  sanitizeText: (text) ->
+    result = text.replace(/\s{2,}/g, ' ')
+    result.replace(/(\n\r|\n|\r)/g, '')
 
   questionHelp: (language) ->
     @get("#{language.get('slug')}_help")
 
   matches: (answer, rightAnswer) ->
-    answerRegexp = XRegExp("^#{@prepareAnswer(answer)}", 'i')
-    answerRegexp.exec rightAnswer
+    answerRegexp = XRegExp("^#{@sanitizeText(answer)}", 'i')
+    answerRegexp.exec @sanitizeText(rightAnswer)
 
   nextWordMatches: (answer, rightAnswer) ->
-    answerRegexp = XRegExp("^#{@prepareAnswer(answer)}([\\p{L}\\p{P}]*)\\s*([\\p{L}\\p{P}]*)")
-    answerRegexp.exec rightAnswer
+    answerRegexp = XRegExp("^#{@sanitizeText(answer)}([\\p{L}\\p{P}]*)\\s*([\\p{L}\\p{P}]*)")
+    answerRegexp.exec @sanitizeText(rightAnswer)
 
   verifyAnswer: (answer, language, context) ->
     that = @
