@@ -2,6 +2,7 @@
 //= require underscore
 //= require underscore.string
 //= require backbone
+//= require backbone-loading
 //= require sticky.full
 //= require jquery.cookie
 //= require xregexp
