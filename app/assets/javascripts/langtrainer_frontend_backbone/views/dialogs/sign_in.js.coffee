@@ -12,8 +12,7 @@ class Langtrainer.LangtrainerApp.Views.Dialogs.SignIn extends Backbone.View
   initialize: ->
     @model = new Langtrainer.LangtrainerApp.Models.User.Session
 
-    @listenTo @model, 'error:unprocessable error:internal_server_error', @reRender, @
-    @listenTo @model, 'invalid', @reRender, @
+    @listenTo @model, 'error:unprocessable error:internal_server_error invalid', @reRender, @
 
     Langtrainer.LangtrainerApp.globalBus.once 'user:signedIn', @onUserSignedIn, @
 

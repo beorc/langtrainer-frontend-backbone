@@ -1,0 +1,29 @@
+.modal-dialog
+  .modal-content
+    .modal-header
+      button.close(type='button', data-dismiss='modal')
+        span(aria-hidden='true') &times;
+      h4.modal-title Сообщение
+    .modal-body
+      .step-a
+        if model.validationErrorFor('serverError')
+          .alert.alert-danger= model.validationErrorFor('serverError')
+        form(role='form')
+          .form-group.required(class=view.buildClassFor('email'))
+            label.control-label(for='email')
+              span E-mail
+            input#email.form-control(type='email', value=model.get('email'))
+            if model.validationErrorFor('email')
+              p.help-block= model.validationErrorFor('email')
+          .form-group.required(class=model.validationErrorFor('message') ? 'has-error' : null)
+            label.control-label(for='message') Message
+            textarea#message.form-control(type='message', rows=7)=model.get('message')
+            if model.validationErrorFor('message')
+              p.help-block= model.validationErrorFor('message')
+
+          .actions
+            button.btn.btn-primary.js-submit(type='submit') Send
+      .step-b
+        p Your message has been successfully sent!
+        .actions
+          button.btn.btn-primary.js-close Close

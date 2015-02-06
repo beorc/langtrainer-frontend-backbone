@@ -41,6 +41,7 @@ window.Langtrainer.LangtrainerApp =
     @globalBus.on 'user:signedOut', onSignedOut, @
     @globalBus.on 'signInDialog:hidden', @navigateRoot, @
     @globalBus.on 'signUpDialog:hidden', @navigateRoot, @
+    @globalBus.on 'feedbackDialog:hidden', @navigateRoot, @
 
     @reset(initialData.currentUser, successCallback, errorCallback)
 
@@ -76,6 +77,9 @@ window.Langtrainer.LangtrainerApp =
 
   navigateToSignUp: ->
     @navigate('sign_up', trigger: true)
+
+  navigateToFeedback: ->
+    @navigate('feedback', trigger: true)
 
   clearCookies: ->
     _.each $.cookie(), (value, key) ->
