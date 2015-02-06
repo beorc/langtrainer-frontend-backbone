@@ -5,6 +5,7 @@ class Langtrainer.LangtrainerApp.Views.StepView extends Backbone.View
 
   events:
     'keyup .lt-answer': 'onKeyup'
+    'keypress .lt-answer': 'onKeypress'
     'click .lt-show-next-word': 'onShowNextWord'
     'click .lt-check-answer': 'onCheckAnswer'
     'click .lt-show-right-answer': 'onShowRightAnswer'
@@ -51,8 +52,16 @@ class Langtrainer.LangtrainerApp.Views.StepView extends Backbone.View
   currentNativeLanguage: ->
     Langtrainer.LangtrainerApp.currentUser.getCurrentNativeLanguage()
 
+  onKeypress: (event) ->
+    if event.which is 13
+      return false
+
+    true
+
   onKeyup: (event) ->
-    if event.which != 13
+    if event.which is 13
+      @onCheckAnswer()
+    else
       @model.verifyAnswer(@$input.val(), @currentLanguage(), 'keyup')
     true
 
