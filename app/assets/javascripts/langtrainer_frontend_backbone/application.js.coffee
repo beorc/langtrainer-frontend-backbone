@@ -47,8 +47,8 @@ window.Langtrainer.LangtrainerApp =
     Backbone.history.start()
 
   reset: (userAttributes, successCallback, errorCallback) ->
-    @world = new Langtrainer.LangtrainerApp.Models.World
-    @currentUser = new Langtrainer.LangtrainerApp.Models.User(userAttributes)
+    @world ?= new Langtrainer.LangtrainerApp.Models.World
+    @currentUser ?= new Langtrainer.LangtrainerApp.Models.User(userAttributes)
 
     @world.fetch(success: successCallback, error: errorCallback)
 
