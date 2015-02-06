@@ -1,4 +1,4 @@
-class Langtrainer.LangtrainerApp.Views.FeedbackPopup extends Backbone.View
+class Langtrainer.LangtrainerApp.Views.Dialogs.Feedback extends Backbone.View
   _.extend(@prototype, Langtrainer.LangtrainerApp.Views.Extensions.Modal)
 
   template: JST['langtrainer_frontend_backbone/templates/dialogs/feedback']
@@ -15,7 +15,7 @@ class Langtrainer.LangtrainerApp.Views.FeedbackPopup extends Backbone.View
     @listenTo @model, 'sync', @onFeedbackCreated, @
 
   renderForm: ->
-    $(@el).html(@template(model: @model))
+    $(@el).html(@template(model: @model, view: @))
 
   onSubmitBtnClick: ->
     @model.set('email', $.trim($(@el).find('#email').val()))

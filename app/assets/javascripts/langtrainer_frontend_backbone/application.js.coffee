@@ -31,10 +31,10 @@ window.Langtrainer.LangtrainerApp =
     @commonRouter = new Langtrainer.LangtrainerApp.Routers.CommonRouter
 
     onSignedIn = (userAttributes) =>
-      @reset(userAttributes, successCallback, errorCallback)
+      @reset(userAttributes, {}, successCallback, errorCallback)
 
     onSignedOut = (userAttributes) =>
-      @reset(userAttributes, successCallback, errorCallback)
+      @reset(userAttributes, {}, successCallback, errorCallback)
 
     @globalBus.on 'user:signedUp', @onSignedUp, @
     @globalBus.on 'user:signedIn', onSignedIn, @
@@ -43,13 +43,13 @@ window.Langtrainer.LangtrainerApp =
     @globalBus.on 'signUpDialog:hidden', @navigateRoot, @
     @globalBus.on 'feedbackDialog:hidden', @navigateRoot, @
 
-    @reset(initialData.currentUser, successCallback, errorCallback)
+    @reset(initialData.currentUser, {}, successCallback, errorCallback)
 
     Backbone.history.start()
 
-  reset: (userAttributes, successCallback, errorCallback) ->
-    @world ?= new Langtrainer.LangtrainerApp.Models.World
-    @currentUser ?= new Langtrainer.LangtrainerApp.Models.User(userAttributes)
+  reset: (userAttributes, worldAttributes, successCallback, errorCallback) ->
+    @world = new Langtrainer.LangtrainerApp.Models.World(worldAttributes)
+    @currentUser = new Langtrainer.LangtrainerApp.Models.User(userAttributes)
 
     @world.fetch(success: successCallback, error: errorCallback)
 
