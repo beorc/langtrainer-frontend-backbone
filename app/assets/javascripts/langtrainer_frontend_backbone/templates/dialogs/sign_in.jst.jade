@@ -10,12 +10,12 @@
       if model.validationErrorFor('serverError')
         .alert.alert-danger= model.validationErrorFor('serverError')
       form(role='form')
-        .form-group(class=model.validationErrorFor('email') ? 'has-error' : null)
+        .form-group.email(class=model.validationErrorFor('email') ? 'has-error' : null)
           label.control-label(for='email') E-mail
           input#email.form-control(type='email', value=model.get('email'), spellcheck='false')
           if model.validationErrorFor('email')
             p.help-block= model.validationErrorFor('email')
-        .form-group(class=model.validationErrorFor('password') ? 'has-error' : null)
+        .form-group.password(class=model.validationErrorFor('password') ? 'has-error' : null)
           label.control-label(for='password') Password
           input#password.form-control(type='password')
           if model.validationErrorFor('password')

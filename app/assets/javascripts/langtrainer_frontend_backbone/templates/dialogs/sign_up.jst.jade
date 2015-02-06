@@ -8,17 +8,17 @@
       if model.validationErrorFor('serverError')
         .alert.alert-danger= model.validationErrorFor('serverError')
       form(role='form')
-        .form-group(class=model.validationErrorFor('email') ? 'has-error' : null)
+        .form-group.email(class=model.validationErrorFor('email') ? 'has-error' : null)
           label.control-label(for='email') E-mail
           input#email.form-control(type='email', name='email', value=model.get('email'), spellcheck='false')
           if model.validationErrorFor('email')
             p.help-block= model.validationErrorFor('email')
-        .form-group(class=model.validationErrorFor('password') ? 'has-error' : null)
+        .form-group.password(class=model.validationErrorFor('password') ? 'has-error' : null)
           label.control-label(for='password') Password
           input#password.form-control(type='password', autocomplete='off', name='password', value=model.get('password'))
           if model.validationErrorFor('password')
             p.help-block= model.validationErrorFor('password')
-        .form-group(class=model.validationErrorFor('password_confirmation') ? 'has-error' : null)
+        .form-group.password-confirmation(class=model.validationErrorFor('password_confirmation') ? 'has-error' : null)
           label.control-label(for='password_confirmation') Password confirmation
           input#password_confirmation.form-control(type='password', autocomplete='off', name='password_confirmation', value=model.get('password_confirmation'))
           if model.validationErrorFor('password_confirmation')
