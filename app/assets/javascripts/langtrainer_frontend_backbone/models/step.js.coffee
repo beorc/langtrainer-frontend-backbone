@@ -40,8 +40,9 @@ class Langtrainer.LangtrainerApp.Models.Step extends Backbone.Model
     @get("#{language.get('slug')}_answers").split('|')
 
   sanitizeText: (text) ->
-    result = text.replace(/\s{2,}/g, ' ')
-    result.replace(/(\n\r|\n|\r)/g, '')
+    result = text
+    result = result.replace(/(\n\r|\n|\r)/g, ' ')
+    result = result.replace(/\s{2,}/g, ' ')
 
   questionHelp: (language) ->
     @get("#{language.get('slug')}_help")
@@ -91,7 +92,7 @@ class Langtrainer.LangtrainerApp.Models.Step extends Backbone.Model
   verifyAnswerOnServer: (answer, language) ->
     that = @
     $.ajax
-      url: @verifyAnswerUrl(answer)
+      url: @verifyAnswerUrl(@sanitizeText(answer))
       dataType: 'json'
       success: (response) ->
         if response
