@@ -3,6 +3,9 @@ class Langtrainer.LangtrainerApp.Views.StepView extends Backbone.View
   className: 'row'
   id: 'step-view'
 
+  STEPS_NUMBER_TO_SUGGEST_SIGN_UP: 10
+  stepsCounter: 0
+
   events:
     'keyup .lt-answer': 'onKeyup'
     'keypress .lt-answer': 'onKeypress'
@@ -13,9 +16,9 @@ class Langtrainer.LangtrainerApp.Views.StepView extends Backbone.View
     'click .lt-question-help-toggle': 'onQuestionHelpToggle'
 
   initialize: ->
-    @listenTo Langtrainer.LangtrainerApp.world.get('step'), 'change', @render
-    @listenTo Langtrainer.LangtrainerApp.world.get('language'), 'change', @render
-    @listenTo Langtrainer.LangtrainerApp.world.get('nativeLanguage'), 'change', @render
+    @listenTo Langtrainer.LangtrainerApp.world.get('step'), 'change', @renderStep
+    @listenTo Langtrainer.LangtrainerApp.world.get('language'), 'change', @renderStep
+    @listenTo Langtrainer.LangtrainerApp.world.get('nativeLanguage'), 'change', @renderStep
 
     @listenTo Langtrainer.LangtrainerApp.currentUser, 'change:question_help_enabled', @onQuestionHelpChanged
 
@@ -30,12 +33,19 @@ class Langtrainer.LangtrainerApp.Views.StepView extends Backbone.View
   render: ->
     @$el.html(@template())
     @$input = @$('.lt-answer')
-    @$('.lt-question').text(@model.question(@currentNativeLanguage()))
     @$('.lt-check-answer').closest('li').popover
       title: ''
       content: 'Next time press Return (Enter) key to check the answer'
       placement: 'top'
+      trigger: 'manual'
 
+    @renderStep()
+
+    @
+
+  renderStep: ->
+    @$('.lt-question').text(@model.question(@currentNativeLanguage()))
+    @$('.lt-answer').val('')
     @onQuestionHelpChanged()
 
     questionHelp = @model.questionHelp(@currentLanguage())
@@ -100,7 +110,7 @@ class Langtrainer.LangtrainerApp.Views.StepView extends Backbone.View
 
   onShowRightAnswer: ->
     _.each @model.answers(@currentLanguage()), (rightAnswer, index) ->
-      @$('.lt-answer-notification').sticky("Answer ##{index + 1}: #{rightAnswer}", autoclose: false)
+      @$('.lt-answer-notification').sticky("Answer ##{index + 1}: #{rightAnswer}", autoclose: 10000)
 
     @model.showRightAnswer()
     false
@@ -114,14 +124,21 @@ class Langtrainer.LangtrainerApp.Views.StepView extends Backbone.View
 
   onCheckAnswer: ->
     @verifyAnswerOnServer()
+    @showHotkeyPopover()
+    false
+
+  showHotkeyPopover: ->
     @$('.lt-check-answer').closest('li').popover('show')
     close = =>
       @$('.lt-check-answer').closest('li').popover('hide')
     setTimeout(close, 3000)
-    false
 
   onVerifyRight: ->
     @$('.lt-answer-notification').sticky('Right answer!')
+    @stepsCounter += 1
+    if @stepsCounter > @STEPS_NUMBER_TO_SUGGEST_SIGN_UP
+      @stepsCounter = 0
+      @$('.lt-answer-notification').sticky("Please <a href='/#sign_up'>sign up</a>, if you want to save your progress and effectively optimize your personal learning experience.", autoclose: 10000)
 
   onVerifyWrong: ->
     @$('.lt-answer-notification').sticky('Wrong answer. Lets try again!')
