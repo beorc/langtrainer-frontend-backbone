@@ -101,6 +101,6 @@ class Langtrainer.LangtrainerApp.Models.User extends Backbone.Model
         alert('Oops... Something went wrong!')
 
     options.headers = {}
-    options.headers['X-CSRF-Token'] = @get('csrf_token')
+    options.headers['X-CSRF-Token'] = @csrfToken()
 
     $.ajax options
