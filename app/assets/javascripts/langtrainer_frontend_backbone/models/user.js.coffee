@@ -95,7 +95,8 @@ class Langtrainer.LangtrainerApp.Models.User extends Backbone.Model
       url: '/api/users/sign_out'
       method: 'delete'
       dataType: 'json'
-      success: (response) ->
+      success: (response, status, xhr) ->
+        Langtrainer.LangtrainerApp.globalBus.trigger('csrfChanged', xhr)
         Langtrainer.LangtrainerApp.globalBus.trigger('user:signedOut', response.user)
       error: ->
         alert('Oops... Something went wrong!')

@@ -20,5 +20,6 @@ class Langtrainer.LangtrainerApp.Models.User.Session extends Backbone.Model
     unless _.isEmpty(errors)
       return errors
 
-  onSignedIn: ->
-    Langtrainer.LangtrainerApp.globalBus.trigger('user:signedIn', @get('user'))
+  onSignedIn: (model, resp, options) ->
+    Langtrainer.LangtrainerApp.globalBus.trigger('csrfChanged', options.xhr)
+    Langtrainer.LangtrainerApp.globalBus.trigger('user:signedIn', resp.user)

@@ -30,10 +30,10 @@ window.Langtrainer.LangtrainerApp =
 
     @commonRouter = new Langtrainer.LangtrainerApp.Routers.CommonRouter
 
-    onSignedIn = (userAttributes) =>
+    onSignedIn = (userAttributes, options) =>
       @reset(userAttributes, {}, successCallback, errorCallback)
 
-    onSignedOut = (userAttributes) =>
+    onSignedOut = (userAttributes, options) =>
       @reset(userAttributes, {}, successCallback, errorCallback)
 
     @globalBus.on 'user:signedUp', @onSignedUp, @
@@ -42,10 +42,18 @@ window.Langtrainer.LangtrainerApp =
     @globalBus.on 'signInDialog:hidden', @navigateRoot, @
     @globalBus.on 'signUpDialog:hidden', @navigateRoot, @
     @globalBus.on 'feedbackDialog:hidden', @navigateRoot, @
+    @globalBus.on 'csrfChanged', @resetCsrf, @
 
     @reset(initialData.currentUser, {}, successCallback, errorCallback)
 
     Backbone.history.start()
+
+  resetCsrf: (xhr) ->
+    param = xhr.getResponseHeader('X-CSRF-Param')
+    token = xhr.getResponseHeader('X-CSRF-Token')
+
+    $('meta[name="csrf-param"]').attr('content', param)
+    $('meta[name="csrf-token"]').attr('content', token)
 
   reset: (userAttributes, worldAttributes, successCallback, errorCallback) ->
     @world = new Langtrainer.LangtrainerApp.Models.World(worldAttributes)
@@ -58,8 +66,6 @@ window.Langtrainer.LangtrainerApp =
   onSignedUp: (userAttributes)->
     @currentUser.set('id', userAttributes.id)
     @currentUser.set('email', userAttributes.email)
-    @currentUser.set('csrf_param', userAttributes.csrf_param)
-    @currentUser.set('csrf_token', userAttributes.csrf_token)
     @currentUser.save()
 
   navigate: (fragment, options)->
