@@ -3,7 +3,7 @@ class Langtrainer.LangtrainerApp.Views.StepView extends Backbone.View
   className: 'row'
   id: 'step-view'
 
-  STEPS_NUMBER_TO_SUGGEST_SIGN_UP: 10
+  STEPS_NUMBER_TO_SUGGEST_SIGN_UP: 0
   stepsCounter: 0
 
   events:
@@ -135,10 +135,11 @@ class Langtrainer.LangtrainerApp.Views.StepView extends Backbone.View
 
   onVerifyRight: ->
     @$('.lt-answer-notification').sticky('Right answer!')
-    @stepsCounter += 1
-    if @stepsCounter > @STEPS_NUMBER_TO_SUGGEST_SIGN_UP
-      @stepsCounter = 0
-      @$('.lt-answer-notification').sticky("Please <a href='/#sign_up'>sign up</a>, if you want to save your progress and effectively optimize your personal learning experience.", autoclose: 10000)
+    if !Langtrainer.LangtrainerApp.currentUser.signedIn()
+      @stepsCounter += 1
+      if @stepsCounter > @STEPS_NUMBER_TO_SUGGEST_SIGN_UP
+        @stepsCounter = 0
+        @$('.lt-answer-notification').sticky("Please <a href='/#sign_up'>sign up</a>, if you want to save your progress and effectively optimize your personal learning experience.", autoclose: 10000)
 
   onVerifyWrong: ->
     @$('.lt-answer-notification').sticky('Wrong answer. Lets try again!')

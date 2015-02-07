@@ -2,7 +2,7 @@ class Langtrainer.LangtrainerApp.Models.Step extends Backbone.Model
   baseParams: ->
     result = '?token=' + Langtrainer.LangtrainerApp.currentUser.readAttribute('token')
     result += '&unit=' + Langtrainer.LangtrainerApp.world.get('unit').get('id')
-    result += '&step=' + Langtrainer.LangtrainerApp.world.get('step').get('id')
+    result += '&step=' + @id
     result += '&native_language=' + Langtrainer.LangtrainerApp.world.get('nativeLanguage').get('slug')
     result += '&language=' + Langtrainer.LangtrainerApp.world.get('language').get('slug')
 
@@ -115,6 +115,7 @@ class Langtrainer.LangtrainerApp.Models.Step extends Backbone.Model
       dataType: 'json'
       success: (response) ->
         that.set response
+        Langtrainer.LangtrainerApp.world.get('step').set response
         that.trigger('change', that)
       error: ->
         that.trigger('verify:error')
