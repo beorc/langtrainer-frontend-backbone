@@ -31,7 +31,10 @@ class Langtrainer.LangtrainerApp.Views.StepView extends Backbone.View
     @$el.html(@template())
     @$input = @$('.lt-answer')
     @$('.lt-question').text(@model.question(@currentNativeLanguage()))
-
+    @$('.lt-check-answer').closest('li').popover
+      title: ''
+      content: 'Next time press Return (Enter) key to check the answer'
+      placement: 'top'
 
     @onQuestionHelpChanged()
 
@@ -63,7 +66,7 @@ class Langtrainer.LangtrainerApp.Views.StepView extends Backbone.View
 
   onKeyup: (event) ->
     if @isVerifyKey(event)
-      @onCheckAnswer()
+      @verifyAnswerOnServer()
     else
       @model.verifyAnswer(@$input.val(), @currentLanguage(), 'keyup')
     true
@@ -93,18 +96,29 @@ class Langtrainer.LangtrainerApp.Views.StepView extends Backbone.View
           @$input.val("#{answer} #{nextWord}")
 
       @model.verifyAnswer(@$input.val(), @currentLanguage(), 'keyup')
+    false
 
   onShowRightAnswer: ->
     _.each @model.answers(@currentLanguage()), (rightAnswer, index) ->
       @$('.lt-answer-notification').sticky("Answer ##{index + 1}: #{rightAnswer}", autoclose: false)
 
     @model.showRightAnswer()
+    false
 
   onNextStep: ->
     @model.nextStep()
+    false
+
+  verifyAnswerOnServer: ->
+    @model.verifyAnswerOnServer(@$input.val(), @currentLanguage())
 
   onCheckAnswer: ->
-    @model.verifyAnswerOnServer(@$input.val(), @currentLanguage())
+    @verifyAnswerOnServer()
+    @$('.lt-check-answer').closest('li').popover('show')
+    close = =>
+      @$('.lt-check-answer').closest('li').popover('hide')
+    setTimeout(close, 3000)
+    false
 
   onVerifyRight: ->
     @$('.lt-answer-notification').sticky('Right answer!')
