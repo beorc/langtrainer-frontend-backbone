@@ -4,15 +4,9 @@ class Langtrainer.LangtrainerApp.Models.User extends Backbone.Model
   url: -> Langtrainer.LangtrainerApp.authApiEndpoint + '/api/users/user'
 
   initialize: ->
-    Langtrainer.LangtrainerApp.globalBus.once 'app:reset', @initCsrf, @
-    @listenTo @, 'change:csrf_token', @initCsrf
+    @initCsrf()
 
-    @listenTo @, 'change:token change:current_course_slug change:language_slug change:native_language_slug change:question_help_enabled', @onChanged
-
-    if Langtrainer.LangtrainerApp.world.has('token')
-      @onWorldChanged(Langtrainer.LangtrainerApp.world)
-    else
-      @listenTo Langtrainer.LangtrainerApp.world, 'change:token', @onWorldChanged
+    @listenTo @, 'change:token change:current_course_slug change:language_slug change:native_language_slug change:question_help_enabled', @persist
 
   readAttribute: (attrName) ->
     attrValue = @get(attrName)
@@ -25,18 +19,7 @@ class Langtrainer.LangtrainerApp.Models.User extends Backbone.Model
 
     result
 
-  onWorldChanged: (world) ->
-    @set('token', world.get('token'))
-
-    @listenTo world.get('course'), 'change:slug', @onCourseChanged
-    @listenTo world.get('nativeLanguage'), 'change:slug', @onNativeLanguageChanged
-    @listenTo world.get('language'), 'change:slug', @onLanguageChanged
-
-    @onCourseChanged(world.get('course'))
-    @onNativeLanguageChanged(world.get('nativeLanguage'))
-    @onLanguageChanged(world.get('language'))
-
-  onChanged: ->
+  persist: ->
     if @signedIn()
       @save()
     else
@@ -67,15 +50,6 @@ class Langtrainer.LangtrainerApp.Models.User extends Backbone.Model
     slug = @readAttribute('native_language_slug') || 'ru'
 
     Langtrainer.LangtrainerApp.world.get('nativeLanguagesCollection').findWhere(slug: slug)
-
-  onCourseChanged: (course) ->
-    @set current_course_slug: course.get('slug')
-
-  onNativeLanguageChanged: (nativeLanguage) ->
-    @set('native_language_slug', nativeLanguage.get('slug'))
-
-  onLanguageChanged: (language) ->
-    @set('language_slug', language.get('slug'))
 
   toggleQuestionHelp: ->
     enabled = @questionHelpEnabled()
