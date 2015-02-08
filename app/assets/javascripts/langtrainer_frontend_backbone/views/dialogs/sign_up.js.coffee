@@ -15,7 +15,7 @@ class Langtrainer.LangtrainerApp.Views.Dialogs.SignUp extends Backbone.View
     @listenTo @model, 'error:unprocessable error:internal_server_error', @reRender, @
     @listenTo @model, 'invalid', @reRender, @
 
-    Langtrainer.LangtrainerApp.globalBus.once 'user:signedUp', @onUserSignedUp, @
+    Langtrainer.LangtrainerApp.globalBus.on 'user:signedUp', @onUserSignedUp, @
 
   renderForm: (options = {}) ->
     @$el.html(@template(model: @model))

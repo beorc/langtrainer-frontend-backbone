@@ -3,9 +3,9 @@ ul.list-inline
     li
       span.user-email= Langtrainer.LangtrainerApp.currentUser.get('email')
     li
-      a.btn.btn-default.sign-out-btn(href='javascript:void(0)', rel='nofollow') Sign out
+      a.btn.btn-default.sign-out-btn(href='javascript:void(0)', rel='nofollow')=LangtrainerI18n.t('sign_out')
   else
     li
-      a.btn.btn-primary.sign-in-btn(href='javascript:void(0)', rel='nofollow') Sign in
+      a.btn.btn-primary.sign-in-btn(href='javascript:void(0)', rel='nofollow')=LangtrainerI18n.t('sign_in')
     li
-      a.btn.btn-default.sign-up-btn(href='javascript:void(0)', rel='nofollow') Sign up
+      a.btn.btn-default.sign-up-btn(href='javascript:void(0)', rel='nofollow')=LangtrainerI18n.t('sign_up')

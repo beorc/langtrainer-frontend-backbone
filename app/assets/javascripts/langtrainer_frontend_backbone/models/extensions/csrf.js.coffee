@@ -1,7 +1,10 @@
 Langtrainer.LangtrainerApp.Models.Extensions.Csrf =
   initCsrf: ->
+    @resetCsrf()
+    Langtrainer.LangtrainerApp.globalBus.on 'csrfChanged', @resetCsrf, @
+
+  resetCsrf: ->
     @set(@csrfParam(), @csrfToken())
-    Langtrainer.LangtrainerApp.globalBus.once 'csrfChanged', @initCsrf, @
 
   csrfParam: ->
     $('meta[name="csrf-param"]').attr('content')

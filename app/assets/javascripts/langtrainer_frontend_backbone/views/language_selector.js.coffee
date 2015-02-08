@@ -1,4 +1,6 @@
 class Langtrainer.LangtrainerApp.Views.LanguageSelector extends Backbone.View
+  _.extend(@prototype, Langtrainer.LangtrainerApp.Views.Extensions.Localized)
+
   template: JST['langtrainer_frontend_backbone/templates/language_selector']
   class: 'language-selector'
 
@@ -8,14 +10,15 @@ class Langtrainer.LangtrainerApp.Views.LanguageSelector extends Backbone.View
   initialize: (options) ->
     @options = options
     @listenTo @collection, 'reset', @render
+    @initLocalization(onLocaleChanged: @render)
 
-  render: () ->
+  render: ->
     that = @
     if @collection.length > 0
       @$el.hide().html(@template(
         languages: @collection.models
         model: @model
-        label: @options.label
+        label: LangtrainerI18n.t('label.' + @options.label)
       ))
       @$input = @.$('select')
       @$input.selectpicker(noneSelectedText: '')

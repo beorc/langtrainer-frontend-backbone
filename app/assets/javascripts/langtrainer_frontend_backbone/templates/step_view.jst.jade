@@ -3,7 +3,7 @@
     .panel-heading
       ul.list-inline
         li
-          a.lt-question-help-toggle(href='javascript:void(0)', title='Toggle help', data-toggle='tooltip', data-placement='bottom')
+          a.lt-question-help-toggle(href='javascript:void(0)', title=LangtrainerI18n.t('step_view.question.toggle_help'), data-toggle='tooltip', data-placement='bottom')
             span.fa-stack.fa-lg.lt-question-help-enabled
               i.fa.fa-question.fa-stack-1x
               i.fa.fa-circle-thin.fa-stack-2x
@@ -19,22 +19,22 @@
     .panel-heading
       ul.list-inline
         li
-          a.lt-check-answer(href='javascript:void(0)', title='Check answer', data-toggle='tooltip', data-placement='bottom')
+          a.lt-check-answer(href='javascript:void(0)', title=LangtrainerI18n.t('step_view.check_answer'), data-toggle='tooltip', data-placement='bottom')
             i.fa.fa-check-square-o
         li
-          a.lt-next-step(href='javascript:void(0)', title='Next step', data-toggle='tooltip', data-placement='bottom')
+          a.lt-next-step(href='javascript:void(0)', title=LangtrainerI18n.t('step_view.next_step'), data-toggle='tooltip', data-placement='bottom')
             i.fa.fa-refresh
         li
-          a.lt-show-next-word(href='javascript:void(0)', title='Show next word', data-toggle='tooltip', data-placement='bottom')
+          a.lt-show-next-word(href='javascript:void(0)', title=LangtrainerI18n.t('step_view.show_next_word'), data-toggle='tooltip', data-placement='bottom')
             i.fa.fa-magic
         li
-          a.lt-show-right-answer(href='javascript:void(0)', title='Show right answer', data-toggle='tooltip', data-placement='bottom')
+          a.lt-show-right-answer(href='javascript:void(0)', title=LangtrainerI18n.t('step_view.show_right_answer'), data-toggle='tooltip', data-placement='bottom')
             i.fa.fa-flag-o
 
       ul.list-inline.lt-indicators
         li.lt-wrong-answer
-          a(href='javascript:void(0)', title='It seems there is an error in your answer', data-toggle='tooltip', data-placement='bottom')
+          a(href='javascript:void(0)', title=LangtrainerI18n.t('step_view.answer.wrong_hint'), data-toggle='tooltip', data-placement='bottom')
             i.fa.fa-exclamation-circle
     .panel-body.lt-area
-      textarea.lt-answer(placeholder='Enter translation here', tabindex='0', spellcheck='false', autocapitalize='off', autocomplete='off', autocorrect='off')
+      textarea.lt-answer(placeholder=LangtrainerI18n.t('step_view.answer.placeholder'), tabindex='0', spellcheck='false', autocapitalize='off', autocomplete='off', autocorrect='off')
     .lt-answer-notification

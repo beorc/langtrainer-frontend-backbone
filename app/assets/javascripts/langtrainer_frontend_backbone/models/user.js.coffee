@@ -7,6 +7,7 @@ class Langtrainer.LangtrainerApp.Models.User extends Backbone.Model
     @initCsrf()
 
     @listenTo @, 'change:token change:current_course_slug change:language_slug change:native_language_slug change:question_help_enabled', @persist
+    @listenTo @, 'change:native_language_slug', @onNativeLanguageSlugChanged
 
   readAttribute: (attrName) ->
     attrValue = @get(attrName)
@@ -73,9 +74,12 @@ class Langtrainer.LangtrainerApp.Models.User extends Backbone.Model
         Langtrainer.LangtrainerApp.globalBus.trigger('csrfChanged', xhr)
         Langtrainer.LangtrainerApp.globalBus.trigger('user:signedOut', response.user)
       error: ->
-        alert('Oops... Something went wrong!')
+        alert(LangtrainerI18n.t('error'))
 
     options.headers = {}
     options.headers['X-CSRF-Token'] = @csrfToken()
 
     $.ajax options
+
+  onNativeLanguageSlugChanged: ->
+    Langtrainer.LangtrainerApp.globalBus.trigger('localeChanged', @get('native_language_slug'))

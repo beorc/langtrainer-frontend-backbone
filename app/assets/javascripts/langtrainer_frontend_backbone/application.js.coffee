@@ -25,6 +25,8 @@ window.Langtrainer.LangtrainerApp =
   apiEndpoint: ''
 
   run: (initialData, successCallback, errorCallback)->
+    @locales = initialData.locales
+
     @apiEndpoint = initialData.apiEndpoint
     @authApiEndpoint = initialData.authApiEndpoint
 
@@ -58,10 +60,12 @@ window.Langtrainer.LangtrainerApp =
   reset: (userAttributes, worldAttributes, successCallback, errorCallback) ->
     @world = new Langtrainer.LangtrainerApp.Models.World(worldAttributes)
     @currentUser = new Langtrainer.LangtrainerApp.Models.User(userAttributes)
+    if !@currentUser.signedIn()
+      nativeLanguageSlug = $.cookie('native_language_slug')
+      if nativeLanguageSlug?
+        @currentUser.attributes.native_language_slug = nativeLanguageSlug
 
     @world.fetch(success: successCallback, error: errorCallback)
-
-    Langtrainer.LangtrainerApp.globalBus.trigger('app:reset')
 
   onSignedUp: (userAttributes)->
     @currentUser.set('id', userAttributes.id)
@@ -90,3 +94,14 @@ window.Langtrainer.LangtrainerApp =
   clearCookies: ->
     _.each $.cookie(), (value, key) ->
       $.removeCookie(key)
+
+  t: (token) ->
+    chain = token.split('.')
+    result = @locales[@currentUser.get('native_language_slug')]
+
+    _.each chain, (segment) ->
+      result = result[segment]
+
+    result
+
+window.LangtrainerI18n = Langtrainer.LangtrainerApp

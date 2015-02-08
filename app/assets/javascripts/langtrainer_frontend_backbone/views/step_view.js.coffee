@@ -1,4 +1,6 @@
 class Langtrainer.LangtrainerApp.Views.StepView extends Backbone.View
+  _.extend(@prototype, Langtrainer.LangtrainerApp.Views.Extensions.Localized)
+
   template: JST['langtrainer_frontend_backbone/templates/step_view']
   className: 'row'
   id: 'step-view'
@@ -30,12 +32,14 @@ class Langtrainer.LangtrainerApp.Views.StepView extends Backbone.View
     @listenTo @model, 'verify:wrong', @onVerifyWrong
     @listenTo @model, 'verify:error', @onVerifyError
 
+    @initLocalization(onLocaleChanged: @render)
+
   render: ->
     @$el.html(@template())
     @$input = @$('.lt-answer')
     @$('.lt-check-answer').closest('li').popover
       title: ''
-      content: 'Next time press Return (Enter) key to check the answer'
+      content: LangtrainerI18n.t('step_view.popover.hotkey.check')
       placement: 'top'
       trigger: 'manual'
 
@@ -109,8 +113,9 @@ class Langtrainer.LangtrainerApp.Views.StepView extends Backbone.View
     false
 
   onShowRightAnswer: ->
-    _.each @model.answers(@currentLanguage()), (rightAnswer, index) ->
-      @$('.lt-answer-notification').sticky("Answer ##{index + 1}: #{rightAnswer}", autoclose: 10000)
+    answers = @model.answers(@currentLanguage())
+    _.each answers.reverse(), (rightAnswer, index) ->
+      @$('.lt-answer-notification').sticky("#{LangtrainerI18n.t('step_view.popover.answer')} ##{answers.length - index}: #{rightAnswer}", autoclose: 10000)
 
     @model.showRightAnswer()
     false
@@ -134,18 +139,18 @@ class Langtrainer.LangtrainerApp.Views.StepView extends Backbone.View
     setTimeout(close, 3000)
 
   onVerifyRight: ->
-    @$('.lt-answer-notification').sticky('Right answer!')
+    @$('.lt-answer-notification').sticky(LangtrainerI18n.t('step_view.popover.right_answer'))
     if !Langtrainer.LangtrainerApp.currentUser.signedIn()
       @stepsCounter += 1
       if @stepsCounter > @STEPS_NUMBER_TO_SUGGEST_SIGN_UP
         @stepsCounter = 0
-        @$('.lt-answer-notification').sticky("Please <a href='/#sign_up'>sign up</a>, if you want to save your progress and effectively optimize your personal learning experience.", autoclose: 10000)
+        @$('.lt-answer-notification').sticky(LangtrainerI18n.t('step_view.popover.sign_up'))
 
   onVerifyWrong: ->
-    @$('.lt-answer-notification').sticky('Wrong answer. Lets try again!')
+    @$('.lt-answer-notification').sticky(LangtrainerI18n.t('step_view.popover.wrong_answer'))
 
   onVerifyError: ->
-    @$('.lt-answer-notification').sticky('Oops... Something went wrong!')
+    @$('.lt-answer-notification').sticky(LangtrainerI18n.t('error'))
 
   onQuestionHelpToggle: ->
     Langtrainer.LangtrainerApp.currentUser.toggleQuestionHelp()

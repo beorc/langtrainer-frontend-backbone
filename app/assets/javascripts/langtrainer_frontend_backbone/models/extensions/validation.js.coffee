@@ -5,7 +5,7 @@ Langtrainer.LangtrainerApp.Models.Extensions.Validation =
       @trigger 'error:unprocessable'
     else if xhr.status == 500
       @clearValidationErrors()
-      @pushValidationError(@validationError, 'serverError', 'Oops... Something went wrong!')
+      @pushValidationError(@validationError, 'serverError', LangtrainerI18n.t('error'))
       @trigger 'error:internal_server_error'
 
   clearValidationErrors: ->
