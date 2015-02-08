@@ -95,6 +95,9 @@ window.Langtrainer.LangtrainerApp =
     _.each $.cookie(), (value, key) ->
       $.removeCookie(key)
 
+  locale: ->
+    @currentUser.get('native_language_slug')
+
   t: (token) ->
     chain = token.split('.')
     result = @locales[@currentUser.get('native_language_slug')]
