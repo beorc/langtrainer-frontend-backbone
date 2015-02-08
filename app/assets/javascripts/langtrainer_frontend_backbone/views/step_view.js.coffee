@@ -3,7 +3,7 @@ class Langtrainer.LangtrainerApp.Views.StepView extends Backbone.View
   className: 'row'
   id: 'step-view'
 
-  STEPS_NUMBER_TO_SUGGEST_SIGN_UP: 0
+  STEPS_NUMBER_TO_SUGGEST_SIGN_UP: 10
   stepsCounter: 0
 
   events:
