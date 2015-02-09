@@ -8,6 +8,7 @@ class Langtrainer.LangtrainerApp.Views.Dialogs.SignUp extends Backbone.View
   events:
     'click .js-submit': 'onSubmitBtnClick'
     'click .sign-in-btn': 'onSignInBtnClick'
+    'click .js-close': 'onCloseBtnClick'
 
   initialize: (options) ->
     @model = new Langtrainer.LangtrainerApp.Models.User.Registration
@@ -31,7 +32,8 @@ class Langtrainer.LangtrainerApp.Views.Dialogs.SignUp extends Backbone.View
     false
 
   onUserSignedUp: ->
-    @$el.modal('hide')
+    @$('.step-a').hide()
+    @$('.step-b').show()
 
   onHiddenModal: ->
     Langtrainer.LangtrainerApp.globalBus.trigger('signUpDialog:hidden')
@@ -41,3 +43,6 @@ class Langtrainer.LangtrainerApp.Views.Dialogs.SignUp extends Backbone.View
     @$el.modal('hide')
     Langtrainer.LangtrainerApp.navigateToSignIn()
     false
+
+  onCloseBtnClick: ->
+    $(@el).modal('hide')

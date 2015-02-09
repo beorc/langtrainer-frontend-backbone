@@ -3,26 +3,32 @@
     .modal-header
       button.close(type='button', data-dismiss='modal')
         span(aria-hidden='true') &times;
-      h4.modal-title Sign in
+      h4.modal-title=LangtrainerI18n.t('dialog.sign_in.title')
     .modal-body
-      if model.validationErrorFor('user')
-        .alert.alert-danger= model.validationErrorFor('user')
-      if model.validationErrorFor('serverError')
-        .alert.alert-danger= model.validationErrorFor('serverError')
-      form(role='form')
-        .form-group.email(class=model.validationErrorFor('email') ? 'has-error' : null)
-          label.control-label(for='email') E-mail
-          input#email.form-control(type='email', value=model.get('email'), spellcheck='false')
-          if model.validationErrorFor('email')
-            p.help-block= model.validationErrorFor('email')
-        .form-group.password(class=model.validationErrorFor('password') ? 'has-error' : null)
-          label.control-label(for='password') Password
-          input#password.form-control(type='password')
-          if model.validationErrorFor('password')
-            p.help-block= model.validationErrorFor('password')
-        .actions
-          button.btn.btn-primary.js-submit(type='submit') Sign in
-    .modal-footer
-      |Not registered?
-      &nbsp;
-      a.sign-up-btn(href='#', rel='nofollow') Sign up
+      .step-a
+        if model.validationErrorFor('user')
+          .alert.alert-danger= model.validationErrorFor('user')
+        if model.validationErrorFor('serverError')
+          .alert.alert-danger= model.validationErrorFor('serverError')
+        form(role='form')
+          .form-group.email(class=model.validationErrorFor('email') ? 'has-error' : null)
+            label.control-label(for='email') E-mail
+            input#email.form-control(type='email', value=model.get('email'), spellcheck='false')
+            if model.validationErrorFor('email')
+              p.help-block= model.validationErrorFor('email')
+          .form-group.password(class=model.validationErrorFor('password') ? 'has-error' : null)
+            label.control-label(for='password')=LangtrainerI18n.t('dialog.sign_in.password')
+            input#password.form-control(type='password')
+            if model.validationErrorFor('password')
+              p.help-block= model.validationErrorFor('password')
+        .modal-footer
+          .pull-left
+            button.btn.btn-primary.js-submit(type='submit')=LangtrainerI18n.t('dialog.sign_in.submit')
+          =LangtrainerI18n.t('dialog.sign_in.not_registered')
+          &nbsp;
+          a.sign-up-btn(href='#', rel='nofollow')=LangtrainerI18n.t('dialog.sign_in.sign_up')
+      .step-b
+        p=LangtrainerI18n.t('dialog.sign_in.success')
+        .modal-footer
+          .pull-left
+            button.btn.btn-primary.js-close=LangtrainerI18n.t('dialog.sign_in.close')

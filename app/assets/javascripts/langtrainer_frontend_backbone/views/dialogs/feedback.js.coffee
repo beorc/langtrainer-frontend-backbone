@@ -25,7 +25,6 @@ class Langtrainer.LangtrainerApp.Views.Dialogs.Feedback extends Backbone.View
     false
 
   onCloseBtnClick: ->
-    Langtrainer.LangtrainerApp.globalBus.trigger('feedbackDialog:hidden')
     $(@el).modal('hide')
 
   onHiddenModal: ->
