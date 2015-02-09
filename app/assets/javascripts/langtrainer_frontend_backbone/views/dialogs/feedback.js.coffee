@@ -20,9 +20,13 @@ class Langtrainer.LangtrainerApp.Views.Dialogs.Feedback extends Backbone.View
 
     @renderForm()
 
+    @
+
   renderForm: ->
     form = JST['langtrainer_frontend_backbone/templates/dialogs/feedback_form'](model: @model, view: @)
     @$('.modal-body > .step-a').html(form)
+
+    @
 
   onSubmitBtnClick: ->
     @model.set('email', $.trim($(@el).find('#email').val()))

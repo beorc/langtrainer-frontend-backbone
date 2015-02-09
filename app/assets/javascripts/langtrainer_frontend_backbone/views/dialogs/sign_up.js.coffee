@@ -23,9 +23,13 @@ class Langtrainer.LangtrainerApp.Views.Dialogs.SignUp extends Backbone.View
 
     @renderForm()
 
+    @
+
   renderForm: ->
     form = JST['langtrainer_frontend_backbone/templates/dialogs/sign_up_form'](model: @model)
     @$('.modal-body > .step-a').html(form)
+
+    @
 
   onSubmitBtnClick: ->
     @model.set('email', $.trim(@$el.find('#email').val()))
