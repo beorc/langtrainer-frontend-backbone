@@ -1,6 +1,4 @@
 class Langtrainer.LangtrainerApp.Views.Dialogs.SignIn extends Backbone.View
-  _.extend(@prototype, Langtrainer.LangtrainerApp.Views.Extensions.Modal)
-
   template: JST['langtrainer_frontend_backbone/templates/dialogs/sign_in']
   id: 'dialog-sign-in'
   className: 'modal'
@@ -9,16 +7,25 @@ class Langtrainer.LangtrainerApp.Views.Dialogs.SignIn extends Backbone.View
     'click .js-submit': 'onSubmitBtnClick'
     'click .sign-up-btn': 'onSignUpBtnClick'
     'click .js-close': 'onCloseBtnClick'
+    'hidden.bs.modal': 'onHiddenModal'
 
   initialize: ->
     @model = new Langtrainer.LangtrainerApp.Models.User.Session
 
-    @listenTo @model, 'error:unprocessable error:internal_server_error invalid', @reRender, @
+    @listenTo @model, 'error:unprocessable error:internal_server_error invalid', @renderForm, @
 
     Langtrainer.LangtrainerApp.globalBus.on 'user:signedIn', @onUserSignedIn, @
 
+  render: ->
+    @$el.html(@template())
+
+    @$el.modal('show')
+
+    @renderForm()
+
   renderForm: ->
-    @$el.html(@template(model: @model))
+    form = JST['langtrainer_frontend_backbone/templates/dialogs/sign_in_form'](model: @model)
+    @$('.modal-body > .step-a').html(form)
 
   onSubmitBtnClick: ->
     @model.set('email', @$el.find('#email').val())

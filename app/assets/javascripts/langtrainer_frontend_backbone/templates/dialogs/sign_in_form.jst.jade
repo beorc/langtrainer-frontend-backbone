@@ -1,0 +1,21 @@
+if model.validationErrorFor('user')
+  .alert.alert-danger= model.validationErrorFor('user')
+if model.validationErrorFor('serverError')
+  .alert.alert-danger= model.validationErrorFor('serverError')
+form(role='form')
+  .form-group.email(class=model.validationErrorFor('email') ? 'has-error' : null)
+    label.control-label(for='email') E-mail
+    input#email.form-control(type='email', value=model.get('email'), spellcheck='false')
+    if model.validationErrorFor('email')
+      p.help-block= model.validationErrorFor('email')
+  .form-group.password(class=model.validationErrorFor('password') ? 'has-error' : null)
+    label.control-label(for='password')=LangtrainerI18n.t('dialog.sign_in.password')
+    input#password.form-control(type='password')
+    if model.validationErrorFor('password')
+      p.help-block= model.validationErrorFor('password')
+.modal-footer
+  .pull-left
+    button.btn.btn-primary.js-submit(type='submit')=LangtrainerI18n.t('dialog.sign_in.submit')
+  =LangtrainerI18n.t('dialog.sign_in.not_registered')
+  &nbsp;
+  a.sign-up-btn(href='#', rel='nofollow')=LangtrainerI18n.t('dialog.sign_in.sign_up')

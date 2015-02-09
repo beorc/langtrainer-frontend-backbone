@@ -1,0 +1,18 @@
+if model.validationErrorFor('serverError')
+  .alert.alert-danger= model.validationErrorFor('serverError')
+form(role='form')
+  .form-group.required(class=view.buildClassFor('email'))
+    label.control-label(for='email')
+      span E-mail
+    input#email.form-control(type='email', value=model.get('email'), spellcheck='false')
+    if model.validationErrorFor('email')
+      p.help-block= model.validationErrorFor('email')
+  .form-group.required(class=model.validationErrorFor('message') ? 'has-error' : null)
+    label.control-label(for='message')=LangtrainerI18n.t('dialog.feedback.message')
+    textarea#message.form-control(type='message', rows=7)=model.get('message')
+    if model.validationErrorFor('message')
+      p.help-block= model.validationErrorFor('message')
+
+  .modal-footer
+    .pull-left
+      button.btn.btn-primary.js-submit(type='submit')=LangtrainerI18n.t('dialog.feedback.submit')

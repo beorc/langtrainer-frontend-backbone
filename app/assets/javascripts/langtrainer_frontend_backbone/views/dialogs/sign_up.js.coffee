@@ -1,6 +1,4 @@
 class Langtrainer.LangtrainerApp.Views.Dialogs.SignUp extends Backbone.View
-  _.extend(@prototype, Langtrainer.LangtrainerApp.Views.Extensions.Modal)
-
   template: JST['langtrainer_frontend_backbone/templates/dialogs/sign_up']
   id: 'dialog-sign-up'
   className: 'modal'
@@ -9,19 +7,25 @@ class Langtrainer.LangtrainerApp.Views.Dialogs.SignUp extends Backbone.View
     'click .js-submit': 'onSubmitBtnClick'
     'click .sign-in-btn': 'onSignInBtnClick'
     'click .js-close': 'onCloseBtnClick'
+    'hidden.bs.modal': 'onHiddenModal'
 
   initialize: (options) ->
     @model = new Langtrainer.LangtrainerApp.Models.User.Registration
 
-    @listenTo @model, 'error:unprocessable error:internal_server_error', @reRender, @
-    @listenTo @model, 'invalid', @reRender, @
+    @listenTo @model, 'error:unprocessable error:internal_server_error invalid', @renderForm, @
 
     Langtrainer.LangtrainerApp.globalBus.on 'user:signedUp', @onUserSignedUp, @
 
-  renderForm: (options = {}) ->
-    @$el.html(@template(model: @model))
+  render: ->
+    @$el.html(@template())
 
-    @
+    @$el.modal('show')
+
+    @renderForm()
+
+  renderForm: ->
+    form = JST['langtrainer_frontend_backbone/templates/dialogs/sign_up_form'](model: @model)
+    @$('.modal-body > .step-a').html(form)
 
   onSubmitBtnClick: ->
     @model.set('email', $.trim(@$el.find('#email').val()))

@@ -1,6 +1,4 @@
 class Langtrainer.LangtrainerApp.Views.Dialogs.Feedback extends Backbone.View
-  _.extend(@prototype, Langtrainer.LangtrainerApp.Views.Extensions.Modal)
-
   template: JST['langtrainer_frontend_backbone/templates/dialogs/feedback']
   id: 'dialog-feedback'
   className: 'modal'
@@ -8,14 +6,23 @@ class Langtrainer.LangtrainerApp.Views.Dialogs.Feedback extends Backbone.View
   events:
     'click .js-submit': 'onSubmitBtnClick'
     'click .js-close': 'onCloseBtnClick'
+    'hidden.bs.modal': 'onHiddenModal'
 
   initialize: (opts)->
     @model = new Langtrainer.LangtrainerApp.Models.Feedback
-    @listenTo @model, 'error:unprocessable error:internal_server_error invalid', @reRender, @
+    @listenTo @model, 'error:unprocessable error:internal_server_error invalid', @renderForm, @
     @listenTo @model, 'sync', @onFeedbackCreated, @
 
+  render: ->
+    @$el.html(@template())
+
+    @$el.modal('show')
+
+    @renderForm()
+
   renderForm: ->
-    $(@el).html(@template(model: @model, view: @))
+    form = JST['langtrainer_frontend_backbone/templates/dialogs/feedback_form'](model: @model, view: @)
+    @$('.modal-body > .step-a').html(form)
 
   onSubmitBtnClick: ->
     @model.set('email', $.trim($(@el).find('#email').val()))
