@@ -1,4 +1,18 @@
 class Langtrainer.LangtrainerApp.Models.Step extends Backbone.Model
+  initialize: ->
+    @resetState()
+
+  resetState: ->
+    @wordsHelped = 0
+    @stepsHelped = 0
+
+  difficultyIndex: (answer) ->
+    wordsNumber = answer.split(' ').length
+    if wordsNumber == 0
+      return 1
+
+    return @stepsHelped + @wordsHelped/wordsNumber
+
   baseParams: ->
     result = '?token=' + Langtrainer.LangtrainerApp.currentUser.readAttribute('token')
     result += '&unit=' + Langtrainer.LangtrainerApp.world.get('unit').get('id')
@@ -14,6 +28,7 @@ class Langtrainer.LangtrainerApp.Models.Step extends Backbone.Model
     result = Langtrainer.LangtrainerApp.apiEndpoint + '/verify_answer'
     result += @baseParams()
     result += '&answer=' + answer
+    result += '&difficulty_index=' + @difficultyIndex(answer)
 
   nextStepUrl: ->
     result = Langtrainer.LangtrainerApp.apiEndpoint + '/next_step'
@@ -91,14 +106,22 @@ class Langtrainer.LangtrainerApp.Models.Step extends Backbone.Model
       result = that.nextWordMatches(answer, rightAnswer)
       !!result
 
+    if result? && result[2].length > 0
+      @wordsHelped += 1
+
     result
 
   verifyAnswerOnServer: (answer, language) ->
+    if answer.length is 0
+      @trigger('verify:wrong')
+      return
+
     that = @
     $.ajax
       url: @verifyAnswerUrl(@sanitizeText(answer))
       dataType: 'json'
       success: (response) ->
+        that.resetState()
         if response
           that.set response
           that.trigger('change', that)
@@ -114,6 +137,7 @@ class Langtrainer.LangtrainerApp.Models.Step extends Backbone.Model
       url: @nextStepUrl()
       dataType: 'json'
       success: (response) ->
+        that.resetState()
         that.set response
         Langtrainer.LangtrainerApp.world.get('step').set response
         that.trigger('change', that)
@@ -124,3 +148,5 @@ class Langtrainer.LangtrainerApp.Models.Step extends Backbone.Model
     $.ajax
       url: @showRightAnswerUrl()
       dataType: 'json'
+
+    @stepsHelped += 1
