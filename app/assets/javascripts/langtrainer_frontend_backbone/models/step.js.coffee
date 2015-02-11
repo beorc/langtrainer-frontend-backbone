@@ -5,13 +5,14 @@ class Langtrainer.LangtrainerApp.Models.Step extends Backbone.Model
   resetState: ->
     @wordsHelped = 0
     @stepsHelped = 0
+    @wrongAnsers = 0
 
   difficultyIndex: (answer) ->
     wordsNumber = answer.split(' ').length
     if wordsNumber == 0
       return 1
 
-    return @stepsHelped + @wordsHelped/wordsNumber
+    return @stepsHelped + @wrongAnsers/2 + @wordsHelped/wordsNumber
 
   baseParams: ->
     result = '?token=' + Langtrainer.LangtrainerApp.currentUser.readAttribute('token')
@@ -121,13 +122,14 @@ class Langtrainer.LangtrainerApp.Models.Step extends Backbone.Model
       url: @verifyAnswerUrl(@sanitizeText(answer))
       dataType: 'json'
       success: (response) ->
-        that.resetState()
         if response
           that.set response
           that.trigger('change', that)
           that.trigger('verify:right')
+          that.resetState()
         else
           that.trigger('verify:wrong')
+          that.wrongAnsers += 1
       error: ->
         that.trigger('verify:error')
 
