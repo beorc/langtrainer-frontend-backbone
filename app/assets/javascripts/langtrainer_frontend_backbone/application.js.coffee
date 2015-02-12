@@ -44,6 +44,7 @@ window.Langtrainer.LangtrainerApp =
     @globalBus.on 'signInDialog:hidden', @navigateRoot, @
     @globalBus.on 'signUpDialog:hidden', @navigateRoot, @
     @globalBus.on 'feedbackDialog:hidden', @navigateRoot, @
+    @globalBus.on 'activateDialog:hidden', @navigateRoot, @
     @globalBus.on 'csrfChanged', @resetCsrf, @
 
     @reset(initialData.currentUser, {}, successCallback, errorCallback)
@@ -90,6 +91,11 @@ window.Langtrainer.LangtrainerApp =
 
   navigateToFeedback: ->
     @navigate('feedback', trigger: true)
+
+  showActivateDialog: (email)->
+    model = new Langtrainer.LangtrainerApp.Models.User.Activation(email: email)
+    view = new Langtrainer.LangtrainerApp.Views.UnconfirmedPopup(model: model)
+    view.render()
 
   clearCookies: ->
     _.each $.cookie(), (value, key) ->

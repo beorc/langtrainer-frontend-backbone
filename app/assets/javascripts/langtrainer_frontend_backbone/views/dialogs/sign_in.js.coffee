@@ -13,6 +13,7 @@ class Langtrainer.LangtrainerApp.Views.Dialogs.SignIn extends Backbone.View
     @model = new Langtrainer.LangtrainerApp.Models.User.Session
 
     @listenTo @model, 'error:unprocessable error:internal_server_error invalid', @renderForm, @
+    @listenTo @model, 'error:not_activated', @showActivateDialog, @
 
     Langtrainer.LangtrainerApp.globalBus.on 'user:signedIn', @onUserSignedIn, @
 
@@ -52,3 +53,9 @@ class Langtrainer.LangtrainerApp.Views.Dialogs.SignIn extends Backbone.View
 
   onCloseBtnClick: ->
     $(@el).modal('hide')
+
+  showActivateDialog: ->
+    @$el.one 'hidden.bs.modal', =>
+      Langtrainer.LangtrainerApp.showActivateDialog(@model.get('email'))
+
+    @$el.modal('hide')
