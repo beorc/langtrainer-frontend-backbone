@@ -102,7 +102,8 @@ window.Langtrainer.LangtrainerApp =
     view.render()
 
   showPasswordResetDialog: (token) ->
-    view = new Langtrainer.LangtrainerApp.Views.Dialogs.PasswordReset(token)
+    model = new Langtrainer.LangtrainerApp.Models.User.PasswordReset(token: token)
+    view = new Langtrainer.LangtrainerApp.Views.Dialogs.PasswordReset(model: model)
     view.render()
 
   clearCookies: ->

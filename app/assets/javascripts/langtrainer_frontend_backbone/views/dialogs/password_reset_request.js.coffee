@@ -42,7 +42,7 @@ class Langtrainer.LangtrainerApp.Views.Dialogs.PasswordResetRequest extends Back
     @$el.modal('hide')
     false
 
-  onUserSignedIn: ->
+  onSynced: ->
     @$('.step-a').hide()
     @$('.step-b').show()
 
