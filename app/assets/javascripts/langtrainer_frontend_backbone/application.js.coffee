@@ -45,6 +45,7 @@ window.Langtrainer.LangtrainerApp =
     @globalBus.on 'signUpDialog:hidden', @navigateRoot, @
     @globalBus.on 'feedbackDialog:hidden', @navigateRoot, @
     @globalBus.on 'activateDialog:hidden', @navigateRoot, @
+    @globalBus.on 'passwordResetDialog:hidden', @navigateRoot, @
     @globalBus.on 'csrfChanged', @resetCsrf, @
 
     @reset(initialData.currentUser, {}, successCallback, errorCallback)
@@ -89,12 +90,19 @@ window.Langtrainer.LangtrainerApp =
   navigateToSignUp: ->
     @navigate('sign_up', trigger: true)
 
+  navigateToPasswordResetRequest: ->
+    @navigate('password_reset_request', trigger: true)
+
   navigateToFeedback: ->
     @navigate('feedback', trigger: true)
 
-  showActivateDialog: (email)->
+  showActivateDialog: (email) ->
     model = new Langtrainer.LangtrainerApp.Models.User.Activation(email: email)
-    view = new Langtrainer.LangtrainerApp.Views.UnconfirmedPopup(model: model)
+    view = new Langtrainer.LangtrainerApp.Views.Dialogs.Activate(model: model)
+    view.render()
+
+  showPasswordResetDialog: (token) ->
+    view = new Langtrainer.LangtrainerApp.Views.Dialogs.PasswordReset(token)
     view.render()
 
   clearCookies: ->

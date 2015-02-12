@@ -6,6 +6,7 @@ class Langtrainer.LangtrainerApp.Views.Dialogs.SignIn extends Backbone.View
   events:
     'click .js-submit': 'onSubmitBtnClick'
     'click .sign-up-btn': 'onSignUpBtnClick'
+    'click .reset-password-btn': 'showPasswordResetDialog'
     'click .js-close': 'onCloseBtnClick'
     'hidden.bs.modal': 'onHiddenModal'
 
@@ -39,8 +40,10 @@ class Langtrainer.LangtrainerApp.Views.Dialogs.SignIn extends Backbone.View
     false
 
   onSignUpBtnClick: ->
+    @$el.one 'hidden.bs.modal', =>
+      Langtrainer.LangtrainerApp.navigateToSignUp()
+
     @$el.modal('hide')
-    Langtrainer.LangtrainerApp.navigateToSignUp()
     false
 
   onUserSignedIn: ->
@@ -57,5 +60,11 @@ class Langtrainer.LangtrainerApp.Views.Dialogs.SignIn extends Backbone.View
   showActivateDialog: ->
     @$el.one 'hidden.bs.modal', =>
       Langtrainer.LangtrainerApp.showActivateDialog(@model.get('email'))
+
+    @$el.modal('hide')
+
+  showPasswordResetDialog: ->
+    @$el.one 'hidden.bs.modal', =>
+      Langtrainer.LangtrainerApp.navigateToPasswordResetRequest()
 
     @$el.modal('hide')

@@ -1,6 +1,6 @@
-class Langtrainer.LangtrainerApp.Views.Dialogs.Activate extends Backbone.View
-  template: JST['langtrainer_frontend_backbone/templates/dialogs/activate']
-  id: 'modal-activate'
+class Langtrainer.LangtrainerApp.Views.Dialogs.PasswordReset extends Backbone.View
+  template: JST['langtrainer_frontend_backbone/templates/dialogs/password_reset']
+  id: 'modal-password-reset'
   className: 'modal'
 
   events:
@@ -8,6 +8,7 @@ class Langtrainer.LangtrainerApp.Views.Dialogs.Activate extends Backbone.View
     'hidden.bs.modal': 'onHiddenModal'
 
   initialize: ->
+    @model = new Langtrainer.LangtrainerApp.Models.User.PasswordReset
     @model.on 'sync', @onSynced, @
 
   render: ->
@@ -24,5 +25,5 @@ class Langtrainer.LangtrainerApp.Views.Dialogs.Activate extends Backbone.View
     @$el.find('.alert.alert-success').fadeIn()
 
   onHiddenModal: ->
-    Langtrainer.LangtrainerApp.globalBus.trigger('activateDialog:hidden')
+    Langtrainer.LangtrainerApp.globalBus.trigger('passwordResetDialog:hidden')
     @remove()
