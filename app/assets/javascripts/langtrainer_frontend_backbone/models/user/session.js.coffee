@@ -1,12 +1,14 @@
 class Langtrainer.LangtrainerApp.Models.User.Session extends Backbone.Model
   _.extend(@prototype, Langtrainer.LangtrainerApp.Models.Extensions.Validation)
   _.extend(@prototype, Langtrainer.LangtrainerApp.Models.Extensions.Csrf)
+  _.extend(@prototype, Langtrainer.LangtrainerApp.Models.Extensions.UserStatus)
 
   url: -> Langtrainer.LangtrainerApp.authApiEndpoint + '/api/users/session'
 
   initialize: ->
     @initCsrf()
     @on 'error', @handleServerSideValidation, @
+    @on 'error', @handleUserStatus, @
     @on 'sync', @onSignedIn, @
 
   validate: (attrs, options)->

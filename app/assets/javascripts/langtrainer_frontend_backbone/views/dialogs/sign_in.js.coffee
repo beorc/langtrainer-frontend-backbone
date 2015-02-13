@@ -6,7 +6,7 @@ class Langtrainer.LangtrainerApp.Views.Dialogs.SignIn extends Backbone.View
   events:
     'click .js-submit': 'onSubmitBtnClick'
     'click .sign-up-btn': 'onSignUpBtnClick'
-    'click .reset-password-btn': 'showPasswordResetDialog'
+    'click .password-reset-request-btn': 'showPasswordResetRequestDialog'
     'click .js-close': 'onCloseBtnClick'
     'hidden.bs.modal': 'onHiddenModal'
 
@@ -63,7 +63,7 @@ class Langtrainer.LangtrainerApp.Views.Dialogs.SignIn extends Backbone.View
 
     @$el.modal('hide')
 
-  showPasswordResetDialog: ->
+  showPasswordResetRequestDialog: ->
     @$el.one 'hidden.bs.modal', =>
       Langtrainer.LangtrainerApp.navigateToPasswordResetRequest()
 

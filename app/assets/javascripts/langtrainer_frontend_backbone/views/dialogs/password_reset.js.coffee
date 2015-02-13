@@ -11,7 +11,7 @@ class Langtrainer.LangtrainerApp.Views.Dialogs.PasswordReset extends Backbone.Vi
 
   initialize: ->
     @listenTo @model, 'error:unprocessable error:internal_server_error invalid', @renderForm, @
-    @listenTo @model, 'synced', @onSynced, @
+    @listenTo @model, 'sync', @onSynced, @
 
   render: ->
     @$el.html(@template())

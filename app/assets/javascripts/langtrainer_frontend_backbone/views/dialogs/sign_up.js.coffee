@@ -13,8 +13,7 @@ class Langtrainer.LangtrainerApp.Views.Dialogs.SignUp extends Backbone.View
     @model = new Langtrainer.LangtrainerApp.Models.User.Registration
 
     @listenTo @model, 'error:unprocessable error:internal_server_error invalid', @renderForm, @
-
-    Langtrainer.LangtrainerApp.globalBus.on 'user:signedUp', @onUserSignedUp, @
+    @listenTo @model, 'sync', @onSynced, @
 
   render: ->
     @$el.html(@template())
@@ -39,17 +38,21 @@ class Langtrainer.LangtrainerApp.Views.Dialogs.SignUp extends Backbone.View
     @model.save()
     false
 
-  onUserSignedUp: ->
-    @$('.step-a').hide()
-    @$('.step-b').show()
+  onSynced: (model, resp, options) ->
+    @$el.one 'hidden.bs.modal', ->
+      Langtrainer.LangtrainerApp.showActivateDialog(resp.user.id)
+
+    @$el.modal('hide')
 
   onHiddenModal: ->
     Langtrainer.LangtrainerApp.globalBus.trigger('signUpDialog:hidden')
     @remove()
 
   onSignInBtnClick: ->
+    @$el.one 'hidden.bs.modal', =>
+      Langtrainer.LangtrainerApp.navigateToSignIn()
+
     @$el.modal('hide')
-    Langtrainer.LangtrainerApp.navigateToSignIn()
     false
 
   onCloseBtnClick: ->

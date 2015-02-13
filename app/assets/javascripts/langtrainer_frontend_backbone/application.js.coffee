@@ -38,7 +38,6 @@ window.Langtrainer.LangtrainerApp =
     onSignedOut = (userAttributes, options) =>
       @reset(userAttributes, {}, successCallback, errorCallback)
 
-    @globalBus.on 'user:signedUp', @onSignedUp, @
     @globalBus.on 'user:signedIn', onSignedIn, @
     @globalBus.on 'user:signedOut', onSignedOut, @
     @globalBus.on 'signInDialog:hidden', @navigateRoot, @
@@ -68,11 +67,6 @@ window.Langtrainer.LangtrainerApp =
         @currentUser.attributes.native_language_slug = nativeLanguageSlug
 
     @world.fetch(success: successCallback, error: errorCallback)
-
-  onSignedUp: (userAttributes)->
-    @currentUser.set('id', userAttributes.id)
-    @currentUser.set('email', userAttributes.email)
-    @currentUser.save()
 
   navigate: (fragment, options)->
     scroll = $(window).scrollTop()

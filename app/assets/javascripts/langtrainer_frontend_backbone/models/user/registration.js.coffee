@@ -7,7 +7,7 @@ class Langtrainer.LangtrainerApp.Models.User.Registration extends Backbone.Model
   initialize: ->
     @initCsrf()
     @on 'error', @handleServerSideValidation, @
-    @on 'sync', @onSignedUp, @
+    #@on 'sync', @onSynced, @
 
   validate: (attrs, options)->
     errors = {}
@@ -23,6 +23,5 @@ class Langtrainer.LangtrainerApp.Models.User.Registration extends Backbone.Model
     unless _.isEmpty(errors)
       return errors
 
-  onSignedUp: (model, resp, options) ->
-    Langtrainer.LangtrainerApp.globalBus.trigger('csrfChanged', options.xhr)
-    Langtrainer.LangtrainerApp.globalBus.trigger('user:signedUp', resp.user)
+  #onSynced: (model, resp, options) ->
+    #Langtrainer.LangtrainerApp.globalBus.trigger('csrfChanged', options.xhr)

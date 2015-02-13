@@ -13,6 +13,8 @@ form(role='form')
     input#password.form-control(type='password')
     if model.validationErrorFor('password')
       p.help-block= model.validationErrorFor('password')
+  p
+    a.password-reset-request-btn(href='#', rel='nofollow')=LangtrainerI18n.t('dialog.sign_in.reset_password_request')
 .modal-footer
   .pull-left
     button.btn.btn-primary.js-submit(type='submit')=LangtrainerI18n.t('dialog.sign_in.submit')

@@ -6,6 +6,7 @@ class Langtrainer.LangtrainerApp.Views.Dialogs.PasswordResetRequest extends Back
   events:
     'click .js-submit': 'onSubmitBtnClick'
     'click .sign-in-btn': 'onSignInBtnClick'
+    'click .js-resend-email-btn': 'onResendEmailBtnClick'
     'click .js-close': 'onCloseBtnClick'
     'hidden.bs.modal': 'onHiddenModal'
 
@@ -13,7 +14,7 @@ class Langtrainer.LangtrainerApp.Views.Dialogs.PasswordResetRequest extends Back
     @model = new Langtrainer.LangtrainerApp.Models.User.PasswordResetRequest
 
     @listenTo @model, 'error:unprocessable error:internal_server_error invalid', @renderForm, @
-    @listenTo @model, 'synced', @onSynced, @
+    @listenTo @model, 'sync', @onSynced, @
 
   render: ->
     @$el.html(@template())
@@ -32,6 +33,10 @@ class Langtrainer.LangtrainerApp.Views.Dialogs.PasswordResetRequest extends Back
 
   onSubmitBtnClick: ->
     @model.set('email', @$el.find('#email').val())
+    @model.save()
+    false
+
+  onResendEmailBtnClick: ->
     @model.save()
     false
 
