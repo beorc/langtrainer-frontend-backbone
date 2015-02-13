@@ -37,6 +37,7 @@ class Langtrainer.LangtrainerApp.Views.Dialogs.PasswordResetRequest extends Back
     false
 
   onResendEmailBtnClick: ->
+    @$el.find('.alert.alert-success').hide()
     @model.save()
     false
 
@@ -50,6 +51,7 @@ class Langtrainer.LangtrainerApp.Views.Dialogs.PasswordResetRequest extends Back
   onSynced: ->
     @$('.step-a').hide()
     @$('.step-b').show()
+    @$el.find('.alert.alert-success').fadeIn()
 
   onHiddenModal: ->
     Langtrainer.LangtrainerApp.globalBus.trigger('passwordResetRequestDialog:hidden')

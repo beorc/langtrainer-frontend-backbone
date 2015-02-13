@@ -7,12 +7,12 @@
     .modal-body
       p= LangtrainerI18n.t('dialog.activate.body')
       p
+        .alert.alert-success(style='display: none;')
+          p= LangtrainerI18n.t('dialog.activate.success')
+      p
         = LangtrainerI18n.t('dialog.activate.did_not_receive')
         |&nbsp;
-        a.gray.js-submit-btn(href='#')= LangtrainerI18n.t('dialog.activate.send_again')
-
-      .alert.alert-success(style='display: none;')
-        p= LangtrainerI18n.t('dialog.activate.success')
+        a.js-submit-btn(href='#')= LangtrainerI18n.t('dialog.activate.send_again')
     .modal-footer
       .pull-left
         a.btn.btn-primary(data-dismiss='modal')= LangtrainerI18n.t('dialog.activate.close')
