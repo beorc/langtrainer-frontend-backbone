@@ -96,8 +96,8 @@ window.Langtrainer.LangtrainerApp =
   navigateToFeedback: ->
     @navigate('feedback', trigger: true)
 
-  showActivateDialog: (email) ->
-    model = new Langtrainer.LangtrainerApp.Models.User.Activation(email: email)
+  showActivateDialog: (id) ->
+    model = new Langtrainer.LangtrainerApp.Models.User.Activation(id: id)
     view = new Langtrainer.LangtrainerApp.Views.Dialogs.Activate(model: model)
     view.render()
 

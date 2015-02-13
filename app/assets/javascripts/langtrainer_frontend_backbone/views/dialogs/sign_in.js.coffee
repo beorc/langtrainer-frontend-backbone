@@ -59,7 +59,7 @@ class Langtrainer.LangtrainerApp.Views.Dialogs.SignIn extends Backbone.View
 
   showActivateDialog: ->
     @$el.one 'hidden.bs.modal', =>
-      Langtrainer.LangtrainerApp.showActivateDialog(@model.get('email'))
+      Langtrainer.LangtrainerApp.showActivateDialog(@model.id)
 
     @$el.modal('hide')
 

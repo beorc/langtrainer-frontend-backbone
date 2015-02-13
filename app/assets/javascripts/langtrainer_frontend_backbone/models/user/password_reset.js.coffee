@@ -1,7 +1,8 @@
 class Langtrainer.LangtrainerApp.Models.User.PasswordReset extends Backbone.Model
-  url: -> Langtrainer.LangtrainerApp.authApiEndpoint + '/api/users/password_resets/reset'
   _.extend(@prototype, Langtrainer.LangtrainerApp.Models.Extensions.Validation)
   _.extend(@prototype, Langtrainer.LangtrainerApp.Models.Extensions.Csrf)
+
+  url: -> Langtrainer.LangtrainerApp.authApiEndpoint + '/api/users/password_reset/reset'
 
   initialize: ->
     @initCsrf()
