@@ -44,10 +44,12 @@ window.Langtrainer.LangtrainerApp =
     @globalBus.on 'signUpDialog:hidden', @navigateRoot, @
     @globalBus.on 'feedbackDialog:hidden', @navigateRoot, @
     @globalBus.on 'activateDialog:hidden', @navigateRoot, @
-    @globalBus.on 'passwordResetDialog:hidden', @navigateRoot, @
+    @globalBus.on 'passwordResetRequestDialog:hidden', @navigateRoot, @
     @globalBus.on 'csrfChanged', @resetCsrf, @
 
     @reset(initialData.currentUser, {}, successCallback, errorCallback)
+
+    Langtrainer.LangtrainerApp.globalBus.trigger('application:start')
 
     Backbone.history.start()
 

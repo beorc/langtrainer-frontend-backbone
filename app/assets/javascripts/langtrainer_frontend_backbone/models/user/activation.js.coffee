@@ -5,3 +5,8 @@ class Langtrainer.LangtrainerApp.Models.User.Activation extends Backbone.Model
 
   initialize: ->
     @initCsrf()
+    @on 'sync', @onSynced, @
+
+  onSignedIn: (model, resp, options) ->
+    Langtrainer.LangtrainerApp.globalBus.trigger('csrfChanged', options.xhr)
+    Langtrainer.LangtrainerApp.globalBus.trigger('user:signedIn', resp.user)
