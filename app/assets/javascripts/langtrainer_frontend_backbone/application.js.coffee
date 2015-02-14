@@ -23,9 +23,10 @@ window.Langtrainer.LangtrainerApp =
   globalBus: _.extend({}, Backbone.Events)
 
   apiEndpoint: ''
+  locales: {}
 
   run: (initialData, successCallback, errorCallback)->
-    @locales = initialData.locales
+    @locales = initialData.locales || {}
 
     @apiEndpoint = initialData.apiEndpoint
     @authApiEndpoint = initialData.authApiEndpoint

@@ -12,10 +12,11 @@ describe "Langtrainer.LangtrainerApp.Models.User", ->
     beforeEach ->
       $.cookie('token', 'cookie-token')
 
-    describe 'when token changes', ->
+    describe '#persist', ->
       beforeEach ->
         spyOn @model, 'save'
         @model.set('token', 'new-token')
+        @model.persist()
 
       it 'should store token to the cookie', ->
         expect($.cookie('token')).toEqual('new-token')
@@ -29,12 +30,13 @@ describe "Langtrainer.LangtrainerApp.Models.User", ->
 
   describe 'given signed in user', ->
     beforeEach ->
-      @model.set('email', 'test@test.ru')
+      @model.set('activation_state', 'active')
 
-    describe 'when token changes', ->
+    describe '#persist', ->
       beforeEach ->
         spyOn @model, 'save'
         @model.set('token', 'model-token')
+        @model.persist()
 
       it 'should save model', ->
         expect(@model.save).toHaveBeenCalled()

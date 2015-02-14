@@ -6,6 +6,7 @@ class Langtrainer.LangtrainerApp.Models.User extends Backbone.Model
   initialize: ->
     @initCsrf()
 
+    @listenTo @, 'change', @saveToCookie
     @listenTo @, 'change:native_language_slug', @onNativeLanguageSlugChanged
 
   readAttribute: (attrName) ->
@@ -22,9 +23,10 @@ class Langtrainer.LangtrainerApp.Models.User extends Backbone.Model
   persist: ->
     if @signedIn()
       @save() if @hasChanged()
-    else
-      _.each @changedAttributes(), (value, key) ->
-        $.cookie(key, String(value))
+
+  saveToCookie: ->
+    _.each @changedAttributes(), (value, key) ->
+      $.cookie(key, String(value))
 
   signedIn: ->
     @get('activation_state') is 'active'

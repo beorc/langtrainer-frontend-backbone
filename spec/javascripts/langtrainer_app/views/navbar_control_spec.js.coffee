@@ -37,6 +37,7 @@ describe "Langtrainer.LangtrainerApp.Views.NavbarControl", ->
     beforeEach ->
       window.Langtrainer.LangtrainerApp.currentUser.set('id', '1')
       window.Langtrainer.LangtrainerApp.currentUser.set('email', 'test@test.ru')
+      window.Langtrainer.LangtrainerApp.currentUser.set('activation_state', 'active')
       @view.render()
 
     it 'should render sign out button', ->

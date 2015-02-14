@@ -11,7 +11,7 @@ describe "Langtrainer.LangtrainerApp.Views.Dialogs.SignIn", ->
     @world.set(worldData)
 
     @view = new Langtrainer.LangtrainerApp.Views.Dialogs.SignIn
-    @view.renderForm()
+    @view.render()
 
   it "should be a Backbone.View", ->
     expect(@view).toEqual(jasmine.any(Backbone.View))
