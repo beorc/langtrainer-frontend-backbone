@@ -127,9 +127,11 @@ class Langtrainer.LangtrainerApp.Models.Step extends Backbone.Model
           that.trigger('change', that)
           that.trigger('verify:right')
           that.resetState()
+          Langtrainer.LangtrainerApp.globalBus.trigger('step:rightAnswer')
         else
           that.trigger('verify:wrong')
           that.wrongAnsers += 1
+          Langtrainer.LangtrainerApp.globalBus.trigger('step:wrongAnswer')
       error: ->
         that.trigger('verify:error')
 

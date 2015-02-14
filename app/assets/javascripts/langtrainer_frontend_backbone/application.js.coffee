@@ -46,6 +46,8 @@ window.Langtrainer.LangtrainerApp =
     @globalBus.on 'activateDialog:hidden', @navigateRoot, @
     @globalBus.on 'passwordResetRequestDialog:hidden', @navigateRoot, @
     @globalBus.on 'csrfChanged', @resetCsrf, @
+    @globalBus.on 'step:rightAnswer', @persistUser, @
+    @globalBus.on 'step:wrongAnswer', @persistUser, @
 
     @reset(initialData.currentUser, {}, successCallback, errorCallback)
 
@@ -69,6 +71,9 @@ window.Langtrainer.LangtrainerApp =
         @currentUser.attributes.native_language_slug = nativeLanguageSlug
 
     @world.fetch(success: successCallback, error: errorCallback)
+
+  persistUser: ->
+    @currentUser.persist()
 
   navigate: (fragment, options)->
     scroll = $(window).scrollTop()
@@ -113,8 +118,9 @@ window.Langtrainer.LangtrainerApp =
     chain = token.split('.')
     result = @locales[@currentUser.get('native_language_slug')]
 
-    _.each chain, (segment) ->
-      result = result[segment]
+    if result
+      _.each chain, (segment) ->
+        result = result[segment]
 
     result
 

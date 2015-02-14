@@ -6,7 +6,6 @@ class Langtrainer.LangtrainerApp.Models.User extends Backbone.Model
   initialize: ->
     @initCsrf()
 
-    @listenTo @, 'change:token change:current_course_slug change:language_slug change:native_language_slug change:question_help_enabled', @persist
     @listenTo @, 'change:native_language_slug', @onNativeLanguageSlugChanged
 
   readAttribute: (attrName) ->
@@ -22,13 +21,13 @@ class Langtrainer.LangtrainerApp.Models.User extends Backbone.Model
 
   persist: ->
     if @signedIn()
-      @save()
+      @save() if @hasChanged()
     else
       _.each @changedAttributes(), (value, key) ->
         $.cookie(key, String(value))
 
   signedIn: ->
-    !!@get('email')
+    @get('activation_state') is 'active'
 
   getCurrentCourse: ->
     slug = @readAttribute('current_course_slug')
@@ -55,6 +54,7 @@ class Langtrainer.LangtrainerApp.Models.User extends Backbone.Model
   toggleQuestionHelp: ->
     enabled = @questionHelpEnabled()
     @set('question_help_enabled', !enabled)
+    @persist()
 
   questionHelpEnabled: ->
     attrValue = @readAttribute('question_help_enabled')

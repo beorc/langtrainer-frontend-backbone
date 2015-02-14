@@ -9,7 +9,7 @@ class Langtrainer.LangtrainerApp.Models.User.Session extends Backbone.Model
     @initCsrf()
     @on 'error', @handleServerSideValidation, @
     @on 'error', @handleUserStatus, @
-    @on 'sync', @onSignedIn, @
+    @on 'sync', @onSynced, @
 
   validate: (attrs, options)->
     errors = {}
@@ -22,6 +22,6 @@ class Langtrainer.LangtrainerApp.Models.User.Session extends Backbone.Model
     unless _.isEmpty(errors)
       return errors
 
-  onSignedIn: (model, resp, options) ->
+  onSynced: (model, resp, options) ->
     Langtrainer.LangtrainerApp.globalBus.trigger('csrfChanged', options.xhr)
     Langtrainer.LangtrainerApp.globalBus.trigger('user:signedIn', resp.user)

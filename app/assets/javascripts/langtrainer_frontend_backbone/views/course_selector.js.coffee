@@ -29,3 +29,5 @@ class Langtrainer.LangtrainerApp.Views.CourseSelector extends Backbone.View
 
     if slug != @model.get('slug')
       @model.set @collection.findWhere(slug: slug).attributes
+      Langtrainer.LangtrainerApp.currentUser.set('current_course_slug', slug)
+      Langtrainer.LangtrainerApp.currentUser.persist()

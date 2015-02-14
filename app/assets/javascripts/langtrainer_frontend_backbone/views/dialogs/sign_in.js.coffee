@@ -57,9 +57,9 @@ class Langtrainer.LangtrainerApp.Views.Dialogs.SignIn extends Backbone.View
   onCloseBtnClick: ->
     $(@el).modal('hide')
 
-  showActivateDialog: ->
-    @$el.one 'hidden.bs.modal', =>
-      Langtrainer.LangtrainerApp.showActivateDialog(@model.id)
+  showActivateDialog: (id) ->
+    @$el.one 'hidden.bs.modal', ->
+      Langtrainer.LangtrainerApp.showActivateDialog(id)
 
     @$el.modal('hide')
 
