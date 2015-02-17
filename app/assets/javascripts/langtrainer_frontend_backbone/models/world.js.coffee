@@ -3,21 +3,21 @@ class Langtrainer.LangtrainerApp.Models.World extends Backbone.Model
 
   initialize: ->
     Langtrainer.LangtrainerApp.world = @
-    @set('step', new Langtrainer.LangtrainerApp.Models.Step)
-    @set('unit', new Langtrainer.LangtrainerApp.Models.Unit)
-    @set('course', new Langtrainer.LangtrainerApp.Models.Course)
+    #@set('step', new Langtrainer.LangtrainerApp.Models.Step)
+    #@set('unit', new Langtrainer.LangtrainerApp.Models.Unit)
+    #@set('course', new Langtrainer.LangtrainerApp.Models.Course)
     @set('language', new Langtrainer.LangtrainerApp.Models.Language)
     @set('nativeLanguage', new Langtrainer.LangtrainerApp.Models.Language)
 
     @set('coursesCollection', new Langtrainer.LangtrainerApp.Collections.Courses)
     @set('nativeLanguagesCollection', new Langtrainer.LangtrainerApp.Collections.Languages)
     @set('languagesCollection', new Langtrainer.LangtrainerApp.Collections.Languages)
-    @set('unitsCollection', new Langtrainer.LangtrainerApp.Collections.Units)
+    #@set('unitsCollection', new Langtrainer.LangtrainerApp.Collections.Units)
 
     @listenTo @, 'change:token', @reset
 
-    @listenTo @get('course'), 'change:slug', @onCourseChanged
-    @listenTo @get('unit'), 'change:slug', @onUnitChanged
+    #@listenTo @get('course'), 'change:slug', @onCourseChanged
+    #@listenTo @get('unit'), 'change:slug', @onUnitChanged
     @listenTo @get('nativeLanguage'), 'change:slug', @onNativeLanguageChanged
     @listenTo @get('language'), 'change:slug', @onLanguageChanged
 
@@ -27,16 +27,18 @@ class Langtrainer.LangtrainerApp.Models.World extends Backbone.Model
     @get('coursesCollection').reset(@get('courses'))
     @get('nativeLanguagesCollection').reset(@get('languages'))
 
-    @get('course').set Langtrainer.LangtrainerApp.currentUser.getCurrentCourse().attributes
+    #@get('course').set Langtrainer.LangtrainerApp.currentUser.getCurrentCourse().attributes
+
+    Langtrainer.LangtrainerApp.trainingBus.trigger('course:changed', Langtrainer.LangtrainerApp.currentUser.getCurrentCourse())
 
     @get('nativeLanguage').set Langtrainer.LangtrainerApp.currentUser.getCurrentNativeLanguage().attributes
 
-  onCourseChanged: (course) ->
-    @get('unitsCollection').reset course.get('units')
-    @get('unit').set course.getCurrentUnit().attributes
+  #onCourseChanged: (course) ->
+    #@get('unitsCollection').reset course.get('units')
+    #@get('unit').set course.getCurrentUnit().attributes
 
-  onUnitChanged: (unit) ->
-    @get('step').set unit.get('current_step')
+  #onUnitChanged: (unit) ->
+    #@get('step').set unit.get('current_step')
 
   onNativeLanguageChanged: (nativeLanguage) ->
     nativeSlug = nativeLanguage.get('slug')

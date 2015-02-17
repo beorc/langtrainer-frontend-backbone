@@ -18,7 +18,7 @@ class Langtrainer.LangtrainerApp.Views.StepView extends Backbone.View
     'click .lt-question-help-toggle': 'onQuestionHelpToggle'
 
   initialize: ->
-    @listenTo Langtrainer.LangtrainerApp.world.get('step'), 'change', @renderStep
+    @listenTo Langtrainer.LangtrainerApp.trainingBus.on 'step:changed', @renderStep, @
     @listenTo Langtrainer.LangtrainerApp.world.get('language'), 'change', @renderStep
     @listenTo Langtrainer.LangtrainerApp.world.get('nativeLanguage'), 'change', @renderStep
 
@@ -43,16 +43,17 @@ class Langtrainer.LangtrainerApp.Views.StepView extends Backbone.View
       placement: 'top'
       trigger: 'manual'
 
-    @renderStep()
+    @renderStep(@model)
 
     @
 
-  renderStep: ->
-    @$('.lt-question').text(@model.question(@currentNativeLanguage()))
+  renderStep: (model) ->
+    @model = model
+    @$('.lt-question').text(model.question(@currentNativeLanguage()))
     @$('.lt-answer').val('')
     @onQuestionHelpChanged()
 
-    questionHelp = @model.questionHelp(@currentLanguage())
+    questionHelp = model.questionHelp(@currentLanguage())
     if questionHelp? && questionHelp.length > 0
       @$('.lt-question-notification').sticky(questionHelp, autoclose: false)
     else

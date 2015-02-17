@@ -8,15 +8,17 @@ class Langtrainer.LangtrainerApp.Views.UnitSelector extends Backbone.View
     'change select': 'onChange'
 
   initialize: ->
-    @listenTo @collection, 'reset', @render
+    Langtrainer.LangtrainerApp.trainingBus.on 'course:changed', @onCourseChanged, @
+    #@listenTo @collection, 'reset', @render
     @initLocalization(onLocaleChanged: @render)
+    @currentUnitSlug = @model.get('slug')
 
   render: ->
     that = @
     if @collection.length > 0
       @$el.hide().html(@template(
         units: @collection.models
-        model: @model
+        model: @getCurrentUnit()
         label: LangtrainerI18n.t('label.unit')
       ))
       @$input = @.$('select')
@@ -25,8 +27,17 @@ class Langtrainer.LangtrainerApp.Views.UnitSelector extends Backbone.View
       @$el.show()
     @
 
+  getCurrentUnit: ->
+    @collection.findWhere(slug: @currentUnitSlug)
+
+  onCourseChanged: (course) ->
+    @collection = course.get('unitsCollection')
+    @currentUnitSlug = course.getCurrentUnit().get('slug')
+    @render()
+
   onChange: (ev) ->
     slug = $(ev.target).val()
 
-    if slug != @model.get('slug')
-      @model.set @collection.findWhere(slug: slug).attributes
+    if slug != @currentUnitSlug
+      @currentUnitSlug = slug
+      Langtrainer.LangtrainerApp.trainingBus.trigger('unit:changed', @getCurrentUnit())

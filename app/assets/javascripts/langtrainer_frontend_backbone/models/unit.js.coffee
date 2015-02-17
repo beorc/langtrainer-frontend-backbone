@@ -1,9 +1,12 @@
 class Langtrainer.LangtrainerApp.Models.Unit extends Backbone.Model
   initialize: ->
-    @listenTo Langtrainer.LangtrainerApp.world.get('step'), 'change', @onStepChanged
+    Langtrainer.LangtrainerApp.trainingBus.on 'step:changed', @onStepChanged, @
 
   title: ->
     _.string.capitalize(@get('slug')).replace(/_/g, ' ')
+
+  getCurrentStep: ->
+    new Langtrainer.LangtrainerApp.Models.Step(@get('current_step'))
 
   onStepChanged: (step) ->
     if @get('id') == step.get('unit_id')

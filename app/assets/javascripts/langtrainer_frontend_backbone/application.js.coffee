@@ -21,6 +21,7 @@ window.Langtrainer.LangtrainerApp =
   world: null
   currentUser: null
   globalBus: _.extend({}, Backbone.Events)
+  trainingBus: _.extend({}, Backbone.Events)
 
   apiEndpoint: ''
   locales: {}
@@ -50,11 +51,24 @@ window.Langtrainer.LangtrainerApp =
     @globalBus.on 'step:rightAnswer', @persistUser, @
     @globalBus.on 'step:wrongAnswer', @persistUser, @
 
+    @trainingBus.on 'course:changed', @onCourseChanged, @
+    @trainingBus.on 'unit:changed', @onUnitChanged, @
+
     @reset(initialData.currentUser, {}, successCallback, errorCallback)
 
     Langtrainer.LangtrainerApp.globalBus.trigger('application:start')
 
     Backbone.history.start()
+
+  onCourseChanged: (course) ->
+    @currentUser.set('current_course_slug', course.get('slug'))
+    @currentUser.persist()
+    Langtrainer.LangtrainerApp.trainingBus.trigger('unit:changed', course.getCurrentUnit())
+
+  onUnitChanged: (unit) ->
+    $.cookie('current_unit_slug', unit.get('slug'))
+    step = new Langtrainer.LangtrainerApp.Models.Step(unit.get('current_step'))
+    Langtrainer.LangtrainerApp.trainingBus.trigger('step:changed', step)
 
   resetCsrf: (xhr) ->
     param = xhr.getResponseHeader('X-CSRF-Param')

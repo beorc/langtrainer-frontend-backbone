@@ -10,13 +10,14 @@ class Langtrainer.LangtrainerApp.Views.CourseSelector extends Backbone.View
   initialize: ->
     @listenTo @collection, 'change', @render
     @initLocalization(onLocaleChanged: @render)
+    @currentCourseSlug = @model.get('slug')
 
   render: ->
     that = @
     if @collection.length > 0
       @$el.html(@template(
         courses: @collection.models
-        model: @model
+        model: @getCurrentCourse()
         label: LangtrainerI18n.t('label.course')
       ))
       @$input = @.$('select')
@@ -24,10 +25,12 @@ class Langtrainer.LangtrainerApp.Views.CourseSelector extends Backbone.View
 
     @
 
+  getCurrentCourse: ->
+    @collection.findWhere(slug: @currentCourseSlug)
+
   onChange: (ev) ->
     slug = $(ev.target).val()
 
-    if slug != @model.get('slug')
-      @model.set @collection.findWhere(slug: slug).attributes
-      Langtrainer.LangtrainerApp.currentUser.set('current_course_slug', slug)
-      Langtrainer.LangtrainerApp.currentUser.persist()
+    if slug != @currentCourseSlug
+      @currentCourseSlug = slug
+      Langtrainer.LangtrainerApp.trainingBus.trigger('course:changed', @getCurrentCourse())

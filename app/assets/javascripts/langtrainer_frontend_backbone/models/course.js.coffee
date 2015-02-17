@@ -1,21 +1,9 @@
 class Langtrainer.LangtrainerApp.Models.Course extends Backbone.Model
   initialize: ->
     @set('unitsCollection', new Langtrainer.LangtrainerApp.Collections.Units(@get('units')))
-    @listenTo @, 'change:current_unit_slug', @onCurrentUnitSlugChanged
     @listenTo @, 'change:units', @onUnitsChanged
 
-    if Langtrainer.LangtrainerApp.world.get('unit').get('slug')?
-      @onUnitChanged(Langtrainer.LangtrainerApp.world.get('unit'))
-    else
-      @listenTo Langtrainer.LangtrainerApp.world.get('unit'), 'change:slug', @onUnitChanged
-
-  onWorldChanged: (world) ->
-    @listenTo world.get('unit'), 'change:slug', @onUnitChanged
-
-    @onUnitChanged(world.get('unit'))
-
-  onCurrentUnitSlugChanged: ->
-    $.cookie('current_unit_slug', @get('current_unit_slug'))
+    Langtrainer.LangtrainerApp.trainingBus.on 'unit:changed', @onUnitChanged, @
 
   onUnitsChanged: ->
     @get('unitsCollection').set(@get('units'))
