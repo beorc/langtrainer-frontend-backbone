@@ -1,7 +1,4 @@
 class Langtrainer.LangtrainerApp.Views.NativeLanguageSelector extends Langtrainer.LangtrainerApp.Views.LanguageSelector
-  events:
-    'change select': 'onChange'
-
   onChange: (ev) ->
     slug = $(ev.target).val()
 

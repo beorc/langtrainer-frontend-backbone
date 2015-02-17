@@ -9,15 +9,16 @@ class Langtrainer.LangtrainerApp.Views.LanguageSelector extends Backbone.View
 
   initialize: (options) ->
     @options = options
-    @listenTo @collection, 'reset', @render
+    #@listenTo @collection, 'reset', @render
     @initLocalization(onLocaleChanged: @render)
+    @currentLanguageSlug = @model.get('slug')
 
   render: ->
     that = @
     if @collection.length > 0
       @$el.hide().html(@template(
         languages: @collection.models
-        model: @model
+        model: @getCurrentLanguage()
         label: LangtrainerI18n.t('label.' + @options.label)
       ))
       @$input = @.$('select')
@@ -26,8 +27,5 @@ class Langtrainer.LangtrainerApp.Views.LanguageSelector extends Backbone.View
       @$el.show()
     @
 
-  onChange: (ev) ->
-    slug = $(ev.target).val()
-
-    if slug != @model.get('slug')
-      @model.set('slug', slug)
+  getCurrentLanguage: ->
+    @collection.findWhere(slug: @currentLanguageSlug)

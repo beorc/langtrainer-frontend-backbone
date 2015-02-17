@@ -5,6 +5,7 @@
 #= require_tree ./collections
 #= require_tree ./templates
 #= require_tree ./views/extensions
+#= require_tree ./views/base
 #= require_tree ./views
 #= require_tree ./routers
 
