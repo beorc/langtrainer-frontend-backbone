@@ -29,4 +29,4 @@ class Langtrainer.LangtrainerApp.Views.UnitSelector extends Backbone.View
     slug = $(ev.target).val()
 
     if slug != @model.get('slug')
-      @model.set('slug', slug)
+      @model.set @collection.findWhere(slug: slug).attributes
