@@ -18,9 +18,9 @@ class Langtrainer.LangtrainerApp.Views.StepView extends Backbone.View
     'click .lt-question-help-toggle': 'onQuestionHelpToggle'
 
   initialize: ->
-    @listenTo Langtrainer.LangtrainerApp.trainingBus.on 'step:changed', @renderStep, @
-    @listenTo Langtrainer.LangtrainerApp.world.get('language'), 'change', @renderStep
-    @listenTo Langtrainer.LangtrainerApp.world.get('nativeLanguage'), 'change', @renderStep
+    @listenTo Langtrainer.LangtrainerApp.trainingBus.on 'step:changed', @onStepChanged, @
+    @listenTo Langtrainer.LangtrainerApp.globalBus.on 'foreignLanguage:changed', @onForeignLanguageChanged, @
+    @listenTo Langtrainer.LangtrainerApp.globalBus.on 'nativeLanguage:changed', @onNativeLanguageChanged, @
 
     @listenTo Langtrainer.LangtrainerApp.currentUser, 'change:question_help_enabled', @onQuestionHelpChanged
 
@@ -34,6 +34,9 @@ class Langtrainer.LangtrainerApp.Views.StepView extends Backbone.View
 
     @initLocalization(onLocaleChanged: @render)
 
+    @currentForeignLanguage = Langtrainer.LangtrainerApp.currentUser.getCurrentForeignLanguage()
+    @currentNativeLanguage = Langtrainer.LangtrainerApp.currentUser.getCurrentNativeLanguage()
+
   render: ->
     @$el.html(@template())
     @$input = @$('.lt-answer')
@@ -43,17 +46,16 @@ class Langtrainer.LangtrainerApp.Views.StepView extends Backbone.View
       placement: 'top'
       trigger: 'manual'
 
-    @renderStep(@model)
+    @renderStep()
 
     @
 
-  renderStep: (model) ->
-    @model = model
-    @$('.lt-question').text(model.question(@currentNativeLanguage()))
+  renderStep: ->
+    @$('.lt-question').text(@model.question(@currentNativeLanguage))
     @$('.lt-answer').val('')
     @onQuestionHelpChanged()
 
-    questionHelp = model.questionHelp(@currentLanguage())
+    questionHelp = @model.questionHelp(@currentForeignLanguage)
     if questionHelp? && questionHelp.length > 0
       @$('.lt-question-notification').sticky(questionHelp, autoclose: false)
     else
@@ -61,14 +63,20 @@ class Langtrainer.LangtrainerApp.Views.StepView extends Backbone.View
 
     @
 
+  onNativeLanguageChanged: (model) ->
+    @currentNativeLanguage = model
+    @renderStep()
+
+  onForeignLanguageChanged: (model) ->
+    @currentForeignLanguage = model
+    @renderStep()
+
+  onStepChanged: (model) ->
+    @model = model
+    @renderStep()
+
   toggleQuestionHelp: ->
     Langtrainer.LangtrainerApp.currentUser.toggleQuestionHelp()
-
-  currentLanguage: ->
-    Langtrainer.LangtrainerApp.currentUser.getCurrentLanguage()
-
-  currentNativeLanguage: ->
-    Langtrainer.LangtrainerApp.currentUser.getCurrentNativeLanguage()
 
   isVerifyKey: (event) ->
     event.which is 13 && !event.shiftKey
@@ -83,7 +91,7 @@ class Langtrainer.LangtrainerApp.Views.StepView extends Backbone.View
     if @isVerifyKey(event)
       @verifyAnswerOnServer()
     else
-      @model.verifyAnswer(@$input.val(), @currentLanguage(), 'keyup')
+      @model.verifyAnswer(@$input.val(), @currentForeignLanguage, 'keyup')
     true
 
   onWrongKeyUp: ->
@@ -97,7 +105,7 @@ class Langtrainer.LangtrainerApp.Views.StepView extends Backbone.View
 
   onShowNextWord: ->
     answer = @$input.val()
-    matches = @model.nextWord(answer, @currentLanguage())
+    matches = @model.nextWord(answer, @currentForeignLanguage)
 
     if matches?
       ending = matches[1]
@@ -110,11 +118,11 @@ class Langtrainer.LangtrainerApp.Views.StepView extends Backbone.View
         if nextWord.length > 0
           @$input.val("#{answer} #{nextWord}")
 
-      @model.verifyAnswer(@$input.val(), @currentLanguage(), 'keyup')
+      @model.verifyAnswer(@$input.val(), @currentForeignLanguage, 'keyup')
     false
 
   onShowRightAnswer: ->
-    answers = @model.answers(@currentLanguage())
+    answers = @model.answers(@currentForeignLanguage)
     _.each answers.reverse(), (rightAnswer, index) ->
       @$('.lt-answer-notification').sticky("#{LangtrainerI18n.t('step_view.popover.answer')} ##{answers.length - index}: #{rightAnswer}", autoclose: 10000)
 
@@ -126,7 +134,7 @@ class Langtrainer.LangtrainerApp.Views.StepView extends Backbone.View
     false
 
   verifyAnswerOnServer: ->
-    @model.verifyAnswerOnServer(@$input.val(), @currentLanguage())
+    @model.verifyAnswerOnServer(@$input.val(), @currentForeignLanguage)
 
   onCheckAnswer: ->
     @verifyAnswerOnServer()

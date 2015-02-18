@@ -69,7 +69,14 @@ window.Langtrainer.LangtrainerApp =
   onUnitChanged: (unit) ->
     $.cookie('current_unit_slug', unit.get('slug'))
     step = new Langtrainer.LangtrainerApp.Models.Step(unit.get('current_step'))
-    Langtrainer.LangtrainerApp.trainingBus.trigger('step:changed', step)
+    @trainingBus.trigger('step:changed', step)
+
+  onNativeLanguageChanged: (language) ->
+    Langtrainer.LangtrainerApp.currentUser.set('native_language_slug', language.get('slug'))
+    Langtrainer.LangtrainerApp.globalBus.trigger('localeChanged', language.get('slug'))
+
+  onForeignLanguageChanged: (language) ->
+    Langtrainer.LangtrainerApp.currentUser.set('language_slug', language.get('slug'))
 
   resetCsrf: (xhr) ->
     param = xhr.getResponseHeader('X-CSRF-Param')

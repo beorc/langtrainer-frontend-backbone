@@ -42,16 +42,17 @@ class Langtrainer.LangtrainerApp.Models.User extends Backbone.Model
 
     return result || collection.at(0)
 
-  getCurrentLanguage: ->
+  getCurrentForeignLanguage: ->
     slug = @readAttribute('language_slug') || 'en'
 
-    collection = Langtrainer.LangtrainerApp.world.get('languagesCollection')
+    nativeSlug = @getCurrentNativeLanguage().get('slug')
+    collection = Langtrainer.LangtrainerApp.world.getForeignLanguages(nativeSlug)
     collection.findWhere(slug: slug) || collection.at(0)
 
   getCurrentNativeLanguage: ->
     slug = @readAttribute('native_language_slug') || 'ru'
 
-    Langtrainer.LangtrainerApp.world.get('nativeLanguagesCollection').findWhere(slug: slug)
+    Langtrainer.LangtrainerApp.world.get('languagesCollection').findWhere(slug: slug)
 
   toggleQuestionHelp: ->
     enabled = @questionHelpEnabled()
@@ -82,6 +83,3 @@ class Langtrainer.LangtrainerApp.Models.User extends Backbone.Model
     options.headers['X-CSRF-Token'] = @csrfToken()
 
     $.ajax options
-
-  onNativeLanguageSlugChanged: ->
-    Langtrainer.LangtrainerApp.globalBus.trigger('localeChanged', @get('native_language_slug'))
