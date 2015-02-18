@@ -19,18 +19,18 @@ class Langtrainer.LangtrainerApp.Views.StepView extends Backbone.View
 
   initialize: ->
     @listenTo Langtrainer.LangtrainerApp.trainingBus.on 'step:changed', @onStepChanged, @
+    @listenTo Langtrainer.LangtrainerApp.trainingBus.on 'step:rightAnswer', @onVerifyRight, @
+    @listenTo Langtrainer.LangtrainerApp.trainingBus.on 'step:wrongAnswer', @onVerifyWrong, @
+    @listenTo Langtrainer.LangtrainerApp.trainingBus.on 'step:verificationError', @onVerifyWrong, @
+
     @listenTo Langtrainer.LangtrainerApp.globalBus.on 'foreignLanguage:changed', @onForeignLanguageChanged, @
     @listenTo Langtrainer.LangtrainerApp.globalBus.on 'nativeLanguage:changed', @onNativeLanguageChanged, @
 
     @listenTo Langtrainer.LangtrainerApp.currentUser, 'change:question_help_enabled', @onQuestionHelpChanged
 
-    @listenTo @model, 'keyup:wrong', @onWrongKeyUp
-    @listenTo @model, 'keyup:right', @onRightKeyUp
-    @listenTo @model, 'keyup:empty', @onEmptyKeyUp
-
-    @listenTo @model, 'verify:right', @onVerifyRight
-    @listenTo @model, 'verify:wrong', @onVerifyWrong
-    @listenTo @model, 'verify:error', @onVerifyError
+    @listenTo Langtrainer.LangtrainerApp.trainingBus.on 'step:wrongInput', @onWrongKeyUp, @
+    @listenTo Langtrainer.LangtrainerApp.trainingBus.on 'step:rightInput', @onRightKeyUp, @
+    @listenTo Langtrainer.LangtrainerApp.trainingBus.on 'step:emptyInput', @onEmptyKeyUp, @
 
     @initLocalization(onLocaleChanged: @render)
 
@@ -91,7 +91,7 @@ class Langtrainer.LangtrainerApp.Views.StepView extends Backbone.View
     if @isVerifyKey(event)
       @verifyAnswerOnServer()
     else
-      @model.verifyAnswer(@$input.val(), @currentForeignLanguage, 'keyup')
+      @model.verifyAnswer(@$input.val(), @currentForeignLanguage)
     true
 
   onWrongKeyUp: ->
@@ -118,7 +118,7 @@ class Langtrainer.LangtrainerApp.Views.StepView extends Backbone.View
         if nextWord.length > 0
           @$input.val("#{answer} #{nextWord}")
 
-      @model.verifyAnswer(@$input.val(), @currentForeignLanguage, 'keyup')
+      @model.verifyAnswer(@$input.val(), @currentForeignLanguage)
     false
 
   onShowRightAnswer: ->

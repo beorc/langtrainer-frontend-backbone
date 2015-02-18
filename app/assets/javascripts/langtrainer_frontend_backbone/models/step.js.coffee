@@ -80,15 +80,15 @@ class Langtrainer.LangtrainerApp.Models.Step extends Backbone.Model
     rightAnswer = null
 
     if answer.length is 0
-      @triggerEvent(context, 'empty')
+      Langtrainer.LangtrainerApp.trainingBus.trigger('step:emptyInput', @)
     else
       rightAnswer = _.find @answers(language), (rightAnswer) ->
         !!that.matches(answer, rightAnswer)
 
       if rightAnswer?
-        @triggerEvent(context, 'right')
+        Langtrainer.LangtrainerApp.trainingBus.trigger('step:rightInput', @)
       else
-        @triggerEvent(context, 'wrong')
+        Langtrainer.LangtrainerApp.trainingBus.trigger('step:wrongInput', @)
 
     rightAnswer
 
@@ -114,7 +114,7 @@ class Langtrainer.LangtrainerApp.Models.Step extends Backbone.Model
 
   verifyAnswerOnServer: (answer, language) ->
     if answer.length is 0
-      @trigger('verify:wrong')
+      Langtrainer.LangtrainerApp.trainingBus.trigger('step:wrongAnswer', that)
       return
 
     that = @
@@ -125,15 +125,13 @@ class Langtrainer.LangtrainerApp.Models.Step extends Backbone.Model
         if response
           that.set response
           Langtrainer.LangtrainerApp.trainingBus.trigger('step:changed', that)
-          that.trigger('verify:right')
+          Langtrainer.LangtrainerApp.trainingBus.trigger('step:rightAnswer', that)
           that.resetState()
-          Langtrainer.LangtrainerApp.globalBus.trigger('step:rightAnswer')
         else
-          that.trigger('verify:wrong')
           that.wrongAnsers += 1
-          Langtrainer.LangtrainerApp.globalBus.trigger('step:wrongAnswer')
+          Langtrainer.LangtrainerApp.trainingBus.trigger('step:wrongAnswer', that)
       error: ->
-        that.trigger('verify:error')
+        Langtrainer.LangtrainerApp.trainingBus.trigger 'step:verificationError', that
 
   nextStep: ->
     that = @
@@ -145,7 +143,7 @@ class Langtrainer.LangtrainerApp.Models.Step extends Backbone.Model
         that.set response
         Langtrainer.LangtrainerApp.trainingBus.trigger('step:changed', that)
       error: ->
-        that.trigger('verify:error')
+        Langtrainer.LangtrainerApp.trainingBus.trigger 'step:verificationError', that
 
   showRightAnswer: ->
     $.ajax
