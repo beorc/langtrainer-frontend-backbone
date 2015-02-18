@@ -16,10 +16,10 @@ class Langtrainer.LangtrainerApp.Models.Step extends Backbone.Model
 
   baseParams: ->
     result = '?token=' + Langtrainer.LangtrainerApp.currentUser.readAttribute('token')
-    result += '&unit=' + Langtrainer.LangtrainerApp.world.get('unit').get('id')
+    result += '&unit=' + Langtrainer.LangtrainerApp.currentUser.getCurrentCourse().getCurrentUnit().get('id')
     result += '&step=' + @id
-    result += '&native_language=' + Langtrainer.LangtrainerApp.world.get('nativeLanguage').get('slug')
-    result += '&language=' + Langtrainer.LangtrainerApp.world.get('language').get('slug')
+    result += '&native_language=' + Langtrainer.LangtrainerApp.currentUser.getCurrentNativeLanguage().get('slug')
+    result += '&language=' + Langtrainer.LangtrainerApp.currentUser.getCurrentForeignLanguage().get('slug')
 
   nextWordUrl: ->
     result = Langtrainer.LangtrainerApp.apiEndpoint + '/help_next_word'
@@ -124,7 +124,7 @@ class Langtrainer.LangtrainerApp.Models.Step extends Backbone.Model
       success: (response) ->
         if response
           that.set response
-          that.trigger('change', that)
+          Langtrainer.LangtrainerApp.trainingBus.trigger('step:changed', that)
           that.trigger('verify:right')
           that.resetState()
           Langtrainer.LangtrainerApp.globalBus.trigger('step:rightAnswer')
@@ -143,8 +143,7 @@ class Langtrainer.LangtrainerApp.Models.Step extends Backbone.Model
       success: (response) ->
         that.resetState()
         that.set response
-        Langtrainer.LangtrainerApp.world.get('step').set response
-        that.trigger('change', that)
+        Langtrainer.LangtrainerApp.trainingBus.trigger('step:changed', that)
       error: ->
         that.trigger('verify:error')
 

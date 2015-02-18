@@ -72,7 +72,7 @@ class Langtrainer.LangtrainerApp.Views.StepView extends Backbone.View
     @renderStep()
 
   onStepChanged: (model) ->
-    @model = model
+    @model.set model.attributes
     @renderStep()
 
   toggleQuestionHelp: ->
