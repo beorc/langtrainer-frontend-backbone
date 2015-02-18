@@ -9,8 +9,8 @@ describe "Langtrainer.LangtrainerApp.Views.UnitSelector", ->
 
     @course = world.get('course')
     @view = new Langtrainer.LangtrainerApp.Views.UnitSelector(
-      collection: world.get('course').get('unitsCollection')
-      model: world.get('unit')
+      collection: Langtrainer.LangtrainerApp.currentUser.getCurrentCourse().get('unitsCollection')
+      model: Langtrainer.LangtrainerApp.currentUser.getCurrentCourse().getCurrentUnit()
     )
     @view.render()
 
@@ -25,7 +25,7 @@ describe "Langtrainer.LangtrainerApp.Views.UnitSelector", ->
     context.onChange = ->
     beforeEach ->
       spyOn context, 'onChange'
-      @view.model.on('change:slug', context.onChange)
+      Langtrainer.LangtrainerApp.trainingBus.on('unit:changed', context.onChange)
 
       select = @view.$('select')
       select
@@ -34,10 +34,12 @@ describe "Langtrainer.LangtrainerApp.Views.UnitSelector", ->
       select
 
     it 'should change current unit slug', ->
-      expect(@view.model.get('slug')).toEqual('1')
+      expect(@view.getCurrentUnit().get('slug')).toEqual('1')
 
-    it 'should trigger event change:slug for current unit model', ->
+    it 'should trigger the event', ->
       expect(context.onChange).toHaveBeenCalled()
 
     it 'should change current_unit_slug attribute in course', ->
-      expect(Langtrainer.LangtrainerApp.world.get('course').get('current_unit_slug')).toEqual(@view.model.get('slug'))
+      coursesCollection = Langtrainer.LangtrainerApp.world.get('coursesCollection')
+      course = coursesCollection.findWhere(slug: @view.getCurrentUnit().get('course_slug'))
+      expect(course.get('current_unit_slug')).toEqual('1')

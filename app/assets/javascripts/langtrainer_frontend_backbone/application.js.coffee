@@ -51,6 +51,8 @@ window.Langtrainer.LangtrainerApp =
     @globalBus.on 'csrfChanged', @resetCsrf, @
     @globalBus.on 'step:rightAnswer', @persistUser, @
     @globalBus.on 'step:wrongAnswer', @persistUser, @
+    @globalBus.on 'nativeLanguage:changed', @onNativeLanguageChanged, @
+    @globalBus.on 'foreignLanguage:changed', @onForeignLanguageChanged, @
 
     @trainingBus.on 'course:changed', @onCourseChanged, @
     @trainingBus.on 'unit:changed', @onUnitChanged, @

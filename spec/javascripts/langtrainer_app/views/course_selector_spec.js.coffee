@@ -9,7 +9,7 @@ describe "Langtrainer.LangtrainerApp.Views.CourseSelector", ->
 
     @view = new Langtrainer.LangtrainerApp.Views.CourseSelector(
       collection: world.get('coursesCollection')
-      model: world.get('course')
+      model: Langtrainer.LangtrainerApp.currentUser.getCurrentCourse()
     )
     @view.render()
 
@@ -24,7 +24,7 @@ describe "Langtrainer.LangtrainerApp.Views.CourseSelector", ->
     context.onChange = ->
     beforeEach ->
       spyOn context, 'onChange'
-      @view.model.on('change:slug', context.onChange)
+      Langtrainer.LangtrainerApp.trainingBus.on('course:changed', context.onChange)
 
       select = @view.$('select')
       select
@@ -33,10 +33,10 @@ describe "Langtrainer.LangtrainerApp.Views.CourseSelector", ->
       select
 
     it 'should change current course slug', ->
-      expect(@view.model.get('slug')).toEqual('1')
+      expect(@view.getCurrentCourse().get('slug')).toEqual('1')
 
-    it 'should trigger event change:slug for current course model', ->
+    it 'should trigger event', ->
       expect(context.onChange).toHaveBeenCalled()
 
     it 'should change current_course_slug attribute in user', ->
-      expect(Langtrainer.LangtrainerApp.currentUser.get('current_course_slug')).toEqual(@view.model.get('slug'))
+      expect(Langtrainer.LangtrainerApp.currentUser.get('current_course_slug')).toEqual('1')

@@ -5,7 +5,7 @@ describe "Langtrainer.LangtrainerApp.Views.StepView", ->
     Langtrainer.LangtrainerApp.currentUser = new Langtrainer.LangtrainerApp.Models.User
     world.set(worldData)
 
-    @view = new Langtrainer.LangtrainerApp.Views.StepView(model: world.get('step'))
+    @view = new Langtrainer.LangtrainerApp.Views.StepView(model: Langtrainer.LangtrainerApp.currentUser.getCurrentCourse().getCurrentUnit().getCurrentStep())
     @view.render()
 
   it "should be a Backbone.View", ->

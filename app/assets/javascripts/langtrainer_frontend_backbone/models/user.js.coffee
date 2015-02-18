@@ -7,7 +7,6 @@ class Langtrainer.LangtrainerApp.Models.User extends Backbone.Model
     @initCsrf()
 
     @listenTo @, 'change', @saveToCookie
-    @listenTo @, 'change:native_language_slug', @onNativeLanguageSlugChanged
 
   readAttribute: (attrName) ->
     attrValue = @get(attrName)

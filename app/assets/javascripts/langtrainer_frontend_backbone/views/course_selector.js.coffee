@@ -12,6 +12,8 @@ class Langtrainer.LangtrainerApp.Views.CourseSelector extends Backbone.View
     @initLocalization(onLocaleChanged: @render)
     @currentCourseSlug = @model.get('slug')
 
+    Langtrainer.LangtrainerApp.trainingBus.trigger('course:changed', @getCurrentCourse())
+
   render: ->
     that = @
     if @collection.length > 0
