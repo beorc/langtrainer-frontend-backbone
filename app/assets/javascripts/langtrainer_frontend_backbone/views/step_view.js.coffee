@@ -56,10 +56,13 @@ class Langtrainer.LangtrainerApp.Views.StepView extends Backbone.View
     @onQuestionHelpChanged()
 
     questionHelp = @model.questionHelp(@currentNativeLanguage)
+
+    @$('.lt-question-notification').empty()
+
     if questionHelp? && questionHelp.length > 0
       @$('.lt-question-notification').sticky(questionHelp, autoclose: false)
+      @$('.lt-question-help-toggle').removeClass('disabled')
     else
-      @$('.lt-question-notification').empty()
       @$('.lt-question-help-toggle').addClass('disabled')
 
     @
