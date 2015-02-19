@@ -59,6 +59,7 @@ class Langtrainer.LangtrainerApp.Models.Step extends Backbone.Model
     result = text
     result = result.replace(/(\n\r|\n|\r)/g, ' ')
     result = result.replace(/\s{2,}/g, ' ')
+    result = result.trim()
 
   sanitizeForRegex: (text) ->
     result = text

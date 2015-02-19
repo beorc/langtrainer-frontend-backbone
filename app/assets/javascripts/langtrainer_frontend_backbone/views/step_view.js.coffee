@@ -51,14 +51,15 @@ class Langtrainer.LangtrainerApp.Views.StepView extends Backbone.View
     @
 
   renderStep: ->
-    @$('.lt-question').text(@model.question(@currentNativeLanguage))
+    @$('.lt-question').html(@model.question(@currentNativeLanguage))
     @$('.lt-answer').val('')
     @onQuestionHelpChanged()
 
-    questionHelp = @model.questionHelp(@currentForeignLanguage)
+    questionHelp = @model.questionHelp(@currentNativeLanguage)
     if questionHelp? && questionHelp.length > 0
       @$('.lt-question-notification').sticky(questionHelp, autoclose: false)
     else
+      @$('.lt-question-notification').empty()
       @$('.lt-question-help-toggle').addClass('disabled')
 
     @
@@ -72,7 +73,7 @@ class Langtrainer.LangtrainerApp.Views.StepView extends Backbone.View
     @renderStep()
 
   onStepChanged: (model) ->
-    @model.set model.attributes
+    @model = model
     @renderStep()
 
   toggleQuestionHelp: ->
