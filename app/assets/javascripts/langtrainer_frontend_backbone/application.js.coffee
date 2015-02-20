@@ -59,7 +59,7 @@ window.Langtrainer.LangtrainerApp =
 
     @reset(initialData.currentUser, {}, successCallback, errorCallback)
 
-    Backbone.history.start()
+    Backbone.history.start() if !Backbone.History.started
 
   onCourseChanged: (course) ->
     @currentUser.set('current_course_slug', course.get('slug'))
