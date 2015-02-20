@@ -59,8 +59,6 @@ window.Langtrainer.LangtrainerApp =
 
     @reset(initialData.currentUser, {}, successCallback, errorCallback)
 
-    Langtrainer.LangtrainerApp.globalBus.trigger('application:start')
-
     Backbone.history.start()
 
   onCourseChanged: (course) ->
@@ -95,7 +93,12 @@ window.Langtrainer.LangtrainerApp =
       if nativeLanguageSlug?
         @currentUser.attributes.native_language_slug = nativeLanguageSlug
 
-    @world.fetch(success: successCallback, error: errorCallback)
+    success = (world) ->
+      successCallback(world)
+
+      Langtrainer.LangtrainerApp.globalBus.trigger('application:start')
+
+    @world.fetch(success: success, error: errorCallback)
 
   persistUser: ->
     @currentUser.persist()
