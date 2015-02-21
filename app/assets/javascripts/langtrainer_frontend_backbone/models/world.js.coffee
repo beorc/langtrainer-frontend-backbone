@@ -5,7 +5,7 @@ class Langtrainer.LangtrainerApp.Models.World extends Backbone.Model
     Langtrainer.LangtrainerApp.world = @
 
     @set('coursesCollection', new Langtrainer.LangtrainerApp.Collections.Courses)
-    @set('languagesCollection', new Langtrainer.LangtrainerApp.Collections.Languages)
+    @set('languagesCollection', new Langtrainer.LangtrainerApp.Collections.Languages([{slug: 'ru'}, {slug: 'en'}]))
 
     @listenTo @, 'change:token', @reset
 

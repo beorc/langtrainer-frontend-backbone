@@ -1,6 +1,4 @@
 class Langtrainer.LangtrainerApp.Views.CourseSelector extends Backbone.View
-  _.extend(@prototype, Langtrainer.LangtrainerApp.Views.Extensions.Localized)
-
   template: JST['langtrainer_frontend_backbone/templates/course_selector']
   id: 'course-selector'
 
@@ -9,10 +7,7 @@ class Langtrainer.LangtrainerApp.Views.CourseSelector extends Backbone.View
 
   initialize: ->
     @listenTo @collection, 'change', @render
-    @initLocalization(onLocaleChanged: @render)
     @currentCourseSlug = @model.get('slug')
-
-    Langtrainer.LangtrainerApp.trainingBus.trigger('course:changed', @getCurrentCourse())
 
   render: ->
     that = @

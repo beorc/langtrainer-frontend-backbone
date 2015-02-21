@@ -3,12 +3,12 @@ describe "Langtrainer.LangtrainerApp.Views.CourseSelector", ->
     Langtrainer.LangtrainerApp.clearCookies()
 
     worldData = getJSONFixture('world.json')
-    world = new Langtrainer.LangtrainerApp.Models.World
-    Langtrainer.LangtrainerApp.currentUser = new Langtrainer.LangtrainerApp.Models.User
-    world.set(worldData)
+
+    Langtrainer.LangtrainerApp.run()
+    Langtrainer.LangtrainerApp.world.set(worldData)
 
     @view = new Langtrainer.LangtrainerApp.Views.CourseSelector(
-      collection: world.get('coursesCollection')
+      collection: Langtrainer.LangtrainerApp.world.get('coursesCollection')
       model: Langtrainer.LangtrainerApp.currentUser.getCurrentCourse()
     )
     @view.render()

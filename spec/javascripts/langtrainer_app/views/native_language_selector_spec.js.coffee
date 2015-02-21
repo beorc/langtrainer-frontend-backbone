@@ -3,12 +3,12 @@ describe "Langtrainer.LangtrainerApp.Views.NativeLanguageSelector", ->
     Langtrainer.LangtrainerApp.clearCookies()
 
     worldData = getJSONFixture('world.json')
-    @world = new Langtrainer.LangtrainerApp.Models.World
-    Langtrainer.LangtrainerApp.currentUser = new Langtrainer.LangtrainerApp.Models.User
-    @world.set(worldData)
+
+    Langtrainer.LangtrainerApp.run()
+    Langtrainer.LangtrainerApp.world.set(worldData)
 
     @view = new Langtrainer.LangtrainerApp.Views.NativeLanguageSelector(
-      collection: @world.get('languagesCollection')
+      collection: Langtrainer.LangtrainerApp.world.get('languagesCollection')
       model: Langtrainer.LangtrainerApp.currentUser.getCurrentNativeLanguage()
     )
     @view.render()

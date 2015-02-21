@@ -1,6 +1,4 @@
 class Langtrainer.LangtrainerApp.Views.UnitSelector extends Backbone.View
-  _.extend(@prototype, Langtrainer.LangtrainerApp.Views.Extensions.Localized)
-
   template: JST['langtrainer_frontend_backbone/templates/unit_selector']
   id: 'unit-selector'
 
@@ -9,8 +7,6 @@ class Langtrainer.LangtrainerApp.Views.UnitSelector extends Backbone.View
 
   initialize: ->
     Langtrainer.LangtrainerApp.trainingBus.on 'course:changed', @onCourseChanged, @
-    #@listenTo @collection, 'reset', @render
-    @initLocalization(onLocaleChanged: @render)
     @currentUnitSlug = @model.get('slug')
 
   render: ->

@@ -21,7 +21,7 @@ class Langtrainer.LangtrainerApp.Views.StepView extends Backbone.View
     @listenTo Langtrainer.LangtrainerApp.trainingBus.on 'step:changed', @onStepChanged, @
     @listenTo Langtrainer.LangtrainerApp.trainingBus.on 'step:rightAnswer', @onVerifyRight, @
     @listenTo Langtrainer.LangtrainerApp.trainingBus.on 'step:wrongAnswer', @onVerifyWrong, @
-    @listenTo Langtrainer.LangtrainerApp.trainingBus.on 'step:verificationError', @onVerifyWrong, @
+    @listenTo Langtrainer.LangtrainerApp.trainingBus.on 'step:verificationError', @onVerifyError, @
 
     @listenTo Langtrainer.LangtrainerApp.globalBus.on 'foreignLanguage:changed', @onForeignLanguageChanged, @
     @listenTo Langtrainer.LangtrainerApp.globalBus.on 'nativeLanguage:changed', @onNativeLanguageChanged, @
@@ -31,8 +31,6 @@ class Langtrainer.LangtrainerApp.Views.StepView extends Backbone.View
     @listenTo Langtrainer.LangtrainerApp.trainingBus.on 'step:wrongInput', @onWrongKeyUp, @
     @listenTo Langtrainer.LangtrainerApp.trainingBus.on 'step:rightInput', @onRightKeyUp, @
     @listenTo Langtrainer.LangtrainerApp.trainingBus.on 'step:emptyInput', @onEmptyKeyUp, @
-
-    @initLocalization(onLocaleChanged: @render)
 
     @currentForeignLanguage = Langtrainer.LangtrainerApp.currentUser.getCurrentForeignLanguage()
     @currentNativeLanguage = Langtrainer.LangtrainerApp.currentUser.getCurrentNativeLanguage()

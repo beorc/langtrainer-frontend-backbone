@@ -1,6 +1,4 @@
 class Langtrainer.LangtrainerApp.Views.LanguageSelector extends Backbone.View
-  _.extend(@prototype, Langtrainer.LangtrainerApp.Views.Extensions.Localized)
-
   template: JST['langtrainer_frontend_backbone/templates/language_selector']
   class: 'language-selector'
 
@@ -9,8 +7,6 @@ class Langtrainer.LangtrainerApp.Views.LanguageSelector extends Backbone.View
 
   initialize: (options) ->
     @options = options
-    #@listenTo @collection, 'reset', @render
-    @initLocalization(onLocaleChanged: @render)
     @currentLanguageSlug = @model.get('slug')
 
   render: ->

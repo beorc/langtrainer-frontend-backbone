@@ -3,11 +3,9 @@ describe "Langtrainer.LangtrainerApp.Views.UnitSelector", ->
     Langtrainer.LangtrainerApp.clearCookies()
 
     worldData = getJSONFixture('world.json')
-    world = new Langtrainer.LangtrainerApp.Models.World
-    Langtrainer.LangtrainerApp.currentUser = new Langtrainer.LangtrainerApp.Models.User
-    world.set(worldData)
+    Langtrainer.LangtrainerApp.run()
+    Langtrainer.LangtrainerApp.world.set(worldData)
 
-    @course = world.get('course')
     @view = new Langtrainer.LangtrainerApp.Views.UnitSelector(
       collection: Langtrainer.LangtrainerApp.currentUser.getCurrentCourse().get('unitsCollection')
       model: Langtrainer.LangtrainerApp.currentUser.getCurrentCourse().getCurrentUnit()

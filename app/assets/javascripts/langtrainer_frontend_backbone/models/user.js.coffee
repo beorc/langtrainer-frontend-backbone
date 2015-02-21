@@ -20,8 +20,9 @@ class Langtrainer.LangtrainerApp.Models.User extends Backbone.Model
     result
 
   persist: ->
-    if @signedIn()
-      @save() if @hasChanged()
+    if @signedIn() && @hasChanged()
+      @resetCsrf()
+      @save()
 
   saveToCookie: ->
     _.each @changedAttributes(), (value, key) ->

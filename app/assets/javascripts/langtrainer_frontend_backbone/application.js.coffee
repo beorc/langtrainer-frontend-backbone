@@ -27,7 +27,7 @@ window.Langtrainer.LangtrainerApp =
   apiEndpoint: ''
   locales: {}
 
-  run: (initialData, successCallback, errorCallback)->
+  runGlobal: (initialData)->
     @locales = initialData.locales || {}
 
     @apiEndpoint = initialData.apiEndpoint
@@ -36,10 +36,10 @@ window.Langtrainer.LangtrainerApp =
     @commonRouter = new Langtrainer.LangtrainerApp.Routers.CommonRouter
 
     onSignedIn = (userAttributes, options) =>
-      @reset(userAttributes, {}, successCallback, errorCallback)
+      @resetUser(userAttributes)
 
     onSignedOut = (userAttributes, options) =>
-      @reset(userAttributes, {}, successCallback, errorCallback)
+      @resetUser(userAttributes)
 
     @globalBus.on 'user:signedIn', onSignedIn, @
     @globalBus.on 'user:signedOut', onSignedOut, @
@@ -52,14 +52,22 @@ window.Langtrainer.LangtrainerApp =
     @globalBus.on 'nativeLanguage:changed', @onNativeLanguageChanged, @
     @globalBus.on 'foreignLanguage:changed', @onForeignLanguageChanged, @
 
+    @world = new Langtrainer.LangtrainerApp.Models.World
+    @resetUser(initialData.currentUser)
+
+    Backbone.history.start() if !Backbone.History.started
+
+    Langtrainer.LangtrainerApp.globalBus.trigger('application:start')
+
+  runTraining: ()->
     @trainingBus.on 'step:rightAnswer', @persistUser, @
     @trainingBus.on 'step:wrongAnswer', @persistUser, @
     @trainingBus.on 'course:changed', @onCourseChanged, @
     @trainingBus.on 'unit:changed', @onUnitChanged, @
 
-    @reset(initialData.currentUser, {}, successCallback, errorCallback)
-
-    Backbone.history.start() if !Backbone.History.started
+  run: (data={}) ->
+    Langtrainer.LangtrainerApp.runGlobal(data)
+    Langtrainer.LangtrainerApp.runTraining()
 
   onCourseChanged: (course) ->
     @currentUser.set('current_course_slug', course.get('slug'))
@@ -85,20 +93,12 @@ window.Langtrainer.LangtrainerApp =
     $('meta[name="csrf-param"]').attr('content', param)
     $('meta[name="csrf-token"]').attr('content', token)
 
-  reset: (userAttributes, worldAttributes, successCallback, errorCallback) ->
-    @world = new Langtrainer.LangtrainerApp.Models.World(worldAttributes)
+  resetUser: (userAttributes) ->
     @currentUser = new Langtrainer.LangtrainerApp.Models.User(userAttributes)
     if !@currentUser.signedIn()
       nativeLanguageSlug = $.cookie('native_language_slug')
       if nativeLanguageSlug?
         @currentUser.attributes.native_language_slug = nativeLanguageSlug
-
-    success = (world) ->
-      successCallback(world)
-
-      Langtrainer.LangtrainerApp.globalBus.trigger('application:start')
-
-    @world.fetch(success: success, error: errorCallback)
 
   persistUser: ->
     @currentUser.persist()

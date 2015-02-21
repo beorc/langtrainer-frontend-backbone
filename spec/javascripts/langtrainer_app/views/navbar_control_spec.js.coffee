@@ -1,7 +1,8 @@
 describe "Langtrainer.LangtrainerApp.Views.NavbarControl", ->
   runApplication = ->
     worldData = getJSONFixture('world.json')
-    window.Langtrainer.LangtrainerApp.run({}, worldData)
+    window.Langtrainer.LangtrainerApp.run({})
+    Langtrainer.LangtrainerApp.world.set(worldData)
 
   runApplication()
 
