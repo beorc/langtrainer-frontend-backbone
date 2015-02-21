@@ -46,7 +46,7 @@ class Langtrainer.LangtrainerApp.Views.Dialogs.PasswordReset extends Backbone.Vi
     @$('.step-b').show()
 
   onHiddenModal: ->
-    window.location = '/'
+    Langtrainer.LangtrainerApp.globalBus.trigger('user:passwordChanged')
     @remove()
 
   onCloseBtnClick: ->
