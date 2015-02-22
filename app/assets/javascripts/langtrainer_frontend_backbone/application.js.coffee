@@ -28,6 +28,7 @@ window.Langtrainer.LangtrainerApp =
   locales: {}
 
   runGlobal: (initialData)->
+    @availableLocales = initialData.availableLocales || []
     @locales = initialData.locales || {}
 
     @apiEndpoint = initialData.apiEndpoint
