@@ -63,6 +63,8 @@ class Langtrainer.LangtrainerApp.Views.StepView extends Backbone.View
     else
       @$('.lt-question-help-toggle').addClass('disabled')
 
+    Langtrainer.LangtrainerApp.trainingBus.trigger 'step:rendered', @model
+
     @
 
   onNativeLanguageChanged: (model) ->
