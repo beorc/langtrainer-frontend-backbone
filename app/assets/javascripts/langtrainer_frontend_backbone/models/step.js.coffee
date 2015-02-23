@@ -50,7 +50,7 @@ class Langtrainer.LangtrainerApp.Models.Step extends Backbone.Model
       answer = @answers(language)[0]
       result = _.string.trim(answer)
 
-    _.string.capitalize result
+    _.string.capitalize result.trim()
 
   answers: (language) ->
     @get("#{language.get('slug')}_answers").split('|')
