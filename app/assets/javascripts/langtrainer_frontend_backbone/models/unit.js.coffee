@@ -3,7 +3,7 @@ class Langtrainer.LangtrainerApp.Models.Unit extends Backbone.Model
     Langtrainer.LangtrainerApp.trainingBus.on 'step:changed', @onStepChanged, @
 
   title: ->
-    _.string.capitalize(@get('slug')).replace(/_/g, ' ')
+    _.string.capitalize(@get('slug')).replace('_', ' ')
 
   getCurrentStep: ->
     new Langtrainer.LangtrainerApp.Models.Step(@get('current_step'))
