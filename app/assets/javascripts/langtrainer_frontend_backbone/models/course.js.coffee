@@ -9,7 +9,7 @@ class Langtrainer.LangtrainerApp.Models.Course extends Backbone.Model
     @get('unitsCollection').set(@get('units'))
 
   title: ->
-    _.string.capitalize @get('slug').replace('_', ' ')
+    _.string.capitalize(@get('slug')).replace(/_/g, ' ')
 
   readAttribute: (attrName) ->
     @get(attrName) || $.cookie(attrName)
