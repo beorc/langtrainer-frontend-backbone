@@ -1,4 +1,6 @@
 class Langtrainer.LangtrainerApp.Models.Course extends Backbone.Model
+  _.extend(@prototype, Langtrainer.LangtrainerApp.Models.Extensions.HavingTitle)
+
   initialize: ->
     @set('unitsCollection', new Langtrainer.LangtrainerApp.Collections.Units(@get('units')))
     @listenTo @, 'change:units', @onUnitsChanged
@@ -7,9 +9,6 @@ class Langtrainer.LangtrainerApp.Models.Course extends Backbone.Model
 
   onUnitsChanged: ->
     @get('unitsCollection').set(@get('units'))
-
-  title: ->
-    _.string.capitalize(@get('slug')).replace(/_/g, ' ')
 
   readAttribute: (attrName) ->
     @get(attrName) || $.cookie(attrName)
