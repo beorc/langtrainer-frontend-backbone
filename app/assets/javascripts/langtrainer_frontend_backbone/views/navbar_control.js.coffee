@@ -11,7 +11,7 @@ class Langtrainer.LangtrainerApp.Views.NavbarControl extends Backbone.View
     Langtrainer.LangtrainerApp.globalBus.on 'user:signedUp user:signedIn user:signedOut', @render, @
 
   render: ->
-    @$el.hide().html(@template()).fadeIn()
+    @$el.html(@template())
     @
 
   onSignInBtnClick: ->
