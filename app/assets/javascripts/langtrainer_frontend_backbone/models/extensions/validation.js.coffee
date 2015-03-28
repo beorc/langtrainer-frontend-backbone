@@ -6,12 +6,12 @@ Langtrainer.LangtrainerApp.Models.Extensions.Validation =
         $('meta[name="csrf-token"]').attr('content', token)
 
         if model.get('retryWithNewCSRFToken')
-        @clearValidationErrors()
-        @pushValidationError(@validationError, 'serverError', 'При выполнении операции возникла непредвиденная ошибка')
-        @trigger 'error:unprocessable'
+          @clearValidationErrors()
+          @pushValidationError(@validationError, 'serverError', 'При выполнении операции возникла непредвиденная ошибка')
+          @trigger 'error:unprocessable'
         else
-        model.set('retryWithNewCSRFToken', true)
-        model.save()
+          model.set('retryWithNewCSRFToken', true)
+          model.save()
       else
         @validationError = xhr.responseJSON.errors
         @trigger 'error:unprocessable'
